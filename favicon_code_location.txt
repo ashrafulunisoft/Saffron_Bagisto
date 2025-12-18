@@ -1,0 +1,46 @@
+Favicon Code Location:
+========================
+
+File: packages/Webkul/Admin/src/Resources/views/components/layouts/index.blade.php
+Lines: 61-75
+
+Code:
+@if ($favicon = core()->getConfigData('general.design.admin_logo.favicon'))
+    <link
+        type="image/x-icon"
+        href="{{ Storage::url($favicon) }}"
+        rel="shortcut icon"
+        sizes="16x16"
+    >
+@else
+    <link
+        type="image/x-icon"
+        href="{{ bagisto_asset('images/favicon.ico') }}"
+        rel="shortcut icon"
+        sizes="16x16"
+    />
+@endif
+
+EXACT FAVICON LINK:
+==================
+{{ bagisto_asset('images/favicon.ico') }}
+
+Default Location:
+public/themes/admin/default/build/assets/favicon--PZ4cBiP.ico
+
+Your Custom Files Detected:
+- public/themes/admin/default/build/assets/saffron_fev_icon.ico
+- public/themes/admin/default/build/assets/Saffron_sweets_bakery_Logo.png
+
+
+================== command line to change the favicon & Logo ==================
+
+cp public/themes/admin/default/build/assets/Saffron_sweets_bakery_Logo.png public/themes/admin/default/build/assets/logo-CXf-crI0.svg
+
+cp public/themes/admin/default/build/assets/favicon--PZ4cBiP.ico public/themes/admin/default/build/assets/favicon--PZ4cBiP.ico.backup
+
+use the svg icon
+-----------------
+
+
+cp "public/themes/admin/default/build/assets/Saffron_sweets_bakery_Logo.svg" public/themes/admin/default/build/assets/dark-logo-P5H7MBtx.svg
