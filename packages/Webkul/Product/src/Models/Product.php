@@ -167,6 +167,14 @@ class Product extends Model implements ProductContract
     }
 
     /**
+     * Get custom reviews for product.
+     */
+    public function customReviews(): HasMany
+    {
+        return $this->hasMany(\App\Models\Review::class);
+    }
+
+    /**
      * The inventory sources that belong to the product.
      */
     public function inventory_sources(): BelongsToMany

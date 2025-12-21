@@ -151,4 +151,20 @@ class Category extends TranslatableModel implements CategoryContract
     {
         return CategoryFactory::new();
     }
+
+    /**
+     * Get parent category.
+     */
+    public function parentCategory()
+    {
+        return $this->belongsTo(Category::class, 'parent_id');
+    }
+
+    /**
+     * Get child categories.
+     */
+    public function childCategories()
+    {
+        return $this->hasMany(Category::class, 'parent_id');
+    }
 }

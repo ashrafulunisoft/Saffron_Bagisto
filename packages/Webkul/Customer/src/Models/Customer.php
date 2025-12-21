@@ -262,6 +262,16 @@ class Customer extends Authenticatable implements CustomerContract
     }
 
     /**
+     * Get all custom reviews of a customer.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function customReviews()
+    {
+        return $this->hasMany(\App\Models\Review::class, 'user_id');
+    }
+
+    /**
      * Get all notes of a customer.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

@@ -1,0 +1,206 @@
+
+   INFO  Server running on [http://0.0.0.0:8001].  
+
+  Press Ctrl+C to stop the server
+
+  PHP Deprecated:  Konekt\Concord\BaseServiceProvider::config(): Implicitly marking parameter $key as nullable is deprecated, the explicit nullable type must be used instead in /home/ashraful/UniSoft Ltd/Backend/saffron-backend-3/vendor/konekt/concord/src/BaseServiceProvider.php on line 153
+  PHP Deprecated:  Konekt\Concord\Contracts\Module::config(): Implicitly marking parameter $key as nullable is deprecated, the explicit nullable type must be used instead in /home/ashraful/UniSoft Ltd/Backend/saffron-backend-3/vendor/konekt/concord/src/Contracts/Module.php on line 62
+  PHP Deprecated:  Konekt\Concord\Proxies\BaseProxy::__construct(): Implicitly marking parameter $concord as nullable is deprecated, the explicit nullable type must be used instead in /home/ashraful/UniSoft Ltd/Backend/saffron-backend-3/vendor/konekt/concord/src/Proxies/BaseProxy.php on line 33
+  PHP Deprecated:  Kalnoy\Nestedset\NodeTrait::create(): Implicitly marking parameter $parent as nullable is deprecated, the explicit nullable type must be used instead in /home/ashraful/UniSoft Ltd/Backend/saffron-backend-3/vendor/kalnoy/nestedset/src/NodeTrait.php on line 754
+  PHP Deprecated:  Kalnoy\Nestedset\NodeTrait::replicate(): Implicitly marking parameter $except as nullable is deprecated, the explicit nullable type must be used instead in /home/ashraful/UniSoft Ltd/Backend/saffron-backend-3/vendor/kalnoy/nestedset/src/NodeTrait.php on line 1228
+  2025-12-18 17:27:29 /api/admin/documentation ................... ~ 500.46ms
+  2025-12-18 17:27:29 /home/ashraful/UniSoft Ltd/Backend/saffron-backend-3/storage/api-docs/admin/asset/favicon-16x16.png  ~ 500.34ms
+  2025-12-18 17:27:29 /home/ashraful/UniSoft Ltd/Backend/saffron-backend-3/storage/api-docs/admin  ~ 500.43ms
+  2025-12-18 17:27:29 /_debugbar/open .............................. ~ 0.03ms
+  2025-12-18 17:27:30 .................................................. ~ 5s
+  2025-12-18 17:27:50 .................................................. ~ 5s
+  2025-12-18 17:31:10 .................................................. ~ 5s
+  2025-12-18 17:31:18 .................................................. ~ 6s
+  2025-12-18 17:31:47 .................................................. ~ 5s
+  PHP Deprecated:  Shetabit\Visitor\Visitor::visit(): Implicitly marking parameter $model as nullable is deprecated, the explicit nullable type must be used instead in /home/ashraful/UniSoft Ltd/Backend/saffron-backend-3/vendor/shetabit/visitor/src/Visitor.php on line 234
+  2025-12-18 17:31:56 / ............................................ ~ 0.22ms
+  2025-12-18 17:32:09 /api/admin/documentation ..................... ~ 0.11ms
+  2025-12-18 17:32:20 /api/v1/admin/products ....................... ~ 0.10ms
+  2025-12-18 17:32:31 /api/shop/documentation ...................... ~ 0.18ms
+  2025-12-18 17:33:15 /api/v1/admin/products ....................... ~ 0.17ms
+  2025-12-18 17:33:30 /api/products ................................ ~ 0.08ms
+  2025-12-18 17:33:40 /api/categories .............................. ~ 0.10ms
+  2025-12-18 17:33:52 /api/customer/login .......................... ~ 0.13ms
+  2025-12-18 17:36:05 .................................................. ~ 5s
+  2025-12-18 17:36:13 /public/api/admin/documentation ............ ~ 500.34ms
+  2025-12-18 17:36:13 /favicon.ico ................................. ~ 0.04ms
+  2025-12-18 17:37:06 /api/admin/documentation ..................... ~ 0.09ms
+  2025-12-18 17:37:06 /home/ashraful/UniSoft Ltd/Backend/saffron-backend-3/storage/api-docs/admin/asset/swagger-ui.css  ~ 0.03ms
+  2025-12-18 17:37:06 /home/ashraful/UniSoft Ltd/Backend/saffron-backend-3/storage/api-docs/admin/asset/swagger-ui-bundle.js  ~ 500.33ms
+  2025-12-18 17:37:06 /home/ashraful/UniSoft Ltd/Backend/saffron-backend-3/storage/api-docs/admin/asset/swagger-ui-standalone-preset.js  ~ 500.48ms
+  2025-12-18 17:37:07 /home/ashraful/UniSoft Ltd/Backend/saffron-backend-3/storage/api-docs/admin/asset/favicon-16x16.png  ~ 0.05ms
+  2025-12-18 17:37:07 /home/ashraful/UniSoft Ltd/Backend/saffron-backend-3/storage/api-docs/admin  ~ 0.06ms
+  2025-12-18 17:37:07 /_debugbar/open .............................. ~ 0.06ms
+  2025-12-18 17:37:54 /api/admin/documentation ..................... ~ 0.13ms
+  2025-12-18 17:38:06 /api/shop/documentation ...................... ~ 0.09ms
+  2025-12-18 17:38:29 /api/shopdocumentation ..................... ~ 500.25ms
+  2025-12-18 17:38:30 /favicon.ico ................................. ~ 0.06ms
+  2025-12-18 17:38:54 /api/shop/documentation ...................... ~ 0.09ms
+  2025-12-18 17:38:54 /home/ashraful/UniSoft Ltd/Backend/saffron-backend-3/storage/api-docs/shop/asset/swagger-ui.css  ~ 0.03ms
+  2025-12-18 17:38:54 /home/ashraful/UniSoft Ltd/Backend/saffron-backend-3/storage/api-docs/shop/asset/swagger-ui-bundle.js  ~ 0.08ms
+  2025-12-18 17:38:54 /home/ashraful/UniSoft Ltd/Backend/saffron-backend-3/storage/api-docs/shop/asset/swagger-ui-standalone-preset.js  ~ 0.14ms
+  2025-12-18 17:38:54 /home/ashraful/UniSoft Ltd/Backend/saffron-backend-3/storage/api-docs/shop/asset/favicon-16x16.png  ~ 0.12ms
+  2025-12-18 17:38:54 /home/ashraful/UniSoft Ltd/Backend/saffron-backend-3/storage/api-docs/shop  ~ 0.04ms
+  2025-12-18 17:38:54 /_debugbar/open .............................. ~ 0.03ms
+  2025-12-18 17:39:06 /api/shop/documentation ...................... ~ 0.09ms
+  2025-12-18 17:39:06 /home/ashraful/UniSoft Ltd/Backend/saffron-backend-3/storage/api-docs/shop/asset/swagger-ui.css  ~ 0.03ms
+  2025-12-18 17:39:06 /home/ashraful/UniSoft Ltd/Backend/saffron-backend-3/storage/api-docs/shop/asset/swagger-ui-bundle.js  ~ 0.04ms
+  2025-12-18 17:39:06 /home/ashraful/UniSoft Ltd/Backend/saffron-backend-3/storage/api-docs/shop/asset/swagger-ui-standalone-preset.js  ~ 0.11ms
+  2025-12-18 17:39:07 /home/ashraful/UniSoft Ltd/Backend/saffron-backend-3/storage/api-docs/shop/asset/favicon-16x16.png  ~ 0.10ms
+  2025-12-18 17:39:07 /home/ashraful/UniSoft Ltd/Backend/saffron-backend-3/storage/api-docs/shop  ~ 0.06ms
+  2025-12-18 17:39:07 /_debugbar/open .............................. ~ 0.05ms
+  2025-12-18 17:40:09 .................................................. ~ 5s
+  2025-12-18 17:41:02 .................................................. ~ 5s
+  2025-12-18 17:42:10 .................................................. ~ 5s
+  2025-12-18 17:44:51 .................................................. ~ 5s
+  2025-12-18 17:44:56 .................................................. ~ 5s
+  2025-12-18 17:45:01 /admin/settings/locales .......................... ~ 1s
+  2025-12-18 17:45:02 /themes/admin/default/build/assets/app-CUhhIiKc.css  ~ 0.04ms
+  2025-12-18 17:45:02 /themes/admin/default/build/assets/app-C2Wq9G4i.css  ~ 0.06ms
+  2025-12-18 17:45:02 /themes/admin/default/build/assets/app-Cq9kI4oM.js  ~ 0.06ms
+  2025-12-18 17:45:02 /themes/admin/default/build/assets/logo-CXf-crI0.svg  ~ 0.07ms
+  2025-12-18 17:45:03 /themes/admin/default/build/assets/favicon--PZ4cBiP.ico  ~ 0.06ms
+  2025-12-18 17:45:03 /admin/get-notifications ..................... ~ 0.08ms
+  2025-12-18 17:45:03 /admin/datagrid/saved-filters ................ ~ 0.04ms
+  2025-12-18 17:45:03 /admin/settings/locales ...................... ~ 0.34ms
+  2025-12-18 17:45:03 /_debugbar/open .............................. ~ 0.45ms
+  2025-12-18 17:45:03 /_debugbar/open .............................. ~ 0.62ms
+  2025-12-18 17:45:03 /_debugbar/open .............................. ~ 0.64ms
+  2025-12-18 17:45:03 /admin/datagrid/saved-filters ................ ~ 0.62ms
+  2025-12-18 17:45:03 /_debugbar/open .............................. ~ 0.03ms
+  2025-12-18 17:45:03 /admin/settings/roles ............................ ~ 1s
+  2025-12-18 17:45:05 /themes/admin/default/build/assets/app-Cq9kI4oM.js  ~ 0.09ms
+  2025-12-18 17:45:05 /themes/admin/default/build/assets/app-CUhhIiKc.css  ~ 0.08ms
+  2025-12-18 17:45:05 /themes/admin/default/build/assets/app-C2Wq9G4i.css  ~ 0.07ms
+  2025-12-18 17:45:05 /themes/admin/default/build/assets/logo-CXf-crI0.svg  ~ 0.08ms
+  2025-12-18 17:45:05 /themes/admin/default/build/assets/favicon--PZ4cBiP.ico  ~ 0.08ms
+  2025-12-18 17:45:05 /admin/get-notifications ..................... ~ 0.10ms
+  2025-12-18 17:45:05 /admin/datagrid/saved-filters ................ ~ 0.07ms
+  2025-12-18 17:45:05 /admin/settings/roles ........................ ~ 0.68ms
+  2025-12-18 17:45:05 /_debugbar/open .............................. ~ 0.95ms
+  2025-12-18 17:45:05 /_debugbar/open .............................. ~ 1.19ms
+  2025-12-18 17:45:05 /_debugbar/open .............................. ~ 1.17ms
+  2025-12-18 17:45:05 /admin/datagrid/saved-filters ................ ~ 1.16ms
+  2025-12-18 17:45:05 /_debugbar/open .............................. ~ 0.03ms
+  2025-12-18 17:45:06 .................................................. ~ 5s
+  2025-12-18 17:45:11 /admin/dashboard ................................. ~ 2s
+  2025-12-18 17:45:13 /themes/admin/default/build/assets/app-CUhhIiKc.css  ~ 0.06ms
+  2025-12-18 17:45:13 /themes/admin/default/build/assets/app-C2Wq9G4i.css  ~ 0.20ms
+  2025-12-18 17:45:13 /themes/admin/default/build/assets/app-Cq9kI4oM.js  ~ 0.06ms
+  2025-12-18 17:45:13 /themes/admin/default/build/assets/chart-A6vMvISt.js  ~ 0.20ms
+  2025-12-18 17:45:13 /themes/admin/default/build/assets/logo-CXf-crI0.svg  ~ 0.06ms
+  2025-12-18 17:45:13 /admin/get-notifications ................... ~ 500.32ms
+  2025-12-18 17:45:13 /admin/dashboard/stats ....................... ~ 0.08ms
+  2025-12-18 17:45:13 /admin/dashboard/stats ....................... ~ 0.97ms
+  2025-12-18 17:45:13 /admin/dashboard/stats ....................... ~ 0.95ms
+  2025-12-18 17:45:13 /admin/dashboard/stats ....................... ~ 0.93ms
+  2025-12-18 17:45:13 /admin/dashboard/stats ....................... ~ 0.96ms
+  2025-12-18 17:45:13 /admin/dashboard/stats ....................... ~ 0.91ms
+  2025-12-18 17:45:13 /admin/dashboard/stats ....................... ~ 0.96ms
+  2025-12-18 17:45:14 /_debugbar/open .............................. ~ 0.99ms
+  2025-12-18 17:45:14 /_debugbar/open .............................. ~ 1.27ms
+  2025-12-18 17:45:14 /_debugbar/open .............................. ~ 1.24ms
+  2025-12-18 17:45:14 /_debugbar/open .............................. ~ 1.29ms
+  2025-12-18 17:45:14 /_debugbar/open ............................ ~ 501.48ms
+  2025-12-18 17:45:14 /_debugbar/open ............................ ~ 500.85ms
+  2025-12-18 17:45:14 /_debugbar/open .............................. ~ 0.58ms
+  2025-12-18 17:45:14 /_debugbar/open .............................. ~ 0.62ms
+  2025-12-18 17:45:14 /themes/admin/default/build/assets/total-sales-B1A9STxj.svg  ~ 0.72ms
+  2025-12-18 17:45:14 /themes/admin/default/build/assets/total-orders-wduYhIFA.svg  ~ 0.14ms
+  2025-12-18 17:45:14 /themes/admin/default/build/assets/customers-BfcJGhnh.svg  ~ 0.20ms
+  2025-12-18 17:45:14 /themes/admin/default/build/assets/average-orders-UpY6pgyW.svg  ~ 0.26ms
+  2025-12-18 17:45:14 /themes/admin/default/build/assets/unpaid-invoices-BgQgwKF1.svg  ~ 0.32ms
+  2025-12-18 17:45:14 /themes/admin/default/build/assets/icon-add-product-nFt8sucb.svg  ~ 0.31ms
+  2025-12-18 17:45:14 /themes/admin/default/build/assets/customers-BksiMJdH.svg  ~ 0.03ms
+  2025-12-18 17:45:56 /themes/admin/default/build/assets/dark-logo-P5H7MBtx.svg  ~ 500.33ms
+  2025-12-18 17:46:59 .................................................. ~ 5s
+  2025-12-18 17:50:17 .................................................. ~ 5s
+  2025-12-18 17:50:29 /themes/admin/default/build/assets/logo-CXf-crI0.svg  ~ 2s
+  2025-12-18 18:14:39 /admin/cms ....................................... ~ 1s
+  2025-12-18 18:14:41 /themes/admin/default/build/assets/app-CUhhIiKc.css  ~ 0.06ms
+  2025-12-18 18:14:41 /themes/admin/default/build/assets/app-C2Wq9G4i.css  ~ 0.05ms
+  2025-12-18 18:14:41 /themes/admin/default/build/assets/app-Cq9kI4oM.js  ~ 0.15ms
+  2025-12-18 18:14:41 /themes/admin/default/build/assets/logo-CXf-crI0.svg  ~ 0.05ms
+  2025-12-18 18:14:41 /themes/admin/default/build/assets/favicon--PZ4cBiP.ico  ~ 0.06ms
+  2025-12-18 18:14:41 /admin/get-notifications ................... ~ 500.27ms
+  2025-12-18 18:14:41 /admin/datagrid/saved-filters ................ ~ 0.04ms
+  2025-12-18 18:14:41 /admin/cms ................................... ~ 0.36ms
+  2025-12-18 18:14:41 /_debugbar/open .............................. ~ 0.77ms
+  2025-12-18 18:14:41 /_debugbar/open .............................. ~ 0.62ms
+  2025-12-18 18:14:41 /_debugbar/open .............................. ~ 0.62ms
+  2025-12-18 18:14:41 /admin/datagrid/saved-filters ................ ~ 0.63ms
+  2025-12-18 18:14:41 /_debugbar/open .............................. ~ 0.03ms
+  2025-12-18 18:14:41 /admin/sales/orders .............................. ~ 4s
+  2025-12-18 18:14:46 /themes/admin/default/build/assets/app-CUhhIiKc.css  ~ 0.07ms
+  2025-12-18 18:14:46 /themes/admin/default/build/assets/app-C2Wq9G4i.css  ~ 0.08ms
+  2025-12-18 18:14:46 /themes/admin/default/build/assets/app-Cq9kI4oM.js  ~ 0.20ms
+  2025-12-18 18:14:46 /themes/admin/default/build/assets/logo-CXf-crI0.svg  ~ 0.06ms
+  2025-12-18 18:14:46 /themes/admin/default/build/assets/favicon--PZ4cBiP.ico  ~ 0.07ms
+  2025-12-18 18:14:46 /admin/get-notifications ..................... ~ 0.07ms
+  2025-12-18 18:14:46 /admin/datagrid/saved-filters .............. ~ 500.27ms
+  2025-12-18 18:14:46 /admin/sales/orders ........................ ~ 500.58ms
+  2025-12-18 18:14:46 /_debugbar/open .............................. ~ 0.50ms
+  2025-12-18 18:14:46 /_debugbar/open .............................. ~ 0.63ms
+  2025-12-18 18:14:46 /_debugbar/open .............................. ~ 0.63ms
+  2025-12-18 18:14:46 /admin/datagrid/saved-filters ................ ~ 0.63ms
+  2025-12-18 18:14:46 /_debugbar/open .............................. ~ 0.03ms
+  2025-12-18 18:14:47 .................................................. ~ 5s
+  2025-12-18 18:14:53 /admin/dashboard ........................... ~ 500.25ms
+  2025-12-18 18:14:53 /themes/admin/default/build/assets/app-Cq9kI4oM.js  ~ 0.09ms
+  2025-12-18 18:14:53 /themes/admin/default/build/assets/app-CUhhIiKc.css  ~ 0.27ms
+  2025-12-18 18:14:53 /themes/admin/default/build/assets/app-C2Wq9G4i.css  ~ 0.24ms
+  2025-12-18 18:14:53 /themes/admin/default/build/assets/chart-A6vMvISt.js  ~ 0.07ms
+  2025-12-18 18:14:53 /themes/admin/default/build/assets/logo-CXf-crI0.svg  ~ 0.06ms
+  2025-12-18 18:14:53 /admin/get-notifications ..................... ~ 0.07ms
+  2025-12-18 18:14:53 /admin/dashboard/stats ..................... ~ 500.31ms
+  2025-12-18 18:14:53 /admin/dashboard/stats ..................... ~ 500.76ms
+  2025-12-18 18:14:53 /admin/dashboard/stats ....................... ~ 0.44ms
+  2025-12-18 18:14:53 /admin/dashboard/stats ....................... ~ 0.48ms
+  2025-12-18 18:14:53 /admin/dashboard/stats ....................... ~ 0.47ms
+  2025-12-18 18:14:53 /admin/dashboard/stats ....................... ~ 0.69ms
+  2025-12-18 18:14:53 /admin/dashboard/stats ....................... ~ 0.48ms
+  2025-12-18 18:14:54 /_debugbar/open .............................. ~ 0.47ms
+  2025-12-18 18:14:54 /_debugbar/open .............................. ~ 0.77ms
+  2025-12-18 18:14:54 /_debugbar/open .............................. ~ 0.63ms
+  2025-12-18 18:14:54 /_debugbar/open .............................. ~ 0.62ms
+  2025-12-18 18:14:54 /_debugbar/open .............................. ~ 0.84ms
+  2025-12-18 18:14:54 /_debugbar/open .............................. ~ 0.65ms
+  2025-12-18 18:14:54 /_debugbar/open .............................. ~ 0.82ms
+  2025-12-18 18:14:54 /_debugbar/open .............................. ~ 0.89ms
+  2025-12-18 18:14:54 /themes/admin/default/build/assets/total-sales-B1A9STxj.svg  ~ 0.66ms
+  2025-12-18 18:14:54 /themes/admin/default/build/assets/total-orders-wduYhIFA.svg  ~ 0.14ms
+  2025-12-18 18:14:54 /themes/admin/default/build/assets/customers-BfcJGhnh.svg  ~ 0.20ms
+  2025-12-18 18:14:54 /themes/admin/default/build/assets/average-orders-UpY6pgyW.svg  ~ 0.26ms
+  2025-12-18 18:14:54 /themes/admin/default/build/assets/unpaid-invoices-BgQgwKF1.svg  ~ 0.34ms
+  2025-12-18 18:14:54 /themes/admin/default/build/assets/icon-add-product-nFt8sucb.svg  ~ 0.32ms
+  2025-12-18 18:14:54 /themes/admin/default/build/assets/customers-BksiMJdH.svg  ~ 0.17ms
+  2025-12-18 18:17:07 /admin/marketing/promotions/catalog-rules ........ ~ 2s
+  2025-12-18 18:17:09 /themes/admin/default/build/assets/app-Cq9kI4oM.js  ~ 0.08ms
+  2025-12-18 18:17:09 /themes/admin/default/build/assets/app-CUhhIiKc.css  ~ 0.24ms
+  2025-12-18 18:17:09 /themes/admin/default/build/assets/app-C2Wq9G4i.css  ~ 0.21ms
+  2025-12-18 18:17:09 /themes/admin/default/build/assets/logo-CXf-crI0.svg  ~ 0.06ms
+  2025-12-18 18:17:09 /admin/get-notifications ..................... ~ 0.06ms
+  2025-12-18 18:17:09 /admin/datagrid/saved-filters ................ ~ 0.07ms
+  2025-12-18 18:17:09 /admin/marketing/promotions/catalog-rules .... ~ 0.71ms
+  2025-12-18 18:17:09 /_debugbar/open ............................ ~ 500.59ms
+  2025-12-18 18:17:09 /_debugbar/open ............................ ~ 501.89ms
+  2025-12-18 18:17:09 /_debugbar/open .............................. ~ 0.62ms
+  2025-12-18 18:17:09 /admin/datagrid/saved-filters ................ ~ 0.63ms
+  2025-12-18 18:17:09 /_debugbar/open .............................. ~ 0.05ms
+  2025-12-18 18:17:12 .................................................. ~ 5s
+  2025-12-18 18:19:25 /api/customer/register ....................... ~ 0.11ms
+  2025-12-18 18:20:17 /customer/login .............................. ~ 0.15ms
+  2025-12-18 18:20:26 /api/customer/login .......................... ~ 0.09ms
+  2025-12-18 18:20:37 /api/customer/login .......................... ~ 0.09ms
+  2025-12-18 18:20:52 /customer/login .............................. ~ 0.13ms
+  2025-12-18 18:21:01 /api/customer/login .......................... ~ 0.10ms
+  2025-12-18 18:21:12 /api/customer/wishlist ....................... ~ 0.08ms
+  2025-12-18 18:21:26 /api/customer/addresses ...................... ~ 0.14ms
+  2025-12-18 18:23:19 /api/customer/register ....................... ~ 0.10ms
+  2025-12-18 18:23:28 /customer/register ........................... ~ 0.10ms
+  2025-12-18 18:23:54 .................................................. ~ 5s

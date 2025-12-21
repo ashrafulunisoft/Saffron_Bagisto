@@ -15,14 +15,14 @@
         <a href="{{ route('admin.dashboard.index') }}" class="flex-shrink-0">
             @if ($logo = core()->getConfigData('general.design.admin_logo.logo_image'))
                 <img
-                    class="h-12 w-auto sm:h-14"
+                    class="h-12 w-auto sm:h-12"
                     src="{{ Storage::url($logo) }}"
                     alt="{{ config('app.name') }}"
                 />
             @else
                 <img
                     src="{{ request()->cookie('dark_mode') ? bagisto_asset('images/dark-logo.svg') : bagisto_asset('images/logo.svg') }}"
-                    class="h-12 w-auto sm:h-14"
+                    class="h-12 w-auto sm:h-12"
                     id="logo-image"
                     alt="{{ config('app.name') }}"
                 />

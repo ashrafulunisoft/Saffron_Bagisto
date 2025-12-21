@@ -417,4 +417,20 @@ class Order extends Model implements OrderContract
     {
         return OrderFactory::new();
     }
+
+    /**
+     * Get order items for the order.
+     */
+    public function orderItems()
+    {
+        return $this->hasMany(\App\Models\OrderItem::class);
+    }
+
+    /**
+     * Get delivery bookings for the order.
+     */
+    public function deliveryBookings()
+    {
+        return $this->hasMany(\App\Models\DeliveryBooking::class);
+    }
 }
