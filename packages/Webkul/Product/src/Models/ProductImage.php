@@ -51,7 +51,36 @@ class ProductImage extends Model implements ProductImageContract
      */
     public function url()
     {
-        return Storage::url($this->path);
+        $storageUrl = Storage::url($this->path);
+
+        // If the storage URL contains localhost, replace with current request host and port
+        if (str_contains($storageUrl, 'localhost')) {
+            $request = request();
+            $currentHost = $request->getHost();
+            $currentPort = $request->getPort();
+
+            $scheme = $request->getScheme();
+            $baseUrl = $scheme . '://' . $currentHost;
+
+            if ($currentPort && $currentPort != 80 && $currentPort != 443) {
+                $baseUrl .= ':' . $currentPort;
+            }
+
+            // Replace localhost URL parts with current request URL
+            $storageUrl = preg_replace(
+                '/https?:\/\/localhost(:\d+)?\/public\/storage\//',
+                $baseUrl . '/storage/',
+                $storageUrl
+            );
+
+            $storageUrl = preg_replace(
+                '/https?:\/\/localhost(:\d+)?\/storage\//',
+                $baseUrl . '/storage/',
+                $storageUrl
+            );
+        }
+
+        return $storageUrl;
     }
 
     /**

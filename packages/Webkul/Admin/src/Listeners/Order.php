@@ -4,6 +4,7 @@ namespace Webkul\Admin\Listeners;
 
 use Webkul\Admin\Mail\Order\CanceledNotification;
 use Webkul\Admin\Mail\Order\CreatedNotification;
+use Webkul\Admin\Services\SmsService;
 use Webkul\Sales\Contracts\Order as OrderContract;
 
 class Order extends Base
@@ -21,6 +22,13 @@ class Order extends Base
             }
 
             $this->prepareMail($order, new CreatedNotification($order));
+
+            // Send SMS notification for new order
+            if ($order->customer_phone) {
+                $smsMessage = "Dear {$order->customer_name}, your order #{$order->increment_id} has been created successfully. Thank you for shopping with us!";
+                $smsService = new SmsService();
+                $smsService->sendSms($order->customer_phone, $smsMessage);
+            }
         } catch (\Exception $e) {
             report($e);
         }

@@ -2,13 +2,14 @@
 
 namespace Webkul\Admin\DataGrids\Catalog;
 
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
-use Webkul\Attribute\Repositories\AttributeFamilyRepository;
-use Webkul\Core\Facades\ElasticSearch;
 use Webkul\DataGrid\DataGrid;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\URL;
 use Webkul\Product\Helpers\Product;
+use Webkul\Core\Facades\ElasticSearch;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Webkul\Attribute\Repositories\AttributeFamilyRepository;
 
 class ProductDataGrid extends DataGrid
 {
@@ -141,7 +142,9 @@ class ProductDataGrid extends DataGrid
                     return;
                 }
 
-                return Storage::url($row->base_image);
+                // return Storage::url($row->base_image);
+                return URL::asset('storage/' . $row->base_image);
+
             },
         ]);
 

@@ -1,11 +1,22 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use \Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Mail;
 
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
 
+// Test email and SMS integration
 Route::get('/test-email', function () {
-    $recipient = 'ashrafulunisoft@gmail.com'; // Using the specified email address for testing
+    $recipient = 'ashrafulunisoft@gmail.com'; // Using specified email address for testing
     try {
         Mail::to($recipient)->send(new \App\Mail\TestEmail());
         return "Test email sent successfully to {$recipient}!";
@@ -14,20 +25,20 @@ Route::get('/test-email', function () {
     }
 });
 
-Route::get('/test-sms', function () {
-    $phone = '01859385787'; // Using the specified phone number for testing
-    $message = 'Test message from Bagisto SMS functionality!';
-    $url = 'https://bulksmsbd.net/api/smsapi?api_key=KsNp0AcYqTNzTxCpoVA6&type=text&number=' . $phone . '&senderid=8809617611744&message=' . urlencode($message);
 
+//Test SMS
+Route::get('/test-sms-service', function () {
     try {
-        $response = \Illuminate\Support\Facades\Http::get($url);
+        $smsService = app(\Webkul\Admin\Services\SmsService::class);
 
-        if ($response->successful()) {
-            return "SMS sent successfully to {$phone}! Response: " . $response->body();
-        } else {
-            return "Failed to send SMS! Status: " . $response->status() . " Response: " . $response->body();
-        }
+        // Test SMS sending
+        $result = $smsService->sendSms(
+            '01859385787',
+            'Test message from SmsService - Integration successful!'
+        );
+
+        return "SMS Service Test: " . ($result ? 'Success' : 'Failed');
     } catch (\Exception $e) {
-        return "Error sending SMS: " . $e->getMessage();
+        return "Error testing SMS Service: " . $e->getMessage();
     }
 });

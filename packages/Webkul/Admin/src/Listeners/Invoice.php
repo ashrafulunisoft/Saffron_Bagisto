@@ -4,6 +4,7 @@ namespace Webkul\Admin\Listeners;
 
 use Webkul\Admin\Mail\Order\InvoicedNotification;
 use Webkul\Sales\Repositories\OrderTransactionRepository;
+use Webkul\Admin\Services\SmsService;
 
 class Invoice extends Base
 {
@@ -45,6 +46,21 @@ class Invoice extends Base
             }
 
             $this->prepareMail($invoice, new InvoicedNotification($invoice));
+
+            // Send SMS notification for invoice
+            if ($invoice->order->customer_phone) {
+                $smsMessage = "Dear {$invoice->order->customer_name}, your invoice #{$invoice->increment_id} has been generated successfully. Total amount: {$invoice->grand_total}. Thank you for shopping with us!";
+                $smsService = new SmsService();
+                $smsService->sendSms($invoice->order->customer_phone, $smsMessage);
+            }
+
+
+            // Send SMS notification for invoice
+            if ($invoice->order->customer_phone) {
+                $smsMessage = "Dear {$invoice->order->customer_name}, your invoice #{$invoice->increment_id} has been generated successfully. Total amount: {$invoice->grand_total}. Thank you for shopping with us!";
+                $smsService = new SmsService();
+                $smsService->sendSms($invoice->order->customer_phone, $smsMessage);
+            }
         } catch (\Exception $e) {
             report($e);
         }

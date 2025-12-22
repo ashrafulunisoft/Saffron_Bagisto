@@ -4,6 +4,7 @@ namespace Webkul\Admin\Listeners;
 
 use Webkul\Admin\Mail\Order\RefundedNotification;
 use Webkul\Paypal\Payment\SmartButton;
+use Webkul\Admin\Services\SmsService;
 
 class Refund extends Base
 {
@@ -23,6 +24,13 @@ class Refund extends Base
             }
 
             $this->prepareMail($refund, new RefundedNotification($refund));
+
+            // Send SMS notification for refund
+            if ($refund->order->customer_phone) {
+                $smsMessage = "Dear {$refund->order->customer_name}, your refund for order #{$refund->order->increment_id} has been processed successfully. Amount: {$refund->grand_total}. Thank you for your patience.";
+                $smsService = new SmsService();
+                $smsService->sendSms($refund->order->customer_phone, $smsMessage);
+            }
         } catch (\Exception $e) {
             report($e);
         }
