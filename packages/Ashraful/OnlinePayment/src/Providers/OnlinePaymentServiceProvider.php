@@ -3,12 +3,26 @@
 namespace Ashraful\OnlinePayment\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Route;
+use Ashraful\OnlinePayment\Http\Controllers\PaymentController;
 
 class OnlinePaymentServiceProvider extends ServiceProvider
 {
     public function boot()
     {
+        // Load routes from file
         $this->loadRoutesFrom(__DIR__ . '/../Routes/web.php');
+
+        // Merge configuration
+        $this->mergeConfigFrom(
+            __DIR__ . '/../Config/payment_methods.php',
+            'payment_methods'
+        );
+
+        // Also publish configuration to ensure it's available
+        $this->publishes([
+            __DIR__ . '/../Config/payment_methods.php' => config_path('payment_methods.php'),
+        ], 'online-payment-config');
 
         // Load views if needed
         $this->loadViewsFrom(__DIR__ . '/../Resources/views', 'online-payment');

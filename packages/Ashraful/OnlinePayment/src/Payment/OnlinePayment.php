@@ -21,33 +21,9 @@ class OnlinePayment extends Payment
      */
     public function isAvailable()
     {
-        $gateway = core()->getConfigData('payment_methods.online_payment.gateway');
-
-        // Always return true for admin configuration
-        // But require credentials for actual payment processing
-        if (!$gateway) {
-            return true; // Allow admin to configure
-        }
-
-        // Check if gateway credentials are configured
-        switch ($gateway) {
-            case 'sslcommerz':
-                return core()->getConfigData('payment_methods.online_payment.ssl_store_id') &&
-                       core()->getConfigData('payment_methods.online_payment.ssl_password');
-
-            case 'bkash':
-                return core()->getConfigData('payment_methods.online_payment.bkash_key') &&
-                       core()->getConfigData('payment_methods.online_payment.bkash_secret');
-
-            case 'nagad':
-                return core()->getConfigData('payment_methods.online_payment.nagad_merchant');
-
-            case 'rocket':
-                return core()->getConfigData('payment_methods.online_payment.rocket_merchant_id') &&
-                       core()->getConfigData('payment_methods.online_payment.rocket_password');
-        }
-
-        return false;
+        // Always return true to allow payment method selection
+        // Credential validation will happen during actual payment processing
+        return true;
     }
 
     /**

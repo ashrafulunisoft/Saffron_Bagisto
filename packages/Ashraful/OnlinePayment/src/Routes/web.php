@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Ashraful\OnlinePayment\Http\Controllers\PaymentController;
 
-Route::prefix('online-payment')->group(function () {
+Route::prefix('online-payment')->middleware('web')->group(function () {
     Route::get('/redirect', [PaymentController::class, 'redirect'])
         ->name('online.payment.redirect');
 

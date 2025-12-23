@@ -14,6 +14,7 @@ return [
                 'name'  => 'gateway',
                 'title' => 'Select Gateway',
                 'type'  => 'select',
+                'default' => 'sslcommerz',
                 'options' => [
                     ['title' => 'SSLCommerz', 'value' => 'sslcommerz'],
                     ['title' => 'bKash',      'value' => 'bkash'],
