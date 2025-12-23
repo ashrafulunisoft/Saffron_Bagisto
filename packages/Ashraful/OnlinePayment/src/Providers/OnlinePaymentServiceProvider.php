@@ -11,8 +11,8 @@ class OnlinePaymentServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(__DIR__ . '/../Routes/web.php');
 
         $this->mergeConfigFrom(
-            __DIR__ . '/../Config/paymentmethods.php',
-            'paymentmethods'
+            __DIR__ . '/../Config/payment_methods.php',
+            'sales.payment_methods'
         );
 
         // Load views if needed
