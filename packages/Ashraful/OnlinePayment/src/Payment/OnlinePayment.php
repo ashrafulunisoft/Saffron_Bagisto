@@ -3,6 +3,7 @@
 namespace Ashraful\OnlinePayment\Payment;
 
 use Webkul\Payment\Payment\Payment;
+use Illuminate\Support\Facades\Storage;
 
 class OnlinePayment extends Payment
 {
@@ -13,9 +14,82 @@ class OnlinePayment extends Payment
         return route('online.payment.redirect');
     }
 
+    /**
+     * Is available.
+     *
+     * @return bool
+     */
+    public function isAvailable()
+    {
+        $gateway = core()->getConfigData('payment_methods.online_payment.gateway');
+
+        // Always return true for admin configuration
+        // But require credentials for actual payment processing
+        if (!$gateway) {
+            return true; // Allow admin to configure
+        }
+
+        // Check if gateway credentials are configured
+        switch ($gateway) {
+            case 'sslcommerz':
+                return core()->getConfigData('payment_methods.online_payment.ssl_store_id') &&
+                       core()->getConfigData('payment_methods.online_payment.ssl_password');
+
+            case 'bkash':
+                return core()->getConfigData('payment_methods.online_payment.bkash_key') &&
+                       core()->getConfigData('payment_methods.online_payment.bkash_secret');
+
+            case 'nagad':
+                return core()->getConfigData('payment_methods.online_payment.nagad_merchant');
+
+            case 'rocket':
+                return core()->getConfigData('payment_methods.online_payment.rocket_merchant_id') &&
+                       core()->getConfigData('payment_methods.online_payment.rocket_password');
+        }
+
+        return false;
+    }
+
+    /**
+     * Get payment method image.
+     *
+     * @return array
+     */
+    public function getImage()
+    {
+        $url = $this->getConfigData('image');
+
+        return $url ? Storage::url($url) : null;
+    }
+
+    /**
+     * Get payment method sort order.
+     *
+     * @return string
+     */
+    public function getSortOrder()
+    {
+        return $this->getConfigData('sort');
+    }
+
+    /**
+     * Get payment method additional information.
+     *
+     * @return array
+     */
+    public function getAdditionalDetails()
+    {
+        $gateway = core()->getConfigData('payment_methods.online_payment.gateway');
+
+        return [
+            'title' => 'Selected Gateway',
+            'value' => $this->getGatewayTitle($gateway),
+        ];
+    }
+
     public function getPaymentDetails()
     {
-        $gateway = core()->getConfigData('sales.paymentmethods.online_payment.gateway');
+        $gateway = core()->getConfigData('payment_methods.online_payment.gateway');
 
         return [
             'gateway' => $gateway,
@@ -46,50 +120,5 @@ class OnlinePayment extends Payment
         ];
 
         return $descriptions[$gateway] ?? 'Pay with online payment gateway';
-    }
-
-    public function isAvailable()
-    {
-        $gateway = core()->getConfigData('sales.paymentmethods.online_payment.gateway');
-
-        if (!$gateway) {
-            return false;
-        }
-
-        // Check if gateway credentials are configured
-        switch ($gateway) {
-            case 'sslcommerz':
-                return core()->getConfigData('sales.paymentmethods.online_payment.ssl_store_id') &&
-                       core()->getConfigData('sales.paymentmethods.online_payment.ssl_password');
-
-            case 'bkash':
-                return core()->getConfigData('sales.paymentmethods.online_payment.bkash_key') &&
-                       core()->getConfigData('sales.paymentmethods.online_payment.bkash_secret');
-
-            case 'nagad':
-                return core()->getConfigData('sales.paymentmethods.online_payment.nagad_merchant');
-
-            case 'rocket':
-                return core()->getConfigData('sales.paymentmethods.online_payment.rocket_merchant') &&
-                       core()->getConfigData('sales.paymentmethods.online_payment.rocket_key');
-
-            default:
-                return false;
-        }
-    }
-
-    /**
-     * Get payment method additional information.
-     *
-     * @return array
-     */
-    public function getAdditionalDetails()
-    {
-        $gateway = core()->getConfigData('sales.paymentmethods.online_payment.gateway');
-
-        return [
-            'title' => 'Selected Gateway',
-            'value' => $this->getGatewayTitle($gateway),
-        ];
     }
 }
