@@ -62,6 +62,7 @@
     "autoload": {
         "psr-4": {
             "App\\": "app/",
+            "Ashraful\\OnlinePayment\\": "packages/Ashraful/OnlinePayment/src/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/",
             "Webkul\\Admin\\": "packages/Webkul/Admin/src",

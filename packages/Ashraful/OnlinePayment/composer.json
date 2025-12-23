@@ -1,0 +1,10 @@
+{
+  "name": "ashraful/online-payment",
+  "description": "Unified Online Payment for Bagisto",
+  "type": "library",
+  "autoload": {
+    "psr-4": {
+      "Ashraful\\OnlinePayment\\": "src/"
+    }
+  }
+}
