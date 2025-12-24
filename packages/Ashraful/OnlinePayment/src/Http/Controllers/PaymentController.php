@@ -4,6 +4,7 @@ namespace Ashraful\OnlinePayment\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Webkul\Checkout\Facades\Cart;
 use Webkul\Sales\Repositories\OrderRepository;
@@ -40,6 +41,11 @@ class PaymentController extends Controller
 
     public function redirect()
     {
+        // DEBUG: Log session state before redirect
+        Log::info('PaymentController::redirect - Session ID: ' . session()->getId());
+        Log::info('PaymentController::redirect - Auth check: ' . (Auth::check() ? 'authenticated' : 'NOT authenticated'));
+        Log::info('PaymentController::redirect - Cart exists: ' . (Cart::getCart() ? 'YES' : 'NO'));
+
         $gateway = $this->gateway();
 
         if (!$gateway) {
@@ -61,6 +67,12 @@ class PaymentController extends Controller
 
     public function success(Request $request)
     {
+        // DEBUG: Log session state
+        Log::info('PaymentController::success - Session ID: ' . session()->getId());
+        Log::info('PaymentController::success - Auth check: ' . (Auth::check() ? 'authenticated' : 'NOT authenticated'));
+        Log::info('PaymentController::success - Cart exists: ' . (Cart::getCart() ? 'YES' : 'NO'));
+        Log::info('PaymentController::success - Request data: ', $request->all());
+
         $gateway = $this->gateway();
 
         if (!$gateway) {
@@ -96,7 +108,12 @@ class PaymentController extends Controller
 
     public function fail(Request $request)
     {
-        dd("Failed");
+        // DEBUG: Log session state
+        Log::info('PaymentController::fail - Session ID: ' . session()->getId());
+        Log::info('PaymentController::fail - Auth check: ' . (Auth::check() ? 'authenticated' : 'NOT authenticated'));
+        Log::info('PaymentController::fail - Cart exists: ' . (Cart::getCart() ? 'YES' : 'NO'));
+        Log::info('PaymentController::fail - Request data: ', $request->all());
+
         $gateway = $this->gateway();
 
         if ($gateway) {
@@ -109,7 +126,12 @@ class PaymentController extends Controller
 
     public function cancel(Request $request)
     {
-        dd("Cancelled");
+        // DEBUG: Log session state
+        Log::info('PaymentController::cancel - Session ID: ' . session()->getId());
+        Log::info('PaymentController::cancel - Auth check: ' . (Auth::check() ? 'authenticated' : 'NOT authenticated'));
+        Log::info('PaymentController::cancel - Cart exists: ' . (Cart::getCart() ? 'YES' : 'NO'));
+        Log::info('PaymentController::cancel - Request data: ', $request->all());
+
         $gateway = $this->gateway();
 
         if ($gateway) {

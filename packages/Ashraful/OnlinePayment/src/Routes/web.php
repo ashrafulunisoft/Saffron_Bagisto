@@ -8,14 +8,18 @@ Route::prefix('online-payment')->middleware('web')->group(function () {
         ->name('online.payment.redirect');
 
     Route::post('/success', [PaymentController::class, 'success'])
-        ->name('online.payment.success');
+        ->name('online.payment.success')
+        ->withoutMiddleware(\Illuminate\Foundation\Http\Middleware\ValidateCsrfToken::class);
 
     Route::post('/fail', [PaymentController::class, 'fail'])
-        ->name('online.payment.fail');
+        ->name('online.payment.fail')
+        ->withoutMiddleware(\Illuminate\Foundation\Http\Middleware\ValidateCsrfToken::class);
 
     Route::post('/cancel', [PaymentController::class, 'cancel'])
-        ->name('online.payment.cancel');
+        ->name('online.payment.cancel')
+        ->withoutMiddleware(\Illuminate\Foundation\Http\Middleware\ValidateCsrfToken::class);
 
     Route::post('/ipn', [PaymentController::class, 'ipn'])
-        ->name('online.payment.ipn');
+        ->name('online.payment.ipn')
+        ->withoutMiddleware(\Illuminate\Foundation\Http\Middleware\ValidateCsrfToken::class);
 });

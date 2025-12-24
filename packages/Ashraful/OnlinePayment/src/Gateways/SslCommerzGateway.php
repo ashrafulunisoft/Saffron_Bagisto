@@ -23,16 +23,27 @@ class SslCommerzGateway implements GatewayInterface
             $store_id = core()->getConfigData('payment_methods.online_payment.ssl_store_id') ?: 'instasurexyz0live';
             $store_passwd = core()->getConfigData('payment_methods.online_payment.ssl_password') ?: '6757F60C7BBA395329';
 
+            $success_url = route('online.payment.success');
+            $fail_url = route('online.payment.fail');
+            $cancel_url = route('online.payment.cancel');
+            $ipn_url = route('online.payment.ipn');
+
+            // DEBUG: Log redirect URLs
+            Log::info('SSLCommerzGateway::redirect - Success URL: ' . $success_url);
+            Log::info('SSLCommerzGateway::redirect - Fail URL: ' . $fail_url);
+            Log::info('SSLCommerzGateway::redirect - Cancel URL: ' . $cancel_url);
+            Log::info('SSLCommerzGateway::redirect - IPN URL: ' . $ipn_url);
+
             $data = [
                 'store_id'     => $store_id,
                 'store_passwd' => $store_passwd,
                 'total_amount' => $cart->grand_total,
                 'currency'     => 'BDT',
                 'tran_id'      => uniqid(),
-                'success_url'  => route('online.payment.success'),
-                'fail_url'     => route('online.payment.fail'),
-                'cancel_url'   => route('online.payment.cancel'),
-                'ipn_url'      => route('online.payment.ipn'),
+                'success_url'  => $success_url,
+                'fail_url'     => $fail_url,
+                'cancel_url'   => $cancel_url,
+                'ipn_url'      => $ipn_url,
                 'product_name' => 'Order Payment',
                 'product_category' => 'E-commerce',
                 'product_profile' => 'general',
@@ -103,18 +114,12 @@ class SslCommerzGateway implements GatewayInterface
 
     public function fail()
     {
-         // Debugging session and CSRF token
-        dd(session()->all(), csrf_token());
-        dd('fail');
         return redirect()->route('shop.checkout.cart.index')
             ->with('error', 'Payment failed. Please try again.');
     }
 
     public function cancel()
     {
-         // Debugging session and CSRF token
-        dd(session()->all(), csrf_token());
-        dd('cancel');
         return redirect()->route('shop.checkout.cart.index')
             ->with('error', 'Payment was cancelled.');
     }
