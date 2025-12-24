@@ -197,6 +197,30 @@ class OrderController extends Controller
     }
 
     /**
+     * Update payment status for order
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function updatePaymentStatus(int $id)
+    {
+        $validatedData = $this->validate(request(), [
+            'status' => 'required|in:pending,pending_payment,processing,completed,canceled,closed,fraud',
+        ]);
+
+        $order = $this->orderRepository->findOrFail($id);
+
+        Event::dispatch('sales.order.payment_status.update.before', $order);
+
+        $order->update(['status' => $validatedData['status']]);
+
+        Event::dispatch('sales.order.payment_status.update.after', $order);
+
+        session()->flash('success', trans('admin::app.sales.orders.view.payment-status-updated'));
+
+        return redirect()->route('admin.sales.orders.view', $id);
+    }
+
+    /**
      * Result of search product.
      *
      * @return \Illuminate\Http\JsonResponse

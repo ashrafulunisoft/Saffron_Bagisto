@@ -5,8 +5,11 @@ namespace Ashraful\OnlinePayment\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 use Webkul\Checkout\Facades\Cart;
+use Webkul\Sales\Contracts\Order;
 use Webkul\Sales\Repositories\OrderRepository;
 use Ashraful\OnlinePayment\Gateways\{
     SslCommerzGateway, BkashGateway, NagadGateway, RocketGateway
@@ -16,8 +19,9 @@ class PaymentController extends Controller
 {
     protected $orderRepository;
 
-    public function __construct(OrderRepository $orderRepository)
-    {
+    public function __construct(
+        OrderRepository $orderRepository
+    ) {
         $this->orderRepository = $orderRepository;
     }
 
@@ -82,7 +86,16 @@ class PaymentController extends Controller
 
         if ($gateway->success($request)) {
             try {
-                // Create order
+                // Get cart before creating order
+                $cart = Cart::getCart();
+
+                if (!$cart || $cart->items_count === 0) {
+                    Log::error('Payment success but cart is empty');
+                    return redirect()->route('shop.checkout.cart.index')
+                        ->with('error', 'Cart is empty. Please add items to cart first.');
+                }
+
+                // Create order from cart
                 $order = $this->orderRepository->create(
                     Cart::prepareDataForOrder()
                 );
@@ -90,8 +103,19 @@ class PaymentController extends Controller
                 // Add payment information to order
                 $this->addPaymentInfo($order, $request);
 
+                // Update order status to processing
+                $this->orderRepository->updateOrderStatus($order, 'processing');
+
+                // Dispatch order creation event for email notifications
+                Event::dispatch('sales.order.create.after', $order);
+
                 // Deactivate cart
                 Cart::deActivateCart();
+
+                // Store order ID in session for success page
+                session()->put('order_id', $order->id);
+
+                Log::info('Order created successfully', ['order_id' => $order->id, 'status' => $order->status]);
 
                 return redirect()->route('shop.checkout.success');
             } catch (\Exception $e) {
@@ -120,8 +144,10 @@ class PaymentController extends Controller
             return $gateway->fail();
         }
 
+        // Keep cart intact so user can retry payment
+        // Do not deactivate cart on payment failure
         return redirect()->route('shop.checkout.cart.index')
-            ->with('error', 'Payment failed. Please try again.');
+            ->with('error', 'Payment failed. Please try again or choose a different payment method.');
     }
 
     public function cancel(Request $request)
@@ -138,12 +164,16 @@ class PaymentController extends Controller
             return $gateway->cancel();
         }
 
+        // Keep cart intact so user can retry payment
+        // Do not deactivate cart on payment cancellation
         return redirect()->route('shop.checkout.cart.index')
-            ->with('error', 'Payment was cancelled.');
+            ->with('info', 'Payment was cancelled. You can try again or choose a different payment method.');
     }
 
     public function ipn(Request $request)
     {
+        Log::info('PaymentController::ipn - IPN received', $request->all());
+
         $gateway = $this->gateway();
 
         if (!$gateway) {
@@ -151,24 +181,83 @@ class PaymentController extends Controller
         }
 
         // Handle IPN (Instant Payment Notification)
-        // This is typically used for server-to-server communication
-        // Implementation depends on the specific gateway
+        // This is server-to-server callback from SSLCommerz
+        // Should be idempotent to handle duplicate notifications
 
-        Log::info('IPN received', $request->all());
+        try {
+            // Get transaction ID from request
+            $transactionId = $request->tran_id ?? $request->transaction_id ?? null;
 
-        return response()->json(['status' => 'success']);
+            if (!$transactionId) {
+                Log::warning('IPN received without transaction ID');
+                return response()->json(['status' => 'error', 'message' => 'Transaction ID missing']);
+            }
+
+            // Find order by transaction ID
+            $order = $this->orderRepository->findOneWhere([
+                'increment_id' => $transactionId,
+            ]);
+
+            if (!$order) {
+                Log::warning('IPN: Order not found for transaction', ['transaction_id' => $transactionId]);
+                return response()->json(['status' => 'error', 'message' => 'Order not found']);
+            }
+
+            // Verify payment status from SSLCommerz
+            $paymentStatus = $request->status ?? $request->bank_tran_id ? 'SUCCESS' : 'FAILED';
+
+            if ($paymentStatus === 'SUCCESS' || $paymentStatus === 'VALID') {
+                // Payment successful - update order status
+                $this->orderRepository->updateOrderStatus($order, 'processing');
+
+                // Dispatch order status update event
+                Event::dispatch('sales.order.update-status.after', $order);
+
+                Log::info('IPN: Order status updated', [
+                    'order_id' => $order->id,
+                    'status' => 'processing',
+                    'transaction_id' => $transactionId,
+                ]);
+
+                return response()->json(['status' => 'success', 'message' => 'Order status updated']);
+            } else {
+                // Payment failed - update order status to canceled
+                $this->orderRepository->updateOrderStatus($order, 'canceled');
+
+                Log::warning('IPN: Payment failed', [
+                    'order_id' => $order->id,
+                    'status' => 'canceled',
+                    'transaction_id' => $transactionId,
+                ]);
+
+                return response()->json(['status' => 'success', 'message' => 'Order status updated']);
+            }
+        } catch (\Exception $e) {
+            Log::error('IPN processing error: ' . $e->getMessage());
+            return response()->json(['status' => 'error', 'message' => 'Processing error']);
+        }
     }
 
     private function addPaymentInfo($order, Request $request)
     {
         $gateway = core()->getConfigData('payment_methods.online_payment.gateway');
 
+        // Map gateway to payment method identifier
+        $paymentMethod = $gateway ?? 'sslcommerz';
+
+        // Get payment method title from config
+        $paymentMethodTitle = $this->getPaymentMethodTitle($paymentMethod);
+
         $paymentData = [
-            'transaction_id' => $request->transaction_id ?? $request->tran_id ?? $request->paymentID ?? $request->payment_ref_id ?? null,
-            'gateway' => $gateway,
-            'amount' => $order->grand_total,
-            'status' => 'completed',
-            'additional_data' => json_encode($request->all())
+            'method'       => $paymentMethod,
+            'method_title' => $paymentMethodTitle,
+            'additional'    => json_encode([
+                'transaction_id' => $request->transaction_id ?? $request->tran_id ?? $request->paymentID ?? $request->payment_ref_id ?? null,
+                'status'        => 'completed',
+                'amount'        => $order->grand_total,
+                'gateway'       => $gateway,
+                'request_data'  => $request->all(),
+            ]),
         ];
 
         // Create payment record
@@ -176,6 +265,24 @@ class PaymentController extends Controller
 
         // Update order status
         $order->update(['status' => 'processing']);
+    }
+
+    /**
+     * Get payment method title based on gateway
+     *
+     * @param string $gateway
+     * @return string
+     */
+    private function getPaymentMethodTitle($gateway)
+    {
+        $titles = [
+            'sslcommerz' => 'SSLCommerz',
+            'bkash'      => 'bKash',
+            'nagad'      => 'Nagad',
+            'rocket'      => 'Rocket',
+        ];
+
+        return $titles[$gateway] ?? 'Online Payment';
     }
 
     /**

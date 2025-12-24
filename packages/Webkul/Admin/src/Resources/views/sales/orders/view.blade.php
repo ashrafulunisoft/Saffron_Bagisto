@@ -689,6 +689,53 @@
 
                     <x-slot:content>
                         <div>
+                            <form
+                                method="POST"
+                                action="{{ route('admin.sales.orders.update_payment_status', $order->id) }}"
+                                class="mb-4"
+                            >
+                                @csrf
+                                <div class="flex items-center justify-between gap-2.5">
+                                    <div class="flex flex-col gap-1.5">
+                                        <label class="text-sm font-semibold text-gray-600 dark:text-gray-300">
+                                            @lang('admin::app.sales.orders.view.payment-status')
+                                        </label>
+                                        <select
+                                            name="status"
+                                            class="w-full rounded border border-gray-300 bg-white px-3 py-2 text-sm text-gray-800 focus:border-blue-600 focus:outline-none dark:border-gray-700 dark:bg-gray-900 dark:text-white"
+                                        >
+                                            <option value="pending" {{ $order->status === 'pending' ? 'selected' : '' }}>
+                                                @lang('admin::app.sales.orders.view.pending')
+                                            </option>
+                                            {{-- <option value="pending_payment" {{ $order->status === 'pending_payment' ? 'selected' : '' }}>
+                                                @lang('admin::app.sales.orders.view.pending-payment')
+                                            </option> --}}
+                                            <option value="processing" {{ $order->status === 'processing' ? 'selected' : '' }}>
+                                                @lang('admin::app.sales.orders.view.processing')
+                                            </option>
+                                            <option value="completed" {{ $order->status === 'completed' ? 'selected' : '' }}>
+                                                @lang('admin::app.sales.orders.view.completed')
+                                            </option>
+                                            <option value="canceled" {{ $order->status === 'canceled' ? 'selected' : '' }}>
+                                                @lang('admin::app.sales.orders.view.canceled')
+                                            </option>
+                                            <option value="closed" {{ $order->status === 'closed' ? 'selected' : '' }}>
+                                                @lang('admin::app.sales.orders.view.closed')
+                                            </option>
+                                            <option value="fraud" {{ $order->status === 'fraud' ? 'selected' : '' }}>
+                                                @lang('admin::app.sales.orders.view.fraud')
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <button
+                                        type="submit"
+                                        class="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded border border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:bg-blue-700"
+                                    >
+                                        @lang('admin::app.sales.orders.view.update-payment-status')
+                                    </button>
+                                </div>
+                            </form>
+
                             <!-- Payment method -->
                             <p class="font-semibold text-gray-800 dark:text-white">
                                 {{ core()->getConfigData('sales.payment_methods.' . $order->payment->method . '.title') }}
