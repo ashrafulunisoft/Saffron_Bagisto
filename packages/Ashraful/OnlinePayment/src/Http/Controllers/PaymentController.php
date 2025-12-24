@@ -96,6 +96,7 @@ class PaymentController extends Controller
 
     public function fail(Request $request)
     {
+        dd("Failed");
         $gateway = $this->gateway();
 
         if ($gateway) {
@@ -108,6 +109,7 @@ class PaymentController extends Controller
 
     public function cancel(Request $request)
     {
+        dd("Cancelled");
         $gateway = $this->gateway();
 
         if ($gateway) {
