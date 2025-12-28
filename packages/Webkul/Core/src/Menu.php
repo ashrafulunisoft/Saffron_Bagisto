@@ -108,7 +108,7 @@ class Menu
                 name: trans($menuItem['name']),
                 route: $menuItem['route'],
                 sort: $menuItem['sort'],
-                icon: $menuItem['icon'],
+                icon: $menuItem['icon'] ?? '',
                 children: $subMenuItems,
             ));
         }
@@ -130,7 +130,7 @@ class Menu
                     name: trans($subMenuItem['name']),
                     route: $subMenuItem['route'],
                     sort: $subMenuItem['sort'],
-                    icon: $subMenuItem['icon'],
+                    icon: $subMenuItem['icon'] ?? '',
                     children: $subSubMenuItems,
                 );
             });
