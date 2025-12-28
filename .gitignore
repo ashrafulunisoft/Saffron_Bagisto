@@ -3,7 +3,10 @@
 .idea
 .php_cs.cache
 .phpunit.result.cache
-.vscode
+# VS Code settings - allow sharing but exclude personal logs
+.vscode/launch.json
+.vscode/tasks.json
+.vscode/*.log
 .vagrant
 *.hot
 /stubs
@@ -16,6 +19,9 @@ Homestead.yaml
 npm-debug.log
 package-lock.json
 /playwright-report
+
+# Roo Code logs
+storage/logs/roocode.log
 /public/css
 /public/js
 /public/hot

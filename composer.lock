@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "45a37a584a4b1a20e95b23259e28e842",
+    "content-hash": "c1ba43e899927d3980c0f2766146013e",
     "packages": [
         {
             "name": "astrotomic/laravel-translatable",
@@ -11119,6 +11119,55 @@
             "time": "2024-11-21T01:49:47+00:00"
         },
         {
+            "name": "webbycrown/blog-for-bagisto",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/webbycrown/blog-for-bagisto.git",
+                "reference": "82a5e8e5f9966e84467ebc796c6ea2e798999daa"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/webbycrown/blog-for-bagisto/zipball/82a5e8e5f9966e84467ebc796c6ea2e798999daa",
+                "reference": "82a5e8e5f9966e84467ebc796c6ea2e798999daa",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.1"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": [],
+                    "providers": [
+                        "Webbycrown\\BlogBagisto\\Providers\\BlogServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Webbycrown\\BlogBagisto\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "WebbyCrown Solutions",
+                    "email": "info@webbycrown.com"
+                }
+            ],
+            "description": "Blog for Bagisto",
+            "support": {
+                "issues": "https://github.com/webbycrown/blog-for-bagisto/issues",
+                "source": "https://github.com/webbycrown/blog-for-bagisto/tree/main"
+            },
+            "time": "2025-11-13T07:34:47+00:00"
+        },
+        {
             "name": "webmozart/assert",
             "version": "1.11.0",
             "source": {
@@ -14416,7 +14465,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "bagisto/image-cache": 20
+        "bagisto/image-cache": 20,
+        "webbycrown/blog-for-bagisto": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

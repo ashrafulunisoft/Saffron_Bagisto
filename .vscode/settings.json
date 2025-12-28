@@ -1,0 +1,253 @@
+{
+  // ============================================
+  // Roo Code Optimized Configuration
+  // For Quadrant Vector DB + Ollama (nomic-embed-text)
+  // ============================================
+
+  // ============================================
+  // VECTOR DATABASE CONFIGURATION (Quadrant)
+  // ============================================
+  "rooCode.vectorDatabase.type": "quadrant",
+  "rooCode.vectorDatabase.host": "localhost",
+  "rooCode.vectorDatabase.port": 6333,
+  "rooCode.vectorDatabase.apiKey": "",
+  "rooCode.vectorDatabase.collectionName": "saffron_codebase",
+  "rooCode.vectorDatabase.dimension": 768,
+  "rooCode.vectorDatabase.distanceMetric": "cosine",
+  "rooCode.vectorDatabase.indexType": "hnsw",
+  "rooCode.vectorDatabase.hnswParams": {
+    "m": 32,
+    "efConstruction": 200,
+    "efSearch": 128
+  },
+  "rooCode.vectorDatabase.enablePersistence": true,
+  "rooCode.vectorDatabase.persistencePath": "./storage/vector_db",
+  "rooCode.vectorDatabase.enableOptimizations": true,
+  "rooCode.vectorDatabase.optimizeInterval": 3600000,
+  "rooCode.vectorDatabase.maxConnections": 10,
+  "rooCode.vectorDatabase.connectionTimeout": 30000,
+  "rooCode.vectorDatabase.queryTimeout": 10000,
+  "rooCode.vectorDatabase.batchSize": 100,
+  "rooCode.vectorDatabase.enableCompression": true,
+  "rooCode.vectorDatabase.compressionLevel": 6,
+
+  // ============================================
+  // EMBEDDER SERVICE CONFIGURATION (Ollama)
+  // ============================================
+  "rooCode.embedder.serviceUrl": "http://localhost:11434",
+  "rooCode.embedder.serviceType": "ollama",
+  "rooCode.embedder.model": "nomic-embed-text",
+  "rooCode.embedder.timeout": 120000,
+  "rooCode.embedder.maxRetries": 10,
+  "rooCode.embedder.retryDelay": 3000,
+  "rooCode.embedder.retryBackoffMultiplier": 2,
+  "rooCode.embedder.fallbackEnabled": true,
+  "rooCode.embedder.useLocalEmbedder": true,
+  "rooCode.embedder.enableCaching": true,
+  "rooCode.embedder.cacheSize": 5000,
+  "rooCode.embedder.cacheTTL": 86400000,
+  "rooCode.embedder.batchSize": 50,
+  "rooCode.embedder.maxConcurrentRequests": 3,
+  "rooCode.embedder.enableHealthCheck": true,
+  "rooCode.embedder.healthCheckInterval": 60000,
+  "rooCode.embedder.healthCheckTimeout": 5000,
+  "rooCode.embedder.embeddingDimension": 768,
+  "rooCode.embedder.normalizeVectors": true,
+
+  // ============================================
+  // INDEXING CONFIGURATION
+  // ============================================
+  "rooCode.indexing.excludePatterns": [
+    "**/vendor/**",
+    "**/node_modules/**",
+    "**/storage/**",
+    "**/public/build/**",
+    "**/public/themes/**/build/**",
+    "**/bootstrap/cache/**",
+    "**/database/migrations/**",
+    "**/lang/**",
+    "**/db_bkp/**",
+    "**/.git/**",
+    "**/tests/**",
+    "**/*.log",
+    "**/composer.lock",
+    "**/package-lock.json",
+    "**/yarn.lock",
+    "**/pnpm-lock.yaml",
+    "**/packages/Webkul/Installer/src/Resources/assets/**",
+    "**/packages/Webkul/Installer/src/Data/**",
+    "**/packages/**/tests/**",
+    "**/packages/**/node_modules/**",
+    "**/packages/**/dist/**",
+    "**/packages/**/build/**",
+    "**/.vscode/**",
+    "**/Task List/**"
+  ],
+  "rooCode.indexing.includePatterns": [
+    "**/*.php",
+    "**/*.js",
+    "**/*.ts",
+    "**/*.vue",
+    "**/*.json",
+    "**/*.blade.php",
+    "**/routes/**/*.php",
+    "**/config/**/*.php",
+    "**/app/**/*.php",
+    "**/packages/**/src/**/*.php",
+    "**/packages/**/Resources/views/**/*.blade.php"
+  ],
+  "rooCode.indexing.maxFileSize": 5242880,
+  "rooCode.indexing.batchSize": 50,
+  "rooCode.indexing.timeout": 120000,
+  "rooCode.indexing.parallelProcessing": true,
+  "rooCode.indexing.maxConcurrentRequests": 3,
+  "rooCode.indexing.incrementalIndexing": true,
+  "rooCode.indexing.autoReindex": false,
+  "rooCode.indexing.indexOnStartup": false,
+  "rooCode.indexing.cacheEnabled": true,
+  "rooCode.indexing.cacheTTL": 7200000,
+  "rooCode.indexing.enableChunking": true,
+  "rooCode.indexing.chunkSize": 1000,
+  "rooCode.indexing.chunkOverlap": 200,
+  "rooCode.indexing.enableSemanticChunking": true,
+  "rooCode.indexing.semanticChunkingThreshold": 0.7,
+  "rooCode.indexing.enableErrorRecovery": true,
+  "rooCode.indexing.maxRetryAttempts": 5,
+  "rooCode.indexing.retryDelay": 5000,
+  "rooCode.indexing.enableProgressTracking": true,
+  "rooCode.indexing.saveProgressInterval": 30000,
+
+  // ============================================
+  // CODEBASE INDEXING CONFIGURATION
+  // ============================================
+  "rooCode.codebase.maxFileSize": 5242880,
+  "rooCode.codebase.indexingDepth": 5,
+  "rooCode.codebase.followSymlinks": false,
+  "rooCode.codebase.ignoreHiddenFiles": true,
+  "rooCode.codebase.ignoreBinaryFiles": true,
+  "rooCode.codebase.ignoreGeneratedFiles": true,
+  "rooCode.codebase.ignoreTestFiles": false,
+  "rooCode.codebase.ignoreDocumentationFiles": false,
+  "rooCode.codebase.ignoreConfigFiles": false,
+  "rooCode.codebase.ignoreMigrationFiles": true,
+  "rooCode.codebase.ignoreSeedFiles": false,
+  "rooCode.codebase.ignoreFactoryFiles": false,
+  "rooCode.codebase.ignoreViewFiles": false,
+  "rooCode.codebase.ignoreAssetFiles": true,
+  "rooCode.codebase.ignoreLocaleFiles": true,
+  "rooCode.codebase.ignoreLogFiles": true,
+  "rooCode.codebase.ignoreBackupFiles": true,
+  "rooCode.codebase.ignoreTempFiles": true,
+  "rooCode.codebase.ignoreCacheFiles": true,
+  "rooCode.codebase.ignoreBuildFiles": true,
+  "rooCode.codebase.ignoreDistFiles": true,
+  "rooCode.codebase.ignoreNodeModules": true,
+  "rooCode.codebase.ignoreVendor": true,
+  "rooCode.codebase.ignoreGit": true,
+  "rooCode.codebase.enableSyntaxHighlighting": true,
+  "rooCode.codebase.enableFunctionExtraction": true,
+  "rooCode.codebase.enableClassExtraction": true,
+  "rooCode.codebase.enableVariableExtraction": true,
+  "rooCode.codebase.enableCommentExtraction": true,
+
+  // ============================================
+  // PERFORMANCE CONFIGURATION
+  // ============================================
+  "rooCode.performance.enableCaching": true,
+  "rooCode.performance.cacheSize": 2000,
+  "rooCode.performance.preloadCommonFiles": true,
+  "rooCode.performance.lazyLoadLargeFiles": true,
+  "rooCode.performance.maxMemoryUsage": 1024,
+  "rooCode.performance.garbageCollectionInterval": 300000,
+  "rooCode.performance.enableMemoryOptimization": true,
+  "rooCode.performance.enableQueryOptimization": true,
+  "rooCode.performance.enableIndexOptimization": true,
+  "rooCode.performance.enablePrefetching": true,
+  "rooCode.performance.prefetchCount": 10,
+  "rooCode.performance.enableConnectionPooling": true,
+  "rooCode.performance.maxPoolSize": 10,
+  "rooCode.performance.minPoolSize": 2,
+  "rooCode.performance.poolIdleTimeout": 60000,
+  "rooCode.performance.enableCompression": true,
+  "rooCode.performance.compressionThreshold": 1024,
+
+  // ============================================
+  // LOGGING CONFIGURATION
+  // ============================================
+  "rooCode.logging.level": "debug",
+  "rooCode.logging.logToFile": true,
+  "rooCode.logging.logPath": "./storage/logs/roocode.log",
+  "rooCode.logging.maxLogSize": 10485760,
+  "rooCode.logging.maxLogFiles": 5,
+  "rooCode.logging.enableConsoleLogging": true,
+  "rooCode.logging.enablePerformanceLogging": true,
+  "rooCode.logging.enableErrorLogging": true,
+  "rooCode.logging.logRotationEnabled": true,
+  "rooCode.logging.logRotationInterval": 86400000,
+
+  // ============================================
+  // QUERY CONFIGURATION
+  // ============================================
+  "rooCode.query.maxResults": 20,
+  "rooCode.query.minScore": 0.5,
+  "rooCode.query.enableReranking": true,
+  "rooCode.query.rerankingModel": "cross-encoder",
+  "rooCode.query.enableHybridSearch": true,
+  "rooCode.query.hybridSearchAlpha": 0.7,
+  "rooCode.query.enableContextExpansion": true,
+  "rooCode.query.contextExpansionLimit": 3,
+  "rooCode.query.enableQueryCaching": true,
+  "rooCode.query.queryCacheSize": 1000,
+  "rooCode.query.queryCacheTTL": 3600000,
+
+  // ============================================
+  // ERROR HANDLING CONFIGURATION
+  // ============================================
+  "rooCode.errorHandling.enableGracefulDegradation": true,
+  "rooCode.errorHandling.enableAutoRecovery": true,
+  "rooCode.errorHandling.maxRecoveryAttempts": 3,
+  "rooCode.errorHandling.recoveryDelay": 10000,
+  "rooCode.errorHandling.enableErrorReporting": true,
+  "rooCode.errorHandling.errorReportingEndpoint": "",
+  "rooCode.errorHandling.enableDetailedErrors": true,
+  "rooCode.errorHandling.enableStackTraceLogging": true,
+
+  // ============================================
+  // VS Code General Settings for PHP Projects
+  // ============================================
+  "php.validate.executablePath": "/usr/bin/php",
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    "**/node_modules": true,
+    "**/vendor": true
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/vendor": true,
+    "**/storage": true,
+    "**/public/build": true,
+    "**/bootstrap/cache": true,
+    "**/packages/**/node_modules": true,
+    "**/packages/**/dist": true,
+    "**/packages/**/build": true
+  },
+  "files.watcherExclude": {
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/node_modules/**": true,
+    "**/vendor/**": true,
+    "**/storage/**": true,
+    "**/packages/**/node_modules/**": true
+  },
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 1000,
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit"
+  }
+}

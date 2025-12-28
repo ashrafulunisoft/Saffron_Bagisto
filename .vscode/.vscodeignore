@@ -1,0 +1,181 @@
+# ============================================
+# Roo Code .vscodeignore - Optimized for Large Codebase
+# ============================================
+# This file controls which files are excluded from Roo Code indexing
+# ============================================
+
+# ============================================
+# Dependency Directories
+# ============================================
+vendor/
+node_modules/
+packages/**/node_modules/
+packages/**/vendor/
+
+# ============================================
+# Build and Distribution Directories
+# ============================================
+public/build/
+public/themes/**/build/
+dist/
+build/
+packages/**/dist/
+packages/**/build/
+
+# ============================================
+# Cache and Temporary Directories
+# ============================================
+storage/
+bootstrap/cache/
+.cache/
+tmp/
+temp/
+*.tmp
+
+# ============================================
+# Database Backups
+# ============================================
+db_bkp/
+*.sql
+*.sql.gz
+*.dump
+
+# ============================================
+# Version Control
+# ============================================
+.git/
+.gitignore
+.svn/
+.hg/
+
+# ============================================
+# IDE and Editor Files
+# ============================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# ============================================
+# Lock Files
+# ============================================
+composer.lock
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# ============================================
+# Log Files
+# ============================================
+*.log
+logs/
+
+# ============================================
+# Test Files (Optional - uncomment to exclude)
+# ============================================
+# tests/
+# **/tests/
+# **/test/
+# **/spec/
+
+# ============================================
+# Documentation Files (Optional - uncomment to exclude)
+# ============================================
+# docs/
+# **/*.md
+# README.md
+# CHANGELOG.md
+
+# ============================================
+# Language Files (Optional - uncomment to exclude)
+# ============================================
+# lang/
+# **/lang/
+# **/locale/
+# **/i18n/
+
+# ============================================
+# Migration Files (Optional - uncomment to exclude)
+# ============================================
+# database/migrations/
+# **/migrations/
+
+# ============================================
+# Asset Files
+# ============================================
+public/fonts/
+public/images/
+public/assets/
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.svg
+*.ico
+*.woff
+*.woff2
+*.ttf
+*.eot
+
+# ============================================
+# Package Specific Exclusions
+# ============================================
+packages/Webkul/Installer/src/Resources/assets/
+packages/Webkul/Installer/src/Data/
+packages/**/tests/
+packages/**/node_modules/
+packages/**/dist/
+packages/**/build/
+
+# ============================================
+# Task and Project Management
+# ============================================
+Task List/
+*.task
+*.todo
+
+# ============================================
+# Backup and Archive Files
+# ============================================
+*.bak
+*.backup
+*.old
+*.orig
+*.rej
+
+# ============================================
+# Environment Files
+# ============================================
+.env.*
+!.env.example
+
+# ============================================
+# Large Binary Files
+# ============================================
+*.zip
+*.tar
+*.tar.gz
+*.rar
+*.7z
+*.iso
+*.dmg
+*.exe
+*.bin
+
+# ============================================
+# Generated Files
+# ============================================
+*.min.js
+*.min.css
+*.generated.*
+*.compiled.*
+
+# ============================================
+# Specific File Patterns to Exclude
+# ============================================
+# Exclude specific large or problematic files
+# Add specific files here if needed
+# path/to/specific/file.php
