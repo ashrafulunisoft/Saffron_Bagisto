@@ -29,7 +29,7 @@
                 <div style="margin-bottom: 65px;">
                     <a href="{{ route('shop.home.index') }}">
                         @if ($logo = core()->getCurrentChannel()->logo_url)
-                            <img
+                            {{-- <img
                                 src="{{ $logo }}"
                                 alt="{{ config('app.name') }}"
                                 style="height: 40px; width: 110px;"
@@ -41,6 +41,11 @@
                                 width="131"
                                 height="29"
                                 style="width: 156px;height: 40px;"
+                            /> --}}
+                            <img
+                                src="/themes/admin/default/build/assets/Saffron__Logo_Removebg.png"
+                                alt="{{ config('app.name') }}"
+                                style="height: 40px; width: 110px;"
                             />
                         @endif
                     </a>

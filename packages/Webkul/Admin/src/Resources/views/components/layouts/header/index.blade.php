@@ -21,7 +21,7 @@
                 />
             @else
                 <img
-                    src="{{ request()->cookie('dark_mode') ? bagisto_asset('images/dark-logo.svg') : bagisto_asset('images/logo.svg') }}"
+                    src="{{ asset('themes/admin/default/build/assets/Saffron__Logo_Removebg.png') }}"
                     class="h-12 w-auto sm:h-12"
                     id="logo-image"
                     alt="{{ config('app.name') }}"
@@ -149,14 +149,14 @@
     <x-slot:header>
         <div class="flex items-center justify-between">
             @if ($logo = core()->getConfigData('general.design.admin_logo.logo_image'))
-                <img
+                {{-- <img
                     src="{{ Storage::url($logo) }}"
                     class="h-8 w-auto sm:h-10"
                     alt="{{ config('app.name') }}"
                 />
-            @else
+            @else --}}
                 <img
-                    src="{{ request()->cookie('dark_mode') ? bagisto_asset('images/dark-logo.svg') : bagisto_asset('images/logo.svg') }}"
+                    src="{{ asset('themes/admin/default/build/assets/Saffron__Logo_Removebg.png') }}"
                     class="h-8 w-auto sm:h-10"
                     id="logo-image"
                     alt="{{ config('app.name') }}"
@@ -741,9 +741,9 @@
                 return {
                     isDarkMode: {{ request()->cookie('dark_mode') ?? 0 }},
 
-                    logo: "{{ bagisto_asset('images/logo.svg') }}",
+                    logo: "{{ asset('themes/admin/default/build/assets/Saffron__Logo_Removebg.png') }}",
 
-                    dark_logo: "{{ bagisto_asset('images/dark-logo.svg') }}",
+                    dark_logo: "{{ asset('themes/admin/default/build/assets/Saffron__Logo_Removebg.png') }}",
                 };
             },
 
