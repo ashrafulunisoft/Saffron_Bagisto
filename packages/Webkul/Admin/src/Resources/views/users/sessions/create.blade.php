@@ -14,10 +14,12 @@
                     alt="{{ config('app.name') }}"
                 />
             @else
+
                 <img
                     class="h-16 w-auto max-w-[110px]"
                     src="{{ bagisto_asset('images/logo.svg') }}"
                     alt="{{ config('app.name') }}"
+                    style="height: 10rem;"
                 />
             @endif
 
