@@ -2,6 +2,8 @@
 
 namespace Webkul\Admin\Http\Controllers\Sales;
 
+use App\Services\PathaoOrderService;
+use Illuminate\Support\Facades\Log;
 use Webkul\Admin\DataGrids\Sales\OrderShipmentDataGrid;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\Sales\Repositories\OrderItemRepository;
@@ -18,7 +20,8 @@ class ShipmentController extends Controller
     public function __construct(
         protected OrderRepository $orderRepository,
         protected OrderItemRepository $orderItemRepository,
-        protected ShipmentRepository $shipmentRepository
+        protected ShipmentRepository $shipmentRepository,
+        protected PathaoOrderService $pathaoOrderService
     ) {}
 
     /**
@@ -81,9 +84,55 @@ class ShipmentController extends Controller
             return redirect()->back();
         }
 
-        $this->shipmentRepository->create(array_merge($data, [
+        $shipment = $this->shipmentRepository->create(array_merge($data, [
             'order_id' => $orderId,
         ]));
+
+        // Check if Pathao order should be created
+        $carrierCode = $data['shipment']['carrier_code'] ?? null;
+        $source = $data['shipment']['source'] ?? null;
+
+        // Log shipment courier update by admin
+        Log::info('Shipment courier updated by admin', [
+            'shipment_id' => $shipment->id,
+            'order_id' => $shipment->order_id,
+            'carrier_code' => $carrierCode,
+            'source' => $source
+        ]);
+
+        if ($carrierCode === 'pathao' && $source === 'default') {
+            // Log Pathao order creation initiation
+            Log::info('Pathao order creation initiated', [
+                'shipment_id' => $shipment->id,
+                'order_id' => $shipment->order_id,
+                'carrier_code' => $carrierCode,
+                'source' => $source
+            ]);
+
+            // Create Pathao order
+            $pathaoResult = $this->pathaoOrderService->createPathaoOrderFromShipment($shipment);
+
+            if (!$pathaoResult['success']) {
+                // Log Pathao order creation failure
+                Log::error('Pathao order creation failed', [
+                    'shipment_id' => $shipment->id,
+                    'order_id' => $shipment->order_id,
+                    'error' => $pathaoResult['message'] ?? 'Unknown error'
+                ]);
+
+                session()->flash('error', $pathaoResult['message'] ?? 'Failed to create Pathao order');
+
+                return redirect()->back();
+            }
+
+            // Log Pathao order creation success
+            Log::info('Pathao order created successfully', [
+                'shipment_id' => $shipment->id,
+                'order_id' => $shipment->order_id,
+                'pathao_consignment_id' => $pathaoResult['consignment_id'] ?? null,
+                'pathao_order_id' => $pathaoResult['pathao_order_id'] ?? null
+            ]);
+        }
 
         session()->flash('success', trans('admin::app.sales.shipments.create.success'));
 

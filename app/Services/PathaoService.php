@@ -252,15 +252,15 @@ class PathaoService
             $url = $this->getBaseUrl() . $endpoint;
 
             $response = Http::timeout(config('pathao.request.timeout', 30))
-                ->retry(
-                    config('pathao.request.retry_times', 3),
-                    config('pathao.request.retry_sleep', 1000)
-                )
-                ->withHeaders([
-                    'Authorization' => 'Bearer ' . $accessToken,
-                    'Accept' => 'application/json',
-                    'Content-Type' => 'application/json',
-                ])
+                        ->retry(
+                            config('pathao.request.retry_times', 3),
+                            config('pathao.request.retry_sleep', 1000)
+                        )
+                        ->withHeaders([
+                            'Authorization' => 'Bearer ' . $accessToken,
+                            'Accept' => 'application/json',
+                            'Content-Type' => 'application/json',
+                        ])
                 ->$method($url, $data);
 
             if (!$response->successful()) {
@@ -335,15 +335,15 @@ class PathaoService
             $url = $this->getBaseUrl() . $endpoint;
 
             $response = Http::timeout(config('pathao.request.timeout', 30))
-                ->retry(
-                    config('pathao.request.retry_times', 3),
-                    config('pathao.request.retry_sleep', 1000)
-                )
-                ->withHeaders([
-                    'Accept' => 'application/json',
-                    'Content-Type' => 'application/json',
-                    // NOTE: No Authorization header for public endpoints
-                ])
+                        ->retry(
+                            config('pathao.request.retry_times', 3),
+                            config('pathao.request.retry_sleep', 1000)
+                        )
+                        ->withHeaders([
+                            'Accept' => 'application/json',
+                            'Content-Type' => 'application/json',
+                            // NOTE: No Authorization header for public endpoints
+                        ])
                 ->$method($url, $data);
 
             if (!$response->successful()) {
@@ -724,7 +724,10 @@ class PathaoService
             // Check if Pathao API returned an error in the response data
             // Pathao API returns {"error":true,"success":true,"message":"Unauthorized!"}
             if (isset($trackingData['error']) && $trackingData['error'] === true) {
-                Log::error('Pathao API Returned Error', [
+                // Use INFO level for "Unauthorized!" responses (expected for Pending orders)
+                // Use ERROR level for other actual API errors
+                $logLevel = ($trackingData['message'] === 'Unauthorized!') ? 'info' : 'error';
+                Log::$logLevel('Pathao API Returned Error', [
                     'consignment_id' => $consignmentId,
                     'api_message' => $trackingData['message'] ?? 'Unknown API error',
                     'full_response' => $trackingData
@@ -856,6 +859,9 @@ class PathaoService
     /**
      * Get geo coordinates (latitude, longitude) for a specific location
      *
+     * Note: Pathao API does not provide geo coordinates for cities, zones, or areas.
+     * This function uses Nominatim (OpenStreetMap) Geocoding API to convert location names to coordinates.
+     *
      * @param int $cityId
      * @param int $zoneId
      * @param int $areaId
@@ -876,29 +882,84 @@ class PathaoService
             $zoneName = null;
             $areaName = null;
 
+            // Helper function to extract data from Pathao API response
+            $extractData = function ($result) {
+                if (!isset($result['data'])) {
+                    return null;
+                }
+
+                // Check for triple-nested data structure: $result['data']['data']['data']
+                if (isset($result['data']['data']['data']) && is_array($result['data']['data']['data'])) {
+                    Log::info('Extracting triple-nested data from Pathao API response', [
+                        'structure' => 'data.data.data',
+                        'count' => count($result['data']['data']['data'])
+                    ]);
+                    return $result['data']['data']['data'];
+                }
+
+                // Check for double-nested data structure: $result['data']['data']
+                if (isset($result['data']['data']) && is_array($result['data']['data'])) {
+                    Log::info('Extracting double-nested data from Pathao API response', [
+                        'structure' => 'data.data',
+                        'count' => count($result['data']['data'])
+                    ]);
+                    return $result['data']['data'];
+                }
+
+                // Check for single-nested data structure: $result['data']
+                if (is_array($result['data'])) {
+                    Log::info('Extracting single-nested data from Pathao API response', [
+                        'structure' => 'data',
+                        'count' => count($result['data'])
+                    ]);
+                    return $result['data'];
+                }
+
+                Log::warning('Unexpected data structure in Pathao API response', [
+                    'data_type' => gettype($result['data'])
+                ]);
+                return null;
+            };
+
             // Get city data
             if ($cityId > 0) {
                 $citiesResult = $this->getCities();
 
-                if ($citiesResult['success'] && isset($citiesResult['data']['data'])) {
-                    $cities = $citiesResult['data']['data'];
+                Log::info('Cities API Result', [
+                    'success' => $citiesResult['success'] ?? false,
+                    'has_data' => isset($citiesResult['data']),
+                    'data_structure' => isset($citiesResult['data']) ? gettype($citiesResult['data']) : null,
+                    'full_response' => $citiesResult
+                ]);
 
-                    // Find the city by ID
-                    foreach ($cities as $city) {
-                        if (isset($city['city_id']) && (int) $city['city_id'] === $cityId) {
-                            $cityName = $city['city_name'] ?? null;
+                if ($citiesResult['success']) {
+                    $cities = $extractData($citiesResult);
 
-                            // Check for geo coordinates in city data
-                            $latitude = $latitude ?? $city['latitude'] ?? $city['lat'] ?? null;
-                            $longitude = $longitude ?? $city['longitude'] ?? $city['lng'] ?? $city['long'] ?? null;
+                    if ($cities !== null) {
+                        Log::info('Searching for city', [
+                            'city_id' => $cityId,
+                            'total_cities' => count($cities),
+                            'sample_city' => $cities[0] ?? null
+                        ]);
 
-                            // Check for nested geo_location object
-                            if (isset($city['geo_location']) && is_array($city['geo_location'])) {
-                                $latitude = $latitude ?? $city['geo_location']['latitude'] ?? $city['geo_location']['lat'] ?? null;
-                                $longitude = $longitude ?? $city['geo_location']['longitude'] ?? $city['geo_location']['lng'] ?? $city['geo_location']['long'] ?? null;
+                        // Find the city by ID
+                        foreach ($cities as $city) {
+                            if (isset($city['city_id']) && (int) $city['city_id'] === $cityId) {
+                                $cityName = $city['city_name'] ?? null;
+                                Log::info('City found', [
+                                    'city_id' => $cityId,
+                                    'city_name' => $cityName,
+                                    'city_data' => $city
+                                ]);
+                                break;
                             }
+                        }
 
-                            break;
+                        if (!$cityName) {
+                            Log::warning('City not found', [
+                                'city_id' => $cityId,
+                                'available_ids' => array_column($cities, 'city_id')
+                            ]);
                         }
                     }
                 }
@@ -908,25 +969,41 @@ class PathaoService
             if ($zoneId > 0) {
                 $zonesResult = $this->getZones($cityId);
 
-                if ($zonesResult['success'] && isset($zonesResult['data']['data'])) {
-                    $zones = $zonesResult['data']['data'];
+                Log::info('Zones API Result', [
+                    'success' => $zonesResult['success'] ?? false,
+                    'has_data' => isset($zonesResult['data']),
+                    'data_structure' => isset($zonesResult['data']) ? gettype($zonesResult['data']) : null,
+                    'full_response' => $zonesResult
+                ]);
 
-                    // Find the zone by ID
-                    foreach ($zones as $zone) {
-                        if (isset($zone['zone_id']) && (int) $zone['zone_id'] === $zoneId) {
-                            $zoneName = $zone['zone_name'] ?? null;
+                if ($zonesResult['success']) {
+                    $zones = $extractData($zonesResult);
 
-                            // Check for geo coordinates in zone data (more specific than city)
-                            $latitude = $latitude ?? $zone['latitude'] ?? $zone['lat'] ?? null;
-                            $longitude = $longitude ?? $zone['longitude'] ?? $zone['lng'] ?? $zone['long'] ?? null;
+                    if ($zones !== null) {
+                        Log::info('Searching for zone', [
+                            'zone_id' => $zoneId,
+                            'total_zones' => count($zones),
+                            'sample_zone' => $zones[0] ?? null
+                        ]);
 
-                            // Check for nested geo_location object
-                            if (isset($zone['geo_location']) && is_array($zone['geo_location'])) {
-                                $latitude = $latitude ?? $zone['geo_location']['latitude'] ?? $zone['geo_location']['lat'] ?? null;
-                                $longitude = $longitude ?? $zone['geo_location']['longitude'] ?? $zone['geo_location']['lng'] ?? $zone['geo_location']['long'] ?? null;
+                        // Find the zone by ID
+                        foreach ($zones as $zone) {
+                            if (isset($zone['zone_id']) && (int) $zone['zone_id'] === $zoneId) {
+                                $zoneName = $zone['zone_name'] ?? null;
+                                Log::info('Zone found', [
+                                    'zone_id' => $zoneId,
+                                    'zone_name' => $zoneName,
+                                    'zone_data' => $zone
+                                ]);
+                                break;
                             }
+                        }
 
-                            break;
+                        if (!$zoneName) {
+                            Log::warning('Zone not found', [
+                                'zone_id' => $zoneId,
+                                'available_ids' => array_column($zones, 'zone_id')
+                            ]);
                         }
                     }
                 }
@@ -936,27 +1013,53 @@ class PathaoService
             if ($areaId > 0) {
                 $areasResult = $this->getAreas($zoneId);
 
-                if ($areasResult['success'] && isset($areasResult['data']['data'])) {
-                    $areas = $areasResult['data']['data'];
+                Log::info('Areas API Result', [
+                    'success' => $areasResult['success'] ?? false,
+                    'has_data' => isset($areasResult['data']),
+                    'data_structure' => isset($areasResult['data']) ? gettype($areasResult['data']) : null,
+                    'full_response' => $areasResult
+                ]);
 
-                    // Find the area by ID
-                    foreach ($areas as $area) {
-                        if (isset($area['area_id']) && (int) $area['area_id'] === $areaId) {
-                            $areaName = $area['area_name'] ?? null;
+                if ($areasResult['success']) {
+                    $areas = $extractData($areasResult);
 
-                            // Check for geo coordinates in area data (most specific)
-                            $latitude = $latitude ?? $area['latitude'] ?? $area['lat'] ?? null;
-                            $longitude = $longitude ?? $area['longitude'] ?? $area['lng'] ?? $area['long'] ?? null;
+                    if ($areas !== null) {
+                        Log::info('Searching for area', [
+                            'area_id' => $areaId,
+                            'total_areas' => count($areas),
+                            'sample_area' => $areas[0] ?? null
+                        ]);
 
-                            // Check for nested geo_location object
-                            if (isset($area['geo_location']) && is_array($area['geo_location'])) {
-                                $latitude = $latitude ?? $area['geo_location']['latitude'] ?? $area['geo_location']['lat'] ?? null;
-                                $longitude = $longitude ?? $area['geo_location']['longitude'] ?? $area['geo_location']['lng'] ?? $area['geo_location']['long'] ?? null;
+                        // Find the area by ID
+                        foreach ($areas as $area) {
+                            if (isset($area['area_id']) && (int) $area['area_id'] === $areaId) {
+                                $areaName = $area['area_name'] ?? null;
+                                Log::info('Area found', [
+                                    'area_id' => $areaId,
+                                    'area_name' => $areaName,
+                                    'area_data' => $area
+                                ]);
+                                break;
                             }
+                        }
 
-                            break;
+                        if (!$areaName) {
+                            Log::warning('Area not found', [
+                                'area_id' => $areaId,
+                                'available_ids' => array_column($areas, 'area_id')
+                            ]);
                         }
                     }
+                }
+            }
+
+            // Use Nominatim (OpenStreetMap) Geocoding API to get coordinates from location names
+            if ($cityName || $zoneName || $areaName) {
+                $coordinates = $this->getCoordinatesFromNominatim($cityName, $zoneName, $areaName);
+
+                if ($coordinates) {
+                    $latitude = $coordinates['lat'];
+                    $longitude = $coordinates['lng'];
                 }
             }
 
@@ -1003,6 +1106,99 @@ class PathaoService
                 'message' => 'Failed to get geo coordinates',
                 'error' => $e->getMessage()
             ];
+        }
+    }
+
+    /**
+     * Get coordinates from Nominatim (OpenStreetMap) Geocoding API
+     *
+     * Converts location names to latitude and longitude using Nominatim API.
+     * Nominatim is a free, open-source geocoding service powered by OpenStreetMap.
+     *
+     * @param string|null $cityName
+     * @param string|null $zoneName
+     * @param string|null $areaName
+     * @return array|null
+     */
+    private function getCoordinatesFromNominatim(?string $cityName, ?string $zoneName, ?string $areaName): ?array
+    {
+        try {
+            // Build address string from location components
+            // Format: "Dhaka, Banani, Road 01" (city, zone, area)
+            $addressParts = array_filter([$cityName, $zoneName, $areaName]);
+            $address = implode(', ', $addressParts);
+
+            if (empty($address)) {
+                return null;
+            }
+
+            Log::info('Requesting coordinates from Nominatim API', ['address' => $address]);
+
+            // Call Nominatim Geocoding API
+            // Endpoint: https://nominatim.openstreetmap.org/search
+            $url = 'https://nominatim.openstreetmap.org/search';
+            $response = Http::timeout(10)
+                ->withHeaders([
+                    'User-Agent' => 'Saffron-Backend/1.0', // Required by Nominatim usage policy
+                    'Accept' => 'application/json',
+                ])
+                ->get($url, [
+                    'q' => $address,
+                    'format' => 'json',
+                    'limit' => 1, // Get only the best match
+                ]);
+
+            if (!$response->successful()) {
+                Log::error('Nominatim Geocoding API Failed', [
+                    'address' => $address,
+                    'status' => $response->status(),
+                    'body' => $response->body()
+                ]);
+                return null;
+            }
+
+            $data = $response->json();
+
+            // Check if results are available
+            if (empty($data) || !is_array($data)) {
+                Log::warning('Nominatim Geocoding API returned no results', [
+                    'address' => $address,
+                    'response' => $data
+                ]);
+                return null;
+            }
+
+            // Extract coordinates from first result
+            // Nominatim returns an array with lat and lon fields
+            $result = $data[0];
+
+            if (!isset($result['lat']) || !isset($result['lon'])) {
+                Log::warning('Nominatim response missing coordinates', [
+                    'address' => $address,
+                    'result' => $result
+                ]);
+                return null;
+            }
+
+            Log::info('Nominatim coordinates retrieved successfully', [
+                'address' => $address,
+                'lat' => $result['lat'],
+                'lon' => $result['lon']
+            ]);
+
+            // Return with lat and lng keys for compatibility
+            return [
+                'lat' => (float) $result['lat'],
+                'lng' => (float) $result['lon'],
+            ];
+
+        } catch (Exception $e) {
+            Log::error('Nominatim Geocoding API Exception', [
+                'address' => $address,
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            return null;
         }
     }
 

@@ -20,8 +20,11 @@ class SslCommerzGateway implements GatewayInterface
             }
 
             // Get credentials with fallback for testing
-            $store_id = core()->getConfigData('payment_methods.online_payment.ssl_store_id') ?: 'instasurexyz0live';
-            $store_passwd = core()->getConfigData('payment_methods.online_payment.ssl_password') ?: '6757F60C7BBA395329';
+            $store_id = core()->getConfigData('payment_methods.online_payment.ssl_store_id') ?: 'smart69242e0bed489';
+            $store_passwd = core()->getConfigData('payment_methods.online_payment.ssl_password') ?: 'smart69242e0bed489@ssl';
+            // those instasure:
+            // $store_id = core()->getConfigData('payment_methods.online_payment.ssl_store_id') ?: 'instasurexyz0live';
+            // $store_passwd = core()->getConfigData('payment_methods.online_payment.ssl_password') ?: '6757F60C7BBA395329';
 
             $success_url = route('online.payment.success');
             $fail_url = route('online.payment.fail');

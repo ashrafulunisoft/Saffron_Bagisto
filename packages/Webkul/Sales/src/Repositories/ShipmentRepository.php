@@ -47,12 +47,18 @@ class ShipmentRepository extends Repository
 
             $order = $this->orderRepository->find($data['order_id']);
 
+            $carrierCode = $data['shipment']['carrier_code'] ?? null;
+
             $shipment = $this->model->create([
                 'order_id'            => $order->id,
                 'total_qty'           => 0,
                 'total_weight'        => 0,
-                'carrier_code'        => $data['shipment']['carrier_code'] ?? null,
-                'carrier_title'       => $data['shipment']['carrier_title'],
+                'carrier_code'        => $carrierCode,
+                'carrier_title'       => $data['shipment']['carrier_title'] ?? match($carrierCode) {
+                    'pathao' => 'Pathao',
+                    'manual' => 'Manual',
+                    default => null,
+                },
                 'track_number'        => $data['shipment']['track_number'],
                 'customer_id'         => $order->customer_id,
                 'customer_type'       => $order->customer_type,

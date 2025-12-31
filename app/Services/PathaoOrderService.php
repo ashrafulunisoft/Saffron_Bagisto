@@ -67,6 +67,12 @@ class PathaoOrderService
             // Create order via Pathao API
             $apiResponse = $this->pathaoService->createOrder($pathaoOrderData);
 
+            Log::info('Pathao order created via API', [
+                'order_id' => $order->id,
+                'shipment_id' => $shipment->id,
+                'api_response' => $apiResponse
+            ]);
+
             if (!$apiResponse['success']) {
                 Log::error('Failed to create Pathao order', [
                     'order_id' => $order->id,
@@ -112,6 +118,12 @@ class PathaoOrderService
                 'tracking_data' => $pathaoData,
             ]);
 
+            Log::info('Pathao order table updated', [
+                'pathao_order_id' => $pathaoOrder->id,
+                'consignment_id' => $pathaoOrder->consignment_id,
+                'order_id' => $order->id
+            ]);
+
             // Update order with Pathao tracking info
             $order->update([
                 'pathao_consignment_id' => $consignmentId,
@@ -121,6 +133,11 @@ class PathaoOrderService
             // Update shipment with consignment ID
             $shipment->update([
                 'track_number' => $consignmentId,
+            ]);
+
+            Log::info('Shipment tracking number updated', [
+                'shipment_id' => $shipment->id,
+                'tracking_number' => $consignmentId
             ]);
 
             Log::info('Pathao Order Created Successfully', [

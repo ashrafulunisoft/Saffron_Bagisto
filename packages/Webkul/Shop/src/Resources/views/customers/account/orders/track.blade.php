@@ -87,16 +87,33 @@
 
             <!-- Map Container -->
             <div class="mb-6 overflow-hidden rounded-lg border border-zinc-200">
-                <div class="flex items-center justify-between border-b border-zinc-200 bg-zinc-50 px-6 py-4">
-                    <h3 class="text-base font-semibold text-zinc-900">
-                        @lang('shop::app.customers.account.orders.track.live-location')
-                    </h3>
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-zinc-200 bg-zinc-50 px-6 py-4">
                     <div class="flex items-center gap-2">
-                        <span class="relative flex h-3 w-3">
-                            <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75"></span>
-                            <span class="relative inline-flex h-3 w-3 rounded-full bg-green-500"></span>
-                        </span>
-                        <span class="text-sm font-medium text-green-700">@lang('shop::app.customers.account.orders.track.live')</span>
+                        <h3 class="text-base font-semibold text-zinc-900">
+                            @lang('shop::app.customers.account.orders.track.live-location')
+                        </h3>
+                        <div class="flex items-center gap-2">
+                            <span class="relative flex h-3 w-3">
+                                <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75"></span>
+                                <span class="relative inline-flex h-3 w-3 rounded-full bg-green-500"></span>
+                            </span>
+                            <span class="text-sm font-medium text-green-700">@lang('shop::app.customers.account.orders.track.live')</span>
+                        </div>
+                    </div>
+                    <!-- Map Legend -->
+                    <div class="flex flex-wrap items-center gap-4 text-xs">
+                        <div class="flex items-center gap-2">
+                            <div class="h-4 w-4 rounded-full bg-green-600 border-2 border-white shadow-sm"></div>
+                            <span class="text-zinc-600">Delivery Location</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="h-4 w-4 rounded-full bg-blue-600 border-2 border-white shadow-sm"></div>
+                            <span class="text-zinc-600">Live Product Location</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="h-4 w-4 rounded-full bg-red-600 border-2 border-white shadow-sm"></div>
+                            <span class="text-zinc-600">Destination Address</span>
+                        </div>
                     </div>
                 </div>
                 <div id="tracking-map" class="h-[400px] w-full bg-zinc-100"></div>
@@ -107,16 +124,56 @@
                 <h3 class="mb-4 text-base font-semibold text-zinc-900">
                     @lang('shop::app.customers.account.orders.track.current-location')
                 </h3>
-                <div class="grid gap-4 md:grid-cols-2">
-                    <div>
-                        <p class="text-sm text-zinc-500">@lang('shop::app.customers.account.orders.track.address')</p>
-                        <p id="current-address" class="mt-1 text-sm font-medium text-zinc-900">--</p>
+
+                @if($liveGeoLocation)
+                    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                        <div>
+                            <p class="text-sm text-zinc-500">City</p>
+                            <p class="mt-1 text-sm font-medium text-zinc-900">{{ $liveGeoLocation['city_name'] ?? 'N/A' }}</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-zinc-500">Zone</p>
+                            <p class="mt-1 text-sm font-medium text-zinc-900">{{ $liveGeoLocation['zone_name'] ?? 'N/A' }}</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-zinc-500">Area</p>
+                            <p class="mt-1 text-sm font-medium text-zinc-900">{{ $liveGeoLocation['area_name'] ?? 'N/A' }}</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-zinc-500">Latitude</p>
+                            <p class="mt-1 text-sm font-medium text-zinc-900">
+                                {{ $liveGeoLocation['latitude'] ? number_format($liveGeoLocation['latitude'], 6) : 'N/A' }}
+                            </p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-zinc-500">Longitude</p>
+                            <p class="mt-1 text-sm font-medium text-zinc-900">
+                                {{ $liveGeoLocation['longitude'] ? number_format($liveGeoLocation['longitude'], 6) : 'N/A' }}
+                            </p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-zinc-500">Full Address</p>
+                            <p class="mt-1 text-sm font-medium text-zinc-900">
+                                @if($liveGeoLocation['city_name'] || $liveGeoLocation['zone_name'] || $liveGeoLocation['area_name'])
+                                    {{ implode(', ', array_filter([$liveGeoLocation['city_name'], $liveGeoLocation['zone_name'], $liveGeoLocation['area_name']])) }}
+                                @else
+                                    N/A
+                                @endif
+                            </p>
+                        </div>
                     </div>
-                    <div>
-                        <p class="text-sm text-zinc-500">@lang('shop::app.customers.account.orders.track.coordinates')</p>
-                        <p id="coordinates" class="mt-1 text-sm font-medium text-zinc-900">--</p>
+                @else
+                    <div class="grid gap-4 md:grid-cols-2">
+                        <div>
+                            <p class="text-sm text-zinc-500">@lang('shop::app.customers.account.orders.track.address')</p>
+                            <p id="current-address" class="mt-1 text-sm font-medium text-zinc-900">--</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-zinc-500">@lang('shop::app.customers.account.orders.track.coordinates')</p>
+                            <p id="coordinates" class="mt-1 text-sm font-medium text-zinc-900">--</p>
+                        </div>
                     </div>
-                </div>
+                @endif
             </div>
 
             <!-- Tracking Timeline -->
@@ -168,6 +225,11 @@
         @php
             $consignmentId = $order->pathao_consignment_id ?? null;
             $trackingApiUrl = $consignmentId ? route('api.pathao.orders.track', $consignmentId) : null;
+            $geoLat = $liveGeoLocation['latitude'] ?? 23.8103;
+            $geoLng = $liveGeoLocation['longitude'] ?? 90.4125;
+            $geoCity = $liveGeoLocation['city_name'] ?? '';
+            $geoZone = $liveGeoLocation['zone_name'] ?? '';
+            $geoArea = $liveGeoLocation['area_name'] ?? '';
         @endphp
 
         // Configuration
@@ -175,29 +237,37 @@
             consignmentId: '{{ $consignmentId }}',
             trackingApiUrl: '{{ $trackingApiUrl }}',
             refreshInterval: 45000, // 45 seconds
-            defaultLat: 23.8103,
-            defaultLng: 90.4125,
-            defaultZoom: 13
+            defaultLat: {{ $geoLat }},
+            defaultLng: {{ $geoLng }},
+            defaultZoom: 13,
+            geoLocation: {
+                city: '{{ $geoCity }}',
+                zone: '{{ $geoZone }}',
+                area: '{{ $geoArea }}'
+            }
         };
 
         // State
         let map = null;
-        let currentMarker = null;
-        let destinationMarker = null;
+        let deliveryLocationMarker = null; // Static delivery location (green)
+        let liveLocationMarker = null; // Live product location (blue)
+        let destinationMarker = null; // Destination address (red)
         let routePolyline = null;
         let refreshInterval = null;
         let lastTrackingData = null;
 
         // Initialize tracking page
         document.addEventListener('DOMContentLoaded', function() {
-            if (!CONFIG.consignmentId || !CONFIG.trackingApiUrl) {
-                showError('No consignment ID available for this order');
-                return;
-            }
-
             initMap();
-            fetchTrackingData();
-            startAutoRefresh();
+
+            // Always fetch tracking data if we have a consignment ID
+            // We'll show both static delivery location and live tracking when available
+            if (CONFIG.consignmentId && CONFIG.trackingApiUrl) {
+                fetchTrackingData();
+                startAutoRefresh();
+            } else if (!CONFIG.consignmentId || !CONFIG.trackingApiUrl) {
+                showError('No consignment ID available for this order');
+            }
 
             // Retry button handler
             document.getElementById('retry-button').addEventListener('click', function() {
@@ -231,6 +301,30 @@
                 destinationMarker = L.marker([destinationLat, destinationLng], { icon: destinationIcon })
                     .addTo(map)
                     .bindPopup('<strong>Delivery Address</strong><br>{{ $order->shipping_address->address ?? "Destination" }}');
+            @endif
+
+            // If live geolocation data is available from PathaoService, add static marker for delivery location (green)
+            // This is the live product location based on city/zone/area from the order
+            @if($liveGeoLocation && $liveGeoLocation['latitude'] && $liveGeoLocation['longitude'])
+                const liveGeoLat = {{ $liveGeoLocation['latitude'] }};
+                const liveGeoLng = {{ $liveGeoLocation['longitude'] }};
+                const liveGeoAddress = '{{ implode(', ', array_filter([$liveGeoLocation['city_name'], $liveGeoLocation['zone_name'], $liveGeoLocation['area_name']])) }}';
+
+                const liveGeoIcon = L.divIcon({
+                    className: 'custom-div-icon',
+                    html: `<div style="background-color: #16a34a; width: 32px; height: 32px; border-radius: 50%; border: 4px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.3); position: relative;">
+                        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 12px; height: 12px; background: white; border-radius: 50%;"></div>
+                    </div>`,
+                    iconSize: [32, 32],
+                    iconAnchor: [16, 16]
+                });
+
+                deliveryLocationMarker = L.marker([liveGeoLat, liveGeoLng], { icon: liveGeoIcon })
+                    .addTo(map)
+                    .bindPopup('<strong>Live Product Location</strong><br>' + liveGeoAddress);
+
+                // Fit map to show all markers
+                fitMapToShowAllMarkers();
             @endif
         }
 
@@ -379,49 +473,43 @@
                 address = data.current_address || data.address;
             }
 
-            if (!latitude || !longitude) {
-                return;
-            }
+            // Only update live location marker if we have valid coordinates
+            if (latitude && longitude) {
+                const liveLat = latitude;
+                const liveLng = longitude;
 
-            const currentLat = latitude;
-            const currentLng = longitude;
+                // Create custom icon for live product location (blue/purple)
+                const liveIcon = L.divIcon({
+                    className: 'custom-div-icon',
+                    html: `<div style="background-color: #2563eb; width: 32px; height: 32px; border-radius: 50%; border: 4px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.3); position: relative;">
+                        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 12px; height: 12px; background: white; border-radius: 50%;"></div>
+                    </div>`,
+                    iconSize: [32, 32],
+                    iconAnchor: [16, 16]
+                });
 
-            // Create custom icon for current location
-            const currentIcon = L.divIcon({
-                className: 'custom-div-icon',
-                html: `<div style="background-color: #16a34a; width: 32px; height: 32px; border-radius: 50%; border: 4px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.3); position: relative;">
-                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 12px; height: 12px; background: white; border-radius: 50%;"></div>
-                </div>`,
-                iconSize: [32, 32],
-                iconAnchor: [16, 16]
-            });
+                // Remove existing live location marker
+                if (liveLocationMarker) {
+                    map.removeLayer(liveLocationMarker);
+                }
 
-            // Remove existing current marker
-            if (currentMarker) {
-                map.removeLayer(currentMarker);
-            }
+                // Add new live location marker
+                liveLocationMarker = L.marker([liveLat, liveLng], { icon: liveIcon })
+                    .addTo(map)
+                    .bindPopup('<strong>Live Product Location</strong><br>' + (address || 'Location updated'));
 
-            // Add new current marker
-            currentMarker = L.marker([currentLat, currentLng], { icon: currentIcon })
-                .addTo(map)
-                .bindPopup('<strong>Current Location</strong><br>' + (address || 'Location updated'));
+                // Draw route from live location to destination
+                if (destinationMarker) {
+                    drawRoute(liveLat, liveLng);
+                }
 
-            // Draw route if destination marker exists
-            if (destinationMarker) {
-                drawRoute(currentLat, currentLng);
-            }
-
-            // Fit map to show both markers
-            if (destinationMarker) {
-                const group = L.featureGroup([currentMarker, destinationMarker]);
-                map.fitBounds(group.getBounds().pad(0.1));
-            } else {
-                map.setView([currentLat, currentLng], 15);
+                // Fit map to show all markers
+                fitMapToShowAllMarkers();
             }
         }
 
-        // Draw route between current and destination
-        function drawRoute(currentLat, currentLng) {
+        // Draw route between live location and destination
+        function drawRoute(liveLat, liveLng) {
             const destLatLng = destinationMarker.getLatLng();
 
             // Remove existing route
@@ -429,16 +517,39 @@
                 map.removeLayer(routePolyline);
             }
 
-            // Draw simple straight line route
+            // Draw simple straight line route (blue color for live tracking)
             routePolyline = L.polyline([
-                [currentLat, currentLng],
+                [liveLat, liveLng],
                 [destLatLng.lat, destLatLng.lng]
             ], {
-                color: '#16a34a',
+                color: '#2563eb',
                 weight: 4,
                 opacity: 0.6,
                 dashArray: '10, 10'
             }).addTo(map);
+        }
+
+        // Fit map to show all markers
+        function fitMapToShowAllMarkers() {
+            const markers = [];
+
+            if (deliveryLocationMarker) {
+                markers.push(deliveryLocationMarker);
+            }
+            if (liveLocationMarker) {
+                markers.push(liveLocationMarker);
+            }
+            if (destinationMarker) {
+                markers.push(destinationMarker);
+            }
+
+            if (markers.length > 1) {
+                const group = L.featureGroup(markers);
+                map.fitBounds(group.getBounds().pad(0.1));
+            } else if (markers.length === 1) {
+                const marker = markers[0];
+                map.setView(marker.getLatLng(), 15);
+            }
         }
 
         // Update tracking timeline
@@ -532,8 +643,11 @@
 
         // Show loading state
         function showLoading() {
-            document.getElementById('tracking-loading').classList.remove('hidden');
-            document.getElementById('tracking-content').classList.add('hidden');
+            // Show loading if we're fetching tracking data
+            if (CONFIG.consignmentId && CONFIG.trackingApiUrl) {
+                document.getElementById('tracking-loading').classList.remove('hidden');
+                document.getElementById('tracking-content').classList.add('hidden');
+            }
         }
 
         // Hide loading state

@@ -2,6 +2,7 @@
 
 namespace Webkul\Shop\Http\Controllers\Customer\Account;
 
+use App\Services\PathaoService;
 use Webkul\Checkout\Facades\Cart;
 use Webkul\Core\Traits\PDFHandler;
 use Webkul\Sales\Repositories\InvoiceRepository;
@@ -20,7 +21,8 @@ class OrderController extends Controller
      */
     public function __construct(
         protected OrderRepository $orderRepository,
-        protected InvoiceRepository $invoiceRepository
+        protected InvoiceRepository $invoiceRepository,
+        protected PathaoService $pathaoService
     ) {}
 
     /**
@@ -110,7 +112,102 @@ class OrderController extends Controller
 
         abort_if(! $order, 404);
 
-        return view('shop::customers.account.orders.track', compact('order'));
+        // Initialize live geolocation data
+        $liveGeoLocation = null;
+
+        // Check if order has Pathao tracking enabled and has a shipping address
+        if ($order->pathao_tracking_enabled && $order->shipping_address) {
+            // Extract location names from shipping address
+            $cityName = $order->shipping_address->city ?? null;
+            $zoneName = $order->shipping_address->state ?? null;
+            $areaName = null; // Area is typically not in standard address
+
+            // dd ($cityName, $zoneName, $areaName);
+
+            // Try to get geolocation data using location names
+            if ($cityName || $zoneName) {
+                // Build address string for geocoding
+                $addressParts = array_filter([$cityName, $zoneName]);
+                $address = implode(', ', $addressParts);
+
+                // Get coordinates using Nominatim (OpenStreetMap) directly
+                $coordinates = $this->getCoordinatesFromAddress($address);
+
+                if ($coordinates) {
+                    $liveGeoLocation = [
+                        'latitude' => $coordinates['lat'],
+                        'longitude' => $coordinates['lng'],
+                        'city_name' => $cityName,
+                        'zone_name' => $zoneName,
+                        'area_name' => $areaName,
+                        'address' => $address,
+                    ];
+                }
+            }
+        }
+
+        // dd($order, $liveGeoLocation);
+
+        return view('shop::customers.account.orders.track', compact('order', 'liveGeoLocation'));
+    }
+
+    /**
+     * Get coordinates from address using Nominatim (OpenStreetMap) Geocoding API
+     *
+     * @param string $address
+     * @return array|null
+     */
+    private function getCoordinatesFromAddress(string $address): ?array
+    {
+        try {
+            if (empty($address)) {
+                return null;
+            }
+
+            $url = 'https://nominatim.openstreetmap.org/search';
+            $response = \Illuminate\Support\Facades\Http::timeout(10)
+                ->withHeaders([
+                    'User-Agent' => 'Saffron-Backend/1.0',
+                    'Accept' => 'application/json',
+                ])
+                ->get($url, [
+                    'q' => $address,
+                    'format' => 'json',
+                    'limit' => 1,
+                ]);
+
+            if (!$response->successful()) {
+                \Illuminate\Support\Facades\Log::error('Nominatim Geocoding API Failed', [
+                    'address' => $address,
+                    'status' => $response->status(),
+                ]);
+                return null;
+            }
+
+            $data = $response->json();
+
+            if (empty($data) || !is_array($data)) {
+                return null;
+            }
+
+            $result = $data[0];
+
+            if (!isset($result['lat']) || !isset($result['lon'])) {
+                return null;
+            }
+
+            return [
+                'lat' => (float) $result['lat'],
+                'lng' => (float) $result['lon'],
+            ];
+
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error('Nominatim Geocoding Exception', [
+                'address' => $address,
+                'message' => $e->getMessage(),
+            ]);
+            return null;
+        }
     }
 
     /**
