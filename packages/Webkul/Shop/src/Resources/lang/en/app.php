@@ -301,6 +301,28 @@ return [
                     ],
                 ],
 
+                'track' => [
+                    'page-title'         => 'Track Order #:order_id',
+                    'order-info'         => 'Order Information',
+                    'consignment-id'     => 'Consignment ID',
+                    'status-loading'     => 'Loading...',
+                    'last-updated'       => 'Last Updated',
+                    'live-location'      => 'Live Location',
+                    'live'               => 'LIVE',
+                    'current-location'   => 'Current Location',
+                    'address'            => 'Address',
+                    'coordinates'        => 'Coordinates',
+                    'tracking-history'   => 'Tracking History',
+                    'loading'            => 'Loading tracking information...',
+                    'loading-history'    => 'Loading tracking history...',
+                    'no-history'         => 'No tracking history available',
+                    'error-title'        => 'Unable to Load Tracking',
+                    'error-message'      => 'We could not load the tracking information. Please try again later.',
+                    'retry'              => 'Retry',
+                    'auto-refresh'       => 'Auto-Refresh Enabled',
+                    'auto-refresh-info'  => 'Location updates automatically every 45 seconds',
+                ],
+
                 'invoice-pdf' => [
                     'bank-details'               => 'Bank Details',
                     'bill-to'                    => 'Bill to',

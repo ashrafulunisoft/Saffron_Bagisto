@@ -59,21 +59,32 @@
                     <x-slot:content class="!p-0">
                         <div class="grid p-4 pt-2">
                             <div class="grid grid-cols-2 gap-x-5">
-                                <!-- Carrier Name -->
+                                <!-- Carrier Selection -->
                                 <x-admin::form.control-group>
                                     <x-admin::form.control-group.label>
-                                        @lang('admin::app.sales.shipments.create.carrier-name')
+                                        @lang('admin::app.sales.shipments.create.carrier')
                                     </x-admin::form.control-group.label>
 
                                     <x-admin::form.control-group.control
-                                        type="text"
-                                        id="shipment[carrier_title]"
-                                        name="shipment[carrier_title]"
-                                        :label="trans('admin::app.sales.shipments.create.carrier-name')"
-                                        :placeholder="trans('admin::app.sales.shipments.create.carrier-name')"
-                                    />
+                                        type="select"
+                                        id="shipment[carrier_code]"
+                                        name="shipment[carrier_code]"
+                                        :label="trans('admin::app.sales.shipments.create.carrier')"
+                                        :placeholder="trans('admin::app.sales.shipments.create.select-carrier')"
+                                        @change="onCarrierChange"
+                                    >
+                                        <option value="">
+                                            @lang('admin::app.sales.shipments.create.select-carrier')
+                                        </option>
+                                        <option value="pathao">
+                                            Pathao
+                                        </option>
+                                        <option value="manual">
+                                            @lang('admin::app.sales.shipments.create.manual')
+                                        </option>
+                                    </x-admin::form.control-group.control>
 
-                                    <x-admin::form.control-group.error control-name="carrier_name" />
+                                    <x-admin::form.control-group.error control-name="shipment[carrier_code]" />
                                 </x-admin::form.control-group>
 
                                 <!-- Tracking Number -->
@@ -273,12 +284,17 @@
         data() {
             return {
                 source: "",
+                carrierCode: "",
             };
         },
 
         methods: {
             onSourceChange() {
                 this.setOriginalQuantityToAllShipmentInputElements();
+            },
+
+            onCarrierChange(event) {
+                this.carrierCode = event.target.value;
             },
 
             getAllShipmentInputElements() {

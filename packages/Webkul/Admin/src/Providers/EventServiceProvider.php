@@ -2,6 +2,7 @@
 
 namespace Webkul\Admin\Providers;
 
+use App\Listeners\PathaoOrderListener;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Webkul\Admin\Listeners\Admin;
 use Webkul\Admin\Listeners\Customer;
@@ -49,6 +50,7 @@ class EventServiceProvider extends ServiceProvider
 
         'sales.shipment.save.after' => [
             [Shipment::class, 'afterCreated'],
+            [PathaoOrderListener::class, 'afterShipmentCreated'],
         ],
 
         'sales.refund.save.after' => [

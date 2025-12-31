@@ -24,7 +24,7 @@ class OrderController extends Controller
     ) {}
 
     /**
-     * Display a listing of the resource.
+     * Display a listing of resource.
      *
      * @return \Illuminate\View\View
      */
@@ -38,7 +38,7 @@ class OrderController extends Controller
     }
 
     /**
-     * Show the view for the specified resource.
+     * Show view for specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\View\View
@@ -56,7 +56,7 @@ class OrderController extends Controller
     }
 
     /**
-     * Reorder action for the specified resource.
+     * Reorder action for specified resource.
      *
      * @return \Illuminate\Http\Response
      */
@@ -76,7 +76,7 @@ class OrderController extends Controller
     }
 
     /**
-     * Print and download the for the specified resource.
+     * Print and download for specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -96,7 +96,25 @@ class OrderController extends Controller
     }
 
     /**
-     * Cancel action for the specified resource.
+     * Track order with live location.
+     *
+     * @param  int  $id
+     * @return \Illuminate\View\View
+     */
+    public function track($id)
+    {
+        $order = $this->orderRepository->findOneWhere([
+            'customer_id' => auth()->guard('customer')->id(),
+            'id'          => $id,
+        ]);
+
+        abort_if(! $order, 404);
+
+        return view('shop::customers.account.orders.track', compact('order'));
+    }
+
+    /**
+     * Cancel action for specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response

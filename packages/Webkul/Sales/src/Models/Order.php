@@ -433,4 +433,95 @@ class Order extends Model implements OrderContract
     {
         return $this->hasMany(\App\Models\DeliveryBooking::class);
     }
+
+    /**
+     * Get Pathao order tracking for this order.
+     */
+    public function pathaoOrder()
+    {
+        return $this->hasOne(\App\Models\PathaoOrder::class, 'order_id');
+    }
+
+    /**
+     * Check if this order has Pathao tracking enabled.
+     *
+     * @return bool
+     */
+    public function hasPathaoTracking(): bool
+    {
+        return (bool) $this->pathao_tracking_enabled;
+    }
+
+    /**
+     * Check if this order has a Pathao consignment.
+     *
+     * @return bool
+     */
+    public function hasPathaoConsignment(): bool
+    {
+        return !empty($this->pathao_consignment_id);
+    }
+
+    /**
+     * Check if this order should create a Pathao order.
+     *
+     * @return bool
+     */
+    public function shouldCreatePathaoOrder(): bool
+    {
+        // Check if order already has Pathao tracking
+        if ($this->hasPathaoConsignment()) {
+            return false;
+        }
+
+        // Check if order has shipping address
+        if (!$this->shipping_address) {
+            return false;
+        }
+
+        // Check if order has required fields
+        if (empty($this->shipping_address->phone) || empty($this->shipping_address->address1)) {
+            return false;
+        }
+
+        // Check if order has items
+        if ($this->items->isEmpty()) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Create Pathao order for this order.
+     *
+     * @return array
+     */
+    public function createPathaoOrder(): array
+    {
+        $service = new \App\Services\PathaoOrderService();
+
+        // Find the first shipment for this order
+        $shipment = $this->shipments()->first();
+
+        if (!$shipment) {
+            return [
+                'success' => false,
+                'message' => 'No shipment found for this order',
+            ];
+        }
+
+        return $service->createPathaoOrderFromShipment($shipment);
+    }
+
+    /**
+     * Update Pathao tracking for this order.
+     *
+     * @return array
+     */
+    public function updatePathaoTracking(): array
+    {
+        $service = new \App\Services\PathaoOrderService();
+        return $service->updatePathaoTracking($this);
+    }
 }

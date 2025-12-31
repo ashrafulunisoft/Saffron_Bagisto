@@ -152,6 +152,8 @@ Route::prefix('customer')->group(function () {
 
                 Route::get('view/{id}', 'view')->name('shop.customers.account.orders.view');
 
+                Route::get('track/{id}', 'track')->name('shop.customers.account.orders.track');
+
                 Route::get('reorder/{id}', 'reorder')->name('shop.customers.account.orders.reorder');
 
                 Route::post('cancel/{id}', 'cancel')->name('shop.customers.account.orders.cancel');

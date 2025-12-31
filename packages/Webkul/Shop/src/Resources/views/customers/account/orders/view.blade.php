@@ -49,6 +49,15 @@
                     </a>
                 @endif
 
+                @if ($order->pathao_consignment_id)
+                    <a
+                        href="{{ route('shop.customers.account.orders.track', $order->id) }}"
+                        class="secondary-button border-green-200 px-5 py-3 font-normal max-md:hidden text-green-700 hover:bg-green-50"
+                    >
+                        @lang('Track Order')
+                    </a>
+                @endif
+
                 {!! view_render_event('bagisto.shop.customers.account.orders.reorder_button.after', ['order' => $order]) !!}
 
                 {!! view_render_event('bagisto.shop.customers.account.orders.cancel_button.before', ['order' => $order]) !!}

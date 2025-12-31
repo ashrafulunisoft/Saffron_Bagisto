@@ -55,6 +55,11 @@ Breadcrumbs::for('orders.view', function (BreadcrumbTrail $trail, $entity) {
     $trail->push(trans('shop::app.customers.account.orders.view.title'), route('shop.customers.account.orders.view', $entity->id));
 });
 
+Breadcrumbs::for('orders.track', function (BreadcrumbTrail $trail, $id) {
+    $trail->parent('orders');
+    $trail->push(trans('shop::app.customers.account.orders.track.title'), route('shop.customers.account.orders.track', $id));
+});
+
 // Home > My Account > Downloadable Products
 Breadcrumbs::for('downloadable-products', function (BreadcrumbTrail $trail) {
     $trail->parent('account');
