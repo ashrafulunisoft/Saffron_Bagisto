@@ -474,34 +474,10 @@
             z-index: 1;
         }
 
-        /* Timeline styles */
-        #tracking-timeline {
-            max-height: 500px;
-            overflow-y: auto;
-        }
-
-        #tracking-timeline::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        #tracking-timeline::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 3px;
-        }
-
-        #tracking-timeline::-webkit-scrollbar-thumb {
-            background: #d4d4d4;
-            border-radius: 3px;
-        }
-
-        #tracking-timeline::-webkit-scrollbar-thumb:hover {
-            background: #a3a3a3;
-        }
-
         /* Responsive adjustments */
         @media (max-width: 768px) {
             #tracking-map {
-                history: 300px;
+                height: 300px;
             }
         }
     </style>
