@@ -6,11 +6,18 @@
 
     <!-- Breadcrumbs -->
     @section('breadcrumbs')
-        <x-shop::breadcrumbs
-            name="orders.track"
-            :entity="$order"
-        />
+        <x-shop::breadcrumbs name="orders.track" :entity="$order" />
     @endSection
+
+    <!-- Leaflet CSS -->
+    <x-slot:styles>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    </x-slot>
+
+    <!-- Leaflet JS -->
+    <x-slot:scripts>
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    </x-slot>
 
     <div class="max-md:hidden">
         <x-shop::layouts.account.navigation />
@@ -21,14 +28,12 @@
         <div class="flex items-center justify-between">
             <div class="max-md:flex max-md:items-center">
                 <!-- Back Button For mobile view -->
-                <a
-                    class="grid md:hidden"
-                    href="{{ route('shop.customers.account.orders.view', $order->id) }}"
-                >
+                <a class="grid md:hidden" href="{{ route('shop.customers.account.orders.view', $order->id) }}">
                     <span class="icon-arrow-left rtl:icon-arrow-right text-2xl"></span>
                 </a>
 
-                <h2 class="text-2xl font-medium max-md:text-xl max-sm:text-base ltr:ml-2.5 md:ltr:ml-0 rtl:mr-2.5 md:rtl:mr-0">
+                <h2
+                    class="text-2xl font-medium max-md:text-xl max-sm:text-base ltr:ml-2.5 md:ltr:ml-0 rtl:mr-2.5 md:rtl:mr-0">
                     @lang('shop::app.customers.account.orders.track.page-title', ['order_id' => $order->increment_id])
                 </h2>
             </div>
@@ -46,14 +51,15 @@
                         <p class="mt-1 text-sm text-zinc-500">
                             Order ID: <span class="font-medium text-zinc-900">{{ $order->increment_id }}</span>
                         </p>
-                        @if($order->pathao_consignment_id)
+                        @if ($order->pathao_consignment_id)
                             <p class="mt-1 text-sm text-zinc-500">
-                                Consignment ID: <span class="font-medium text-zinc-900">{{ $order->pathao_consignment_id }}</span>
+                                Consignment ID: <span
+                                    class="font-medium text-zinc-900">{{ $order->pathao_consignment_id }}</span>
                             </p>
                         @endif
                     </div>
                     <div class="flex items-center gap-3">
-                        @if($courier_status)
+                        @if ($courier_status)
                             @php
                                 $statusColors = [
                                     'Pending' => 'bg-yellow-100 text-yellow-900',
@@ -83,7 +89,7 @@
                 <h3 class="mb-4 text-base font-semibold text-zinc-900">
                     Delivery Address
                 </h3>
-                @if($order->shipping_address)
+                @if ($order->shipping_address)
                     <div class="grid gap-4 md:grid-cols-2">
                         <div>
                             <p class="text-sm text-zinc-500">Full Name</p>
@@ -101,21 +107,20 @@
                             <p class="text-sm text-zinc-500">Address</p>
                             <p class="mt-1 text-sm font-medium text-zinc-900">
                                 {{ $order->shipping_address->address ?? 'N/A' }}
-                                @if($order->shipping_address->city || $order->shipping_address->state || $order->shipping_address->country)
+                                @if ($order->shipping_address->city || $order->shipping_address->state || $order->shipping_address->country)
                                     <br>
-                                    {{ implode(', ', array_filter([
-                                        $order->shipping_address->city,
-                                        $order->shipping_address->state,
-                                        $order->shipping_address->country
-                                    ])) }}
+                                    {{ implode(
+                                        ', ',
+                                        array_filter([$order->shipping_address->city, $order->shipping_address->state, $order->shipping_address->country]),
+                                    ) }}
                                 @endif
-                                @if($order->shipping_address->postcode)
+                                @if ($order->shipping_address->postcode)
                                     <br>
                                     {{ $order->shipping_address->postcode }}
                                 @endif
                             </p>
                         </div>
-                        @if($order->shipping_address->latitude && $order->shipping_address->longitude)
+                        @if ($order->shipping_address->latitude && $order->shipping_address->longitude)
                             <div>
                                 <p class="text-sm text-zinc-500">Latitude</p>
                                 <p class="mt-1 text-sm font-medium text-zinc-900">
@@ -137,10 +142,11 @@
 
             <!-- Map Container -->
             <div class="mb-6 overflow-hidden rounded-lg border border-zinc-200">
-                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-zinc-200 bg-zinc-50 px-6 py-4">
+                <div
+                    class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-zinc-200 bg-zinc-50 px-6 py-4">
                     <div class="flex items-center gap-2">
                         <h3 class="text-base font-semibold text-zinc-900">
-                            @if(in_array($courier_status, ['In Transit', 'Out For Delivery', 'Delivered']))
+                            @if (in_array($courier_status, ['In Transit', 'Out For Delivery', 'Delivered']))
                                 Live Delivery Location
                             @elseif(in_array($courier_status, ['Pending', 'Accepted', 'Picked']))
                                 Shop Location
@@ -148,10 +154,11 @@
                                 Location Map
                             @endif
                         </h3>
-                        @if(in_array($courier_status, ['In Transit', 'Out For Delivery']))
+                        @if (in_array($courier_status, ['In Transit', 'Out For Delivery']))
                             <div class="flex items-center gap-2">
                                 <span class="relative flex h-3 w-3">
-                                    <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75"></span>
+                                    <span
+                                        class="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75"></span>
                                     <span class="relative inline-flex h-3 w-3 rounded-full bg-green-500"></span>
                                 </span>
                                 <span class="text-sm font-medium text-green-700">Live</span>
@@ -160,19 +167,19 @@
                     </div>
                     <!-- Map Legend -->
                     <div class="flex flex-wrap items-center gap-4 text-xs">
-                        @if(in_array($courier_status, ['In Transit', 'Out For Delivery', 'Delivered']))
+                        @if (in_array($courier_status, ['In Transit', 'Out For Delivery', 'Delivered']))
                             <div class="flex items-center gap-2">
                                 <div class="h-4 w-4 rounded-full bg-green-600 border-2 border-white shadow-sm"></div>
                                 <span class="text-zinc-600">Current Location</span>
                             </div>
                         @endif
-                        @if($order->shipping_address && $order->shipping_address->latitude && $order->shipping_address->longitude)
+                        @if ($order->shipping_address && $order->shipping_address->latitude && $order->shipping_address->longitude)
                             <div class="flex items-center gap-2">
                                 <div class="h-4 w-4 rounded-full bg-red-600 border-2 border-white shadow-sm"></div>
                                 <span class="text-zinc-600">Delivery Address</span>
                             </div>
                         @endif
-                        @if(in_array($courier_status, ['Pending', 'Accepted', 'Picked']))
+                        @if (in_array($courier_status, ['Pending', 'Accepted', 'Picked']))
                             <div class="flex items-center gap-2">
                                 <div class="h-4 w-4 rounded-full bg-blue-600 border-2 border-white shadow-sm"></div>
                                 <span class="text-zinc-600">Shop Location</span>
@@ -180,15 +187,24 @@
                         @endif
                     </div>
                 </div>
-                @if($courier_status && in_array($courier_status, ['Pending', 'Accepted', 'Picked']) && $shop_location)
-                    <div id="tracking-map" class="h-[400px] w-full bg-zinc-100"></div>
+                @if ($courier_status && in_array($courier_status, ['Pending', 'Accepted', 'Picked']) && $shop_location)
+                    <div id="tracking-map" style="height: 400px; width: 100%; background: #f0f0f0; border: 2px solid #333; border-radius: 8px;">
+                        <div id="map-status" style="position: absolute; top: 10px; left: 10px; background: rgba(255,255,255,0.95); padding: 8px 12px; border-radius: 4px; color: #000; font-size: 13px; font-weight: 600; z-index: 1000; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">
+                            Loading map...
+                        </div>
+                    </div>
                 @elseif($courier_status && in_array($courier_status, ['In Transit', 'Out For Delivery', 'Delivered']) && $liveGeoLocation)
-                    <div id="tracking-map" class="h-[400px] w-full bg-zinc-100"></div>
+                    <div id="tracking-map" style="height: 400px; width: 100%; background: #f0f0f0; border: 2px solid #333; border-radius: 8px;">
+                        <div id="map-status" style="position: absolute; top: 10px; left: 10px; background: rgba(255,255,255,0.95); padding: 8px 12px; border-radius: 4px; color: #000; font-size: 13px; font-weight: 600; z-index: 1000; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">
+                            Loading map...
+                        </div>
+                    </div>
                 @elseif($courier_status === null)
                     <div class="flex items-center justify-center h-[400px] bg-zinc-50">
                         <div class="text-center">
                             <span class="icon-location text-4xl text-zinc-400"></span>
-                            <p class="mt-2 text-sm text-zinc-500">Courier status not available. Map will display once the order is processed.</p>
+                            <p class="mt-2 text-sm text-zinc-500">Courier status not available. Map will display once
+                                the order is processed.</p>
                         </div>
                     </div>
                 @else
@@ -204,7 +220,7 @@
             <!-- Current Location Info -->
             <div class="mb-6 rounded-lg border border-zinc-200 bg-white p-6">
                 <h3 class="mb-4 text-base font-semibold text-zinc-900">
-                    @if(in_array($courier_status, ['In Transit', 'Out For Delivery', 'Delivered']))
+                    @if (in_array($courier_status, ['In Transit', 'Out For Delivery', 'Delivered']))
                         Current Delivery Location
                     @elseif(in_array($courier_status, ['Pending', 'Accepted', 'Picked']))
                         Shop Location
@@ -213,19 +229,22 @@
                     @endif
                 </h3>
 
-                @if(in_array($courier_status, ['In Transit', 'Out For Delivery', 'Delivered']) && $liveGeoLocation)
+                @if (in_array($courier_status, ['In Transit', 'Out For Delivery', 'Delivered']) && $liveGeoLocation)
                     <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                         <div>
                             <p class="text-sm text-zinc-500">City</p>
-                            <p class="mt-1 text-sm font-medium text-zinc-900">{{ $liveGeoLocation['city_name'] ?? 'N/A' }}</p>
+                            <p class="mt-1 text-sm font-medium text-zinc-900">
+                                {{ $liveGeoLocation['city_name'] ?? 'N/A' }}</p>
                         </div>
                         <div>
                             <p class="text-sm text-zinc-500">Zone</p>
-                            <p class="mt-1 text-sm font-medium text-zinc-900">{{ $liveGeoLocation['zone_name'] ?? 'N/A' }}</p>
+                            <p class="mt-1 text-sm font-medium text-zinc-900">
+                                {{ $liveGeoLocation['zone_name'] ?? 'N/A' }}</p>
                         </div>
                         <div>
                             <p class="text-sm text-zinc-500">Area</p>
-                            <p class="mt-1 text-sm font-medium text-zinc-900">{{ $liveGeoLocation['area_name'] ?? 'N/A' }}</p>
+                            <p class="mt-1 text-sm font-medium text-zinc-900">
+                                {{ $liveGeoLocation['area_name'] ?? 'N/A' }}</p>
                         </div>
                         <div>
                             <p class="text-sm text-zinc-500">Latitude</p>
@@ -242,7 +261,7 @@
                         <div>
                             <p class="text-sm text-zinc-500">Full Address</p>
                             <p class="mt-1 text-sm font-medium text-zinc-900">
-                                @if($liveGeoLocation['address'])
+                                @if ($liveGeoLocation['address'])
                                     {{ $liveGeoLocation['address'] }}
                                 @elseif($liveGeoLocation['city_name'] || $liveGeoLocation['zone_name'] || $liveGeoLocation['area_name'])
                                     {{ implode(', ', array_filter([$liveGeoLocation['city_name'], $liveGeoLocation['zone_name'], $liveGeoLocation['area_name']])) }}
@@ -269,7 +288,8 @@
                     </div>
                 @elseif($courier_status === null)
                     <div class="text-center py-4">
-                        <p class="text-sm text-zinc-500">Courier status not available. Location information will be displayed once the order is processed.</p>
+                        <p class="text-sm text-zinc-500">Courier status not available. Location information will be
+                            displayed once the order is processed.</p>
                     </div>
                 @else
                     <div class="text-center py-4">
@@ -282,19 +302,12 @@
     </div>
 
     <!-- Leaflet CSS -->
-    <link
-        rel="stylesheet"
-        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-        crossorigin=""
-    />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
 
     <!-- Leaflet JS -->
-    <script
-        src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-        crossorigin=""
-    ></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
     <script>
         // State
@@ -338,7 +351,7 @@
                 }
             @endphp
 
-            @if($showMap)
+            @if ($showMap)
                 map = L.map('tracking-map').setView([{{ $mapLat }}, {{ $mapLng }}], {{ $mapZoom }});
 
                 // Add OpenStreetMap tiles
@@ -347,11 +360,12 @@
                     maxZoom: 19
                 }).addTo(map);
 
-                @if($locationType === 'live' && $liveGeoLocation)
+                @if ($locationType === 'live' && $liveGeoLocation)
                     // Add current location marker (green)
                     const currentLat = {{ $liveGeoLocation['latitude'] }};
                     const currentLng = {{ $liveGeoLocation['longitude'] }};
-                    const currentAddress = '{{ $liveGeoLocation['address'] ?? implode(', ', array_filter([$liveGeoLocation['city_name'], $liveGeoLocation['zone_name'], $liveGeoLocation['area_name']])) }}';
+                    const currentAddress =
+                        '{{ $liveGeoLocation['address'] ?? implode(', ', array_filter([$liveGeoLocation['city_name'], $liveGeoLocation['zone_name'], $liveGeoLocation['area_name']])) }}';
 
                     const currentIcon = L.divIcon({
                         className: 'custom-div-icon',
@@ -362,12 +376,14 @@
                         iconAnchor: [16, 16]
                     });
 
-                    currentLocationMarker = L.marker([currentLat, currentLng], { icon: currentIcon })
+                    currentLocationMarker = L.marker([currentLat, currentLng], {
+                            icon: currentIcon
+                        })
                         .addTo(map)
                         .bindPopup('<strong>Current Location</strong><br>' + currentAddress);
                 @endif
 
-                @if($locationType === 'shop' && $shop_location)
+                @if ($locationType === 'shop' && $shop_location)
                     // Add shop location marker (blue)
                     const shopLat = {{ $shop_location['latitude'] }};
                     const shopLng = {{ $shop_location['longitude'] }};
@@ -381,16 +397,18 @@
                         iconAnchor: [16, 16]
                     });
 
-                    shopLocationMarker = L.marker([shopLat, shopLng], { icon: shopIcon })
+                    shopLocationMarker = L.marker([shopLat, shopLng], {
+                            icon: shopIcon
+                        })
                         .addTo(map)
                         .bindPopup('<strong>Shop Location</strong>');
                 @endif
 
                 // Add destination marker (shipping address if available)
-                @if($order->shipping_address && $order->shipping_address->latitude && $order->shipping_address->longitude)
+                @if ($order->shipping_address && $order->shipping_address->latitude && $order->shipping_address->longitude)
                     const destinationLat = {{ $order->shipping_address->latitude }};
                     const destinationLng = {{ $order->shipping_address->longitude }};
-                    const destinationAddress = '{{ $order->shipping_address->address ?? "Delivery Address" }}';
+                    const destinationAddress = '{{ $order->shipping_address->address ?? 'Delivery Address' }}';
 
                     const destinationIcon = L.divIcon({
                         className: 'custom-div-icon',
@@ -399,14 +417,16 @@
                         iconAnchor: [12, 12]
                     });
 
-                    destinationMarker = L.marker([destinationLat, destinationLng], { icon: destinationIcon })
+                    destinationMarker = L.marker([destinationLat, destinationLng], {
+                            icon: destinationIcon
+                        })
                         .addTo(map)
                         .bindPopup('<strong>Delivery Address</strong><br>' + destinationAddress);
 
                     // Draw route if we have both locations
-                    @if($locationType === 'live' && $liveGeoLocation)
+                    @if ($locationType === 'live' && $liveGeoLocation)
                         drawRoute({{ $liveGeoLocation['latitude'] }}, {{ $liveGeoLocation['longitude'] }});
-                    @elseif($locationType === 'shop' && $shop_location)
+                    @elseif ($locationType === 'shop' && $shop_location)
                         drawRoute({{ $shop_location['latitude'] }}, {{ $shop_location['longitude'] }});
                     @endif
                 @endif
