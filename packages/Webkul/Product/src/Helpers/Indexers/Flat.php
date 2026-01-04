@@ -22,6 +22,7 @@ class Flat extends AbstractIndexer
     protected $fillableAttributeCodes = [
         'sku',
         'name',
+        'description',
         'price',
         'weight',
         'status',
