@@ -9,16 +9,6 @@
         <x-shop::breadcrumbs name="orders.track" :entity="$order" />
     @endSection
 
-    <!-- Leaflet CSS -->
-    <x-slot:styles>
-        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    </x-slot>
-
-    <!-- Leaflet JS -->
-    <x-slot:scripts>
-        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    </x-slot>
-
     <div class="max-md:hidden">
         <x-shop::layouts.account.navigation />
     </div>
@@ -328,37 +318,41 @@
 
         // Initialize Leaflet map based on courier status
         function initMap() {
-            @php
-                // Determine which location to show based on courier status
-                $showMap = false;
-                $mapLat = 23.8103;
-                $mapLng = 90.4125;
-                $mapZoom = 13;
-                $locationType = '';
+            try {
+                @php
+                    // Determine which location to show based on courier status
+                    $showMap = false;
+                    $mapLat = 23.8103;
+                    $mapLng = 90.4125;
+                    $mapZoom = 13;
+                    $locationType = '';
 
-                if (in_array($courier_status, ['In Transit', 'Out For Delivery', 'Delivered']) && $liveGeoLocation) {
-                    $showMap = true;
-                    $mapLat = $liveGeoLocation['latitude'];
-                    $mapLng = $liveGeoLocation['longitude'];
-                    $mapZoom = 15;
-                    $locationType = 'live';
-                } elseif (in_array($courier_status, ['Pending', 'Accepted', 'Picked']) && $shop_location) {
-                    $showMap = true;
-                    $mapLat = $shop_location['latitude'];
-                    $mapLng = $shop_location['longitude'];
-                    $mapZoom = 14;
-                    $locationType = 'shop';
-                }
-            @endphp
+                    if (in_array($courier_status, ['In Transit', 'Out For Delivery', 'Delivered']) && $liveGeoLocation) {
+                        $showMap = true;
+                        $mapLat = $liveGeoLocation['latitude'];
+                        $mapLng = $liveGeoLocation['longitude'];
+                        $mapZoom = 15;
+                        $locationType = 'live';
+                    } elseif (in_array($courier_status, ['Pending', 'Accepted', 'Picked']) && $shop_location) {
+                        $showMap = true;
+                        $mapLat = $shop_location['latitude'];
+                        $mapLng = $shop_location['longitude'];
+                        $mapZoom = 14;
+                        $locationType = 'shop';
+                    }
+                @endphp
 
-            @if ($showMap)
-                map = L.map('tracking-map').setView([{{ $mapLat }}, {{ $mapLng }}], {{ $mapZoom }});
+                @if ($showMap)
+                    map = L.map('tracking-map').setView([{{ $mapLat }}, {{ $mapLng }}], {{ $mapZoom }});
 
-                // Add OpenStreetMap tiles
-                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-                    maxZoom: 19
-                }).addTo(map);
+                    // Add OpenStreetMap tiles
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                        maxZoom: 19
+                    }).addTo(map);
+
+                    // Invalidate map size to ensure proper rendering
+                    map.invalidateSize();
 
                 @if ($locationType === 'live' && $liveGeoLocation)
                     // Add current location marker (green)
@@ -433,7 +427,33 @@
 
                 // Fit map to show all markers
                 fitMapToShowAllMarkers();
+
+                // Update status to show success
+                const mapStatus = document.getElementById('map-status');
+                if (mapStatus) {
+                    mapStatus.innerHTML = '✓ Map loaded successfully!';
+                    mapStatus.style.background = 'rgba(34, 197, 94, 0.95)';
+                    mapStatus.style.color = '#fff';
+                }
+
+                // Hide the loading status div after a short delay
+                setTimeout(function() {
+                    const mapStatus = document.getElementById('map-status');
+                    if (mapStatus) {
+                        mapStatus.style.display = 'none';
+                    }
+                }, 2000); // Hide after 2 seconds so user can see success message
             @endif
+            } catch (error) {
+                // Update status div with error message
+                const mapStatus = document.getElementById('map-status');
+                if (mapStatus) {
+                    mapStatus.innerHTML = '✗ Error loading map: ' + error.message;
+                    mapStatus.style.background = 'rgba(239, 68, 68, 0.95)';
+                    mapStatus.style.color = '#fff';
+                }
+                console.error('Map initialization error:', error);
+            }
         }
 
         // Draw route between location and destination
@@ -461,6 +481,8 @@
 
         // Fit map to show all markers
         function fitMapToShowAllMarkers() {
+            if (!map) return;
+
             const markers = [];
 
             if (shopLocationMarker) {
