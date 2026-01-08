@@ -12,7 +12,7 @@
     ]);
 @endphp
 
-<footer class="bg-dark text-white pt-5 pb-3">
+<footer class="bg-dark text-white pt-5 pb-3 mt-4 shadow-lg">
     <div class="container">
         <div class="row g-4 mb-4">
 
