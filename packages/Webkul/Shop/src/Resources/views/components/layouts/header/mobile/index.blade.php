@@ -4,7 +4,7 @@
 -->
 @php
 
-  
+
     $showCompare = (bool) core()->getConfigData('catalog.products.settings.compare_option');
 
     $showWishlist = (bool) core()->getConfigData('customer.settings.wishlist.wishlist_option');
@@ -63,8 +63,8 @@
 
                 {!! view_render_event('bagisto.shop.components.layouts.header.mobile.mini_cart.after') !!}
 
-                <!-- For Large screens -->
-                <div class="d-none d-md-block">
+                <!-- For Medium screens -->
+                <div class="d-none d-md-block d-lg-none">
                     <x-shop::dropdown position="bottom-{{ core()->getCurrentLocale()->direction === 'ltr' ? 'right' : 'left' }}">
                         <x-slot:toggle>
                             <span class="icon-users cursor-pointer" style="font-size: 1.25rem;"></span>
@@ -177,8 +177,8 @@
                     </x-shop::dropdown>
                 </div>
 
-                <!-- For Medium and small screen -->
-                <div class="d-none d-md-block d-lg-none">
+                <!-- For Small screens -->
+                <div class="d-block d-md-none">
                     @guest('customer')
                         <a
                             href="{{ route('shop.customer.session.create') }}"
