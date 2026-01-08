@@ -1,18 +1,9 @@
 {!! view_render_event('bagisto.shop.layout.footer.before') !!}
 
-<!--
-    The category repository is injected directly here because there is no way
-    to retrieve it from the view composer, as this is an anonymous component.
--->
 @inject('themeCustomizationRepository', 'Webkul\Theme\Repositories\ThemeCustomizationRepository')
 
-<!--
-    This code needs to be refactored to reduce the amount of PHP in the Blade
-    template as much as possible.
--->
 @php
     $channel = core()->getCurrentChannel();
-
     $customization = $themeCustomizationRepository->findOneWhere([
         'type'       => 'footer_links',
         'status'     => 1,
@@ -21,123 +12,144 @@
     ]);
 @endphp
 
-<footer class="mt-9 bg-lightOrange max-sm:mt-10">
-    <div class="flex justify-between gap-x-6 gap-y-8 p-[60px] max-1060:flex-col-reverse max-md:gap-5 max-md:p-8 max-sm:px-4 max-sm:py-5">
-        <!-- For Desktop View -->
-        <div class="flex flex-wrap items-start gap-24 max-1180:gap-6 max-1060:hidden">
-            @if ($customization?->options)
-                @foreach ($customization->options as $footerLinkSection)
-                    <ul class="grid gap-5 text-sm">
-                        @php
-                            usort($footerLinkSection, function ($a, $b) {
-                                return $a['sort_order'] - $b['sort_order'];
-                            });
-                        @endphp
+<footer class="bg-dark text-white pt-5 pb-3">
+    <div class="container">
+        <div class="row g-4 mb-4">
 
-                        @foreach ($footerLinkSection as $link)
-                            <li>
-                                <a href="{{ $link['url'] }}">
-                                    {{ $link['title'] }}
-                                </a>
-                            </li>
-                        @endforeach
-                    </ul>
-                @endforeach
-            @endif
-        </div>
-
-        <!-- For Mobile view -->
-        <x-shop::accordion
-            :is-active="false"
-            class="hidden !w-full rounded-xl !border-2 !border-[#e9decc] max-1060:block max-sm:rounded-lg"
-        >
-            <x-slot:header class="rounded-t-lg bg-[#F1EADF] font-medium max-md:p-2.5 max-sm:px-3 max-sm:py-2 max-sm:text-sm">
-                @lang('shop::app.components.layouts.footer.footer-content')
-            </x-slot>
-
-            <x-slot:content class="flex justify-between !bg-transparent !p-4">
-                @if ($customization?->options)
-                    @foreach ($customization->options as $footerLinkSection)
-                        <ul class="grid gap-5 text-sm">
-                            @php
-                                usort($footerLinkSection, function ($a, $b) {
-                                    return $a['sort_order'] - $b['sort_order'];
-                                });
-                            @endphp
-
-                            @foreach ($footerLinkSection as $link)
-                                <li>
-                                    <a
-                                        href="{{ $link['url'] }}"
-                                        class="text-sm font-medium max-sm:text-xs">
-                                        {{ $link['title'] }}
-                                    </a>
-                                </li>
-                            @endforeach
-                        </ul>
-                    @endforeach
-                @endif
-            </x-slot>
-        </x-shop::accordion>
-
-        {!! view_render_event('bagisto.shop.layout.footer.newsletter_subscription.before') !!}
-
-        <!-- News Letter subscription -->
-        @if (core()->getConfigData('customer.settings.newsletter.subscription'))
-            <div class="grid gap-2.5">
-                <p
-                    class="max-w-[288px] text-3xl italic leading-[45px] text-navyBlue max-md:text-2xl max-sm:text-lg"
-                    role="heading"
-                    aria-level="2"
-                >
-                    @lang('shop::app.components.layouts.footer.newsletter-text')
-                </p>
-
-                <p class="text-xs">
+            {{-- Brand --}}
+            <div class="col-lg-3 col-md-6">
+                <div class="mb-3">
+                    <img src="{{ core()->getCurrentChannel()->logo_url ?? asset('images/logo.png') }}" alt="Logo" style="max-height: 40px;">
+                </div>
+                <p class="text-secondary small mb-3">
                     @lang('shop::app.components.layouts.footer.subscribe-stay-touch')
                 </p>
-
-                <div>
-                    <x-shop::form
-                        :action="route('shop.subscription.store')"
-                        class="mt-2.5 rounded max-sm:mt-0"
-                    >
-                        <div class="relative w-full">
-                            <x-shop::form.control-group.control
-                                type="email"
-                                class="block w-[420px] max-w-full rounded-xl border-2 border-[#e9decc] bg-[#F1EADF] px-5 py-4 text-base max-1060:w-full max-md:p-3.5 max-sm:mb-0 max-sm:rounded-lg max-sm:border-2 max-sm:p-2 max-sm:text-sm"
-                                name="email"
-                                rules="required|email"
-                                label="Email"
-                                :aria-label="trans('shop::app.components.layouts.footer.email')"
-                                placeholder="email@example.com"
-                            />
-    
-                            <x-shop::form.control-group.error control-name="email" />
-    
-                            <button
-                                type="submit"
-                                class="absolute top-1.5 flex w-max items-center rounded-xl bg-white px-7 py-2.5 font-medium hover:bg-zinc-100 max-md:top-1 max-md:px-5 max-md:text-xs max-sm:mt-0 max-sm:rounded-lg max-sm:px-4 max-sm:py-2 ltr:right-2 rtl:left-2"
-                            >
-                                @lang('shop::app.components.layouts.footer.subscribe')
-                            </button>
-                        </div>
-                    </x-shop::form>
+                {{-- Social Icons --}}
+                <div class="d-flex gap-2">
+                    <a href="#" class="btn btn-outline-light btn-sm rounded-circle"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="btn btn-outline-light btn-sm rounded-circle"><i class="bi bi-twitter-x"></i></a>
+                    <a href="#" class="btn btn-outline-light btn-sm rounded-circle"><i class="bi bi-instagram"></i></a>
+                    <a href="#" class="btn btn-outline-light btn-sm rounded-circle"><i class="bi bi-youtube"></i></a>
                 </div>
             </div>
-        @endif
 
-        {!! view_render_event('bagisto.shop.layout.footer.newsletter_subscription.after') !!}
-    </div>
+            {{-- Footer Links (Desktop) --}}
+            <div class="col-lg-4 col-md-6 d-none d-lg-block">
+                <div class="row">
+                    @if ($customization?->options)
+                        @foreach ($customization->options as $footerLinkSection)
+                            <div class="col-6">
+                                <h6 class="text-uppercase text-secondary fw-bold small mb-3">
+                                    @lang('shop::app.components.layouts.footer.footer-content')
+                                </h6>
+                                @php
+                                    usort($footerLinkSection, function ($a, $b) {
+                                        return $a['sort_order'] - $b['sort_order'];
+                                    });
+                                @endphp
+                                <ul class="list-unstyled">
+                                    @foreach ($footerLinkSection as $link)
+                                        <li class="mb-2">
+                                            <a href="{{ $link['url'] }}" class="text-secondary text-decoration-none small hover-light">
+                                                {{ $link['title'] }}
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endforeach
+                    @endif
+                </div>
+            </div>
 
-    <div class="flex justify-between bg-[#F1EADF] px-[60px] py-3.5 max-md:justify-center max-sm:px-5">
-        {!! view_render_event('bagisto.shop.layout.footer.footer_text.before') !!}
+            {{-- Address Section --}}
+            <div class="col-lg-2 col-md-6">
+                <h6 class="text-uppercase text-secondary fw-bold small mb-3">Contact Us</h6>
+                <ul class="list-unstyled small">
+                    <li class="mb-3 d-flex align-items-start gap-2">
+                        <i class="bi bi-geo-alt-fill text-warning"></i>
+                        <span class="text-secondary">123 Shopping Street, Market Area, City 12345</span>
+                    </li>
+                    <li class="mb-3 d-flex align-items-center gap-2">
+                        <i class="bi bi-telephone-fill text-warning"></i>
+                        <a href="tel:+1234567890" class="text-secondary text-decoration-none">+1 234 567 890</a>
+                    </li>
+                    <li class="mb-3 d-flex align-items-center gap-2">
+                        <i class="bi bi-envelope-fill text-warning"></i>
+                        <a href="mailto:support@store.com" class="text-secondary text-decoration-none">support@store.com</a>
+                    </li>
+                    <li class="d-flex align-items-center gap-2">
+                        <i class="bi bi-clock-fill text-warning"></i>
+                        <span class="text-secondary">Mon - Fri: 9AM - 6PM</span>
+                    </li>
+                </ul>
+            </div>
 
-        <p class="text-sm text-zinc-600 max-md:text-center">
-            @lang('shop::app.components.layouts.footer.footer-text', ['current_year'=> date('Y') ])
-        </p>
+            {{-- Newsletter --}}
+            <div class="col-lg-3 col-md-6">
+                {!! view_render_event('bagisto.shop.layout.footer.newsletter_subscription.before') !!}
+                @if (core()->getConfigData('customer.settings.newsletter.subscription'))
+                    <div class="bg-secondary bg-opacity-25 rounded p-3">
+                        <h6 class="fw-bold mb-1">@lang('shop::app.components.layouts.footer.newsletter-text')</h6>
+                        <p class="text-secondary small mb-3">@lang('shop::app.components.layouts.footer.subscribe-stay-touch')</p>
+                        <x-shop::form action="{{ route('shop.subscription.store') }}" class="d-flex gap-2">
+                            <input type="email" name="email" class="form-control form-control-sm" placeholder="Enter your email" required>
+                            <button type="submit" class="btn btn-warning btn-sm">@lang('shop::app.components.layouts.footer.subscribe')</button>
+                        </x-shop::form>
+                    </div>
+                @endif
+                {!! view_render_event('bagisto.shop.layout.footer.newsletter_subscription.after') !!}
+            </div>
 
-        {!! view_render_event('bagisto.shop.layout.footer.footer_text.after') !!}
+        </div>
+
+        {{-- Mobile Accordion --}}
+        <div class="d-lg-none mb-4">
+            <div class="accordion accordion-flush" id="footerAccordion">
+                <div class="accordion-item bg-dark">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed bg-dark text-white" type="button" data-bs-toggle="collapse" data-bs-target="#footerLinks">
+                            @lang('shop::app.components.layouts.footer.footer-content')
+                        </button>
+                    </h2>
+                    <div id="footerLinks" class="accordion-collapse collapse" data-bs-parent="#footerAccordion">
+                        <div class="accordion-body">
+                            @if ($customization?->options)
+                                @foreach ($customization->options as $footerLinkSection)
+                                    @php
+                                        usort($footerLinkSection, function ($a, $b) {
+                                            return $a['sort_order'] - $b['sort_order'];
+                                        });
+                                    @endphp
+                                    <ul class="list-unstyled mb-0">
+                                        @foreach ($footerLinkSection as $link)
+                                            <li class="mb-2">
+                                                <a href="{{ $link['url'] }}" class="text-secondary text-decoration-none small">{{ $link['title'] }}</a>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                @endforeach
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{-- Bottom Bar --}}
+        <div class="border-top border-secondary pt-3">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
+                {!! view_render_event('bagisto.shop.layout.footer.footer_text.before') !!}
+                <p class="text-secondary small mb-0">
+                    @lang('shop::app.components.layouts.footer.footer-text', ['current_year' => date('Y')])
+                </p>
+                {!! view_render_event('bagisto.shop.layout.footer.footer_text.after') !!}
+                <div class="d-flex gap-3">
+                    <a href="#" class="text-secondary text-decoration-none small">Privacy Policy</a>
+                    <a href="#" class="text-secondary text-decoration-none small">Terms of Service</a>
+                </div>
+            </div>
+        </div>
     </div>
 </footer>
 
