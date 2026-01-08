@@ -26,10 +26,10 @@
                 </p>
                 {{-- Social Icons --}}
                 <div class="d-flex gap-2">
-                    <a href="#" class="btn btn-outline-light btn-sm rounded-circle"><i class="bi bi-facebook"></i></a>
-                    <a href="#" class="btn btn-outline-light btn-sm rounded-circle"><i class="bi bi-twitter-x"></i></a>
-                    <a href="#" class="btn btn-outline-light btn-sm rounded-circle"><i class="bi bi-instagram"></i></a>
-                    <a href="#" class="btn btn-outline-light btn-sm rounded-circle"><i class="bi bi-youtube"></i></a>
+                    <a href="#" class="btn btn-light btn-sm rounded-circle"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="btn btn-light btn-sm rounded-circle"><i class="bi bi-twitter-x"></i></a>
+                    <a href="#" class="btn btn-light btn-sm rounded-circle"><i class="bi bi-instagram"></i></a>
+                    <a href="#" class="btn btn-light btn-sm rounded-circle"><i class="bi bi-youtube"></i></a>
                 </div>
             </div>
 
@@ -50,7 +50,7 @@
                                 <ul class="list-unstyled">
                                     @foreach ($footerLinkSection as $link)
                                         <li class="mb-2">
-                                            <a href="{{ $link['url'] }}" class="text-dark text-decoration-none small hover-light">
+                                            <a href="{{ $link['url'] }}" class="text-white text-decoration-none small hover-light">
                                                 {{ $link['title'] }}
                                             </a>
                                         </li>
@@ -72,11 +72,11 @@
                     </li>
                     <li class="mb-3 d-flex align-items-center gap-2">
                         <i class="bi bi-telephone-fill text-warning"></i>
-                        <a href="tel:+1234567890" class="text-dark text-decoration-none">+1 234 567 890</a>
+                        <a href="tel:+1234567890" class="text-white text-decoration-none">+1 234 567 890</a>
                     </li>
                     <li class="mb-3 d-flex align-items-center gap-2">
                         <i class="bi bi-envelope-fill text-warning"></i>
-                        <a href="mailto:support@store.com" class="text-dark text-decoration-none">support@store.com</a>
+                        <a href="mailto:support@store.com" class="text-white text-decoration-none">support@store.com</a>
                     </li>
                     <li class="d-flex align-items-center gap-2">
                         <i class="bi bi-clock-fill text-warning"></i>
@@ -124,7 +124,7 @@
                                     <ul class="list-unstyled mb-0">
                                         @foreach ($footerLinkSection as $link)
                                             <li class="mb-2">
-                                                <a href="{{ $link['url'] }}" class="text-dark text-decoration-none small">{{ $link['title'] }}</a>
+                                                <a href="{{ $link['url'] }}" class="text-white text-decoration-none small">{{ $link['title'] }}</a>
                                             </li>
                                         @endforeach
                                     </ul>
@@ -145,8 +145,8 @@
                 </p>
                 {!! view_render_event('bagisto.shop.layout.footer.footer_text.after') !!}
                 <div class="d-flex gap-3">
-                    <a href="#" class="text-dark text-decoration-none small">Privacy Policy</a>
-                    <a href="#" class="text-dark text-decoration-none small">Terms of Service</a>
+                    <a href="#" class="text-white text-decoration-none small">Privacy Policy</a>
+                    <a href="#" class="text-white text-decoration-none small">Terms of Service</a>
                 </div>
             </div>
         </div>
