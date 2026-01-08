@@ -171,12 +171,12 @@
 
             data() {
                 return {
-                    isDesktop: window.innerWidth >= 1024
+                    isDesktop: window.innerWidth >= 992
                 }
             },
 
             mounted() {
-                this.media = window.matchMedia('(min-width: 1024px)');
+                this.media = window.matchMedia('(min-width: 992px)');
 
                 this.media.addEventListener('change', this.handleMedia);
             },

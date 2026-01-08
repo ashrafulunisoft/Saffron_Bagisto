@@ -1,6 +1,7 @@
 {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.before') !!}
 
-<div class="d-flex align-items-center justify-content-between w-100 border-bottom mx-auto px-3 py-2" style="min-height: 70px;">
+<div class="d-flex align-items-center justify-content-between w-100 border-bottom mx-auto px-3 py-2"
+    style="min-height: 70px;">
     <!--
         This section will provide categories for the first, second, and third levels. If
         additional levels are required, users can customize them according to their needs.
@@ -9,16 +10,9 @@
     <div class="d-flex align-items-center gap-3">
         {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.logo.before') !!}
 
-        <a
-            href="{{ route('shop.home.index') }}"
-            aria-label="@lang('shop::app.components.layouts.header.desktop.bottom.bagisto')"
-        >
-            <img
-                src="{{ core()->getCurrentChannel()->logo_url ?? bagisto_asset('images/logo.svg') }}"
-                width="131"
-                height="29"
-                alt="{{ config('app.name') }}"
-            >
+        <a href="{{ route('shop.home.index') }}" aria-label="@lang('shop::app.components.layouts.header.desktop.bottom.bagisto')">
+            <img src="{{ core()->getCurrentChannel()->logo_url ?? bagisto_asset('images/logo.svg') }}" width="131"
+                height="29" alt="{{ config('app.name') }}">
         </a>
 
         {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.logo.after') !!}
@@ -27,23 +21,11 @@
 
         <v-desktop-category>
             <div class="d-flex align-items-center gap-2">
-                <span
-                    class="shimmer rounded"
-                    role="presentation"
-                    style="height: 20px; width: 70px;"
-                ></span>
+                <span class="shimmer rounded" role="presentation" style="height: 20px; width: 70px;"></span>
 
-                <span
-                    class="shimmer rounded"
-                    role="presentation"
-                    style="height: 20px; width: 70px;"
-                ></span>
+                <span class="shimmer rounded" role="presentation" style="height: 20px; width: 70px;"></span>
 
-                <span
-                    class="shimmer rounded"
-                    role="presentation"
-                    style="height: 20px; width: 70px;"
-                ></span>
+                <span class="shimmer rounded" role="presentation" style="height: 20px; width: 70px;"></span>
             </div>
         </v-desktop-category>
 
@@ -57,41 +39,23 @@
 
         <!-- Search Bar Container -->
         <div class="position-relative">
-            <form
-                action="{{ route('shop.search.index') }}"
-                class="d-flex align-items-center"
-                style="max-width: 400px;"
-                role="search"
-            >
-                <label
-                    for="organic-search"
-                    class="visually-hidden"
-                >
+            <form action="{{ route('shop.search.index') }}" class="d-flex align-items-center" style="max-width: 400px;"
+                role="search">
+                <label for="organic-search" class="visually-hidden">
                     @lang('shop::app.components.layouts.header.desktop.bottom.search')
                 </label>
 
-                <div class="icon-search position-absolute top-50 translate-middle-y d-flex align-items-center text-muted" style="left: 8px; font-size: 1.1rem; pointer-events: none;"></div>
+                <div class="icon-search position-absolute top-50 translate-middle-y d-flex align-items-center text-muted"
+                    style="left: 8px; font-size: 1.1rem; pointer-events: none;"></div>
 
-                <input
-                    type="text"
-                    name="query"
-                    value="{{ request('query') }}"
-                    class="form-control ps-4"
+                <input type="text" name="query" value="{{ request('query') }}" class="form-control ps-4"
                     style="font-size: 0.75rem; background-color: #f4f4f5; padding: 0.5rem 0.5rem 0.5rem 2.5rem;"
                     minlength="{{ core()->getConfigData('catalog.products.search.min_query_length') }}"
                     maxlength="{{ core()->getConfigData('catalog.products.search.max_query_length') }}"
-                    placeholder="@lang('shop::app.components.layouts.header.desktop.bottom.search-text')"
-                    aria-label="@lang('shop::app.components.layouts.header.desktop.bottom.search-text')"
-                    aria-required="true"
-                    pattern="[^\\]+"
-                    required
-                >
+                    placeholder="@lang('shop::app.components.layouts.header.desktop.bottom.search-text')" aria-label="@lang('shop::app.components.layouts.header.desktop.bottom.search-text')" aria-required="true" pattern="[^\\]+"
+                    required>
 
-                <button
-                    type="submit"
-                    class="hidden"
-                    aria-label="@lang('shop::app.components.layouts.header.desktop.bottom.submit')"
-                >
+                <button type="submit" class="hidden" aria-label="@lang('shop::app.components.layouts.header.desktop.bottom.submit')">
                 </button>
 
                 @if (core()->getConfigData('catalog.products.settings.image_search'))
@@ -108,16 +72,10 @@
             {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.compare.before') !!}
 
             <!-- Compare -->
-            @if(core()->getConfigData('catalog.products.settings.compare_option'))
-                <a
-                    href="{{ route('shop.compare.index') }}"
-                    aria-label="@lang('shop::app.components.layouts.header.desktop.bottom.compare')"
-                >
-                    <span
-                        class="icon-compare d-inline-block cursor-pointer"
-                        role="presentation"
-                        style="font-size: 1.25rem;"
-                    ></span>
+            @if (core()->getConfigData('catalog.products.settings.compare_option'))
+                <a href="{{ route('shop.compare.index') }}" aria-label="@lang('shop::app.components.layouts.header.desktop.bottom.compare')">
+                    <span class="icon-compare d-inline-block cursor-pointer" role="presentation"
+                        style="font-size: 1.25rem;"></span>
                 </a>
             @endif
 
@@ -126,7 +84,7 @@
             {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.mini_cart.before') !!}
 
             <!-- Mini cart -->
-            @if(core()->getConfigData('sales.checkout.shopping_cart.cart_page'))
+            @if (core()->getConfigData('sales.checkout.shopping_cart.cart_page'))
                 @include('shop::checkout.cart.mini-cart')
             @endif
 
@@ -135,15 +93,11 @@
             {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.profile.before') !!}
 
             <!-- user profile -->
-            <x-shop::dropdown position="bottom-{{ core()->getCurrentLocale()->direction === 'ltr' ? 'right' : 'left' }}">
+            <x-shop::dropdown
+                position="bottom-{{ core()->getCurrentLocale()->direction === 'ltr' ? 'right' : 'left' }}">
                 <x-slot:toggle>
-                    <span
-                        class="icon-users d-inline-block cursor-pointer"
-                        role="button"
-                        aria-label="@lang('shop::app.components.layouts.header.desktop.bottom.profile')"
-                        tabindex="0"
-                        style="font-size: 1.25rem;"
-                    ></span>
+                    <span class="icon-users d-inline-block cursor-pointer" role="button" aria-label="@lang('shop::app.components.layouts.header.desktop.bottom.profile')"
+                        tabindex="0" style="font-size: 1.25rem;"></span>
                 </x-slot>
 
                 <!-- Guest Dropdown -->
@@ -166,17 +120,13 @@
                         <div class="mt-6 flex gap-4">
                             {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.sign_in_button.before') !!}
 
-                            <a
-                                href="{{ route('shop.customer.session.create') }}"
-                                class="primary-button m-0 mx-auto block w-max rounded-2xl px-7 text-center text-base max-md:rounded-lg ltr:ml-0 rtl:mr-0"
-                            >
+                            <a href="{{ route('shop.customer.session.create') }}"
+                                class="primary-button m-0 mx-auto block w-max rounded-2xl px-7 text-center text-base max-md:rounded-lg ltr:ml-0 rtl:mr-0">
                                 @lang('shop::app.components.layouts.header.desktop.bottom.sign-in')
                             </a>
 
-                            <a
-                                href="{{ route('shop.customers.register.index') }}"
-                                class="secondary-button m-0 mx-auto block w-max rounded-2xl border-2 px-7 text-center text-base max-md:rounded-lg max-md:py-3 ltr:ml-0 rtl:mr-0"
-                            >
+                            <a href="{{ route('shop.customers.register.index') }}"
+                                class="secondary-button m-0 mx-auto block w-max rounded-2xl border-2 px-7 text-center text-base max-md:rounded-lg max-md:py-3 ltr:ml-0 rtl:mr-0">
                                 @lang('shop::app.components.layouts.header.desktop.bottom.sign-up')
                             </a>
 
@@ -206,42 +156,31 @@
                         <div class="mt-2.5 grid gap-1 pb-2.5">
                             {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.profile_dropdown.links.before') !!}
 
-                            <a
-                                class="cursor-pointer px-5 py-2 text-base hover:bg-gray-100"
-                                href="{{ route('shop.customers.account.profile.index') }}"
-                            >
+                            <a class="cursor-pointer px-5 py-2 text-base hover:bg-gray-100"
+                                href="{{ route('shop.customers.account.profile.index') }}">
                                 @lang('shop::app.components.layouts.header.desktop.bottom.profile')
                             </a>
 
-                            <a
-                                class="cursor-pointer px-5 py-2 text-base hover:bg-gray-100"
-                                href="{{ route('shop.customers.account.orders.index') }}"
-                            >
+                            <a class="cursor-pointer px-5 py-2 text-base hover:bg-gray-100"
+                                href="{{ route('shop.customers.account.orders.index') }}">
                                 @lang('shop::app.components.layouts.header.desktop.bottom.orders')
                             </a>
 
                             @if (core()->getConfigData('customer.settings.wishlist.wishlist_option'))
-                                <a
-                                    class="cursor-pointer px-5 py-2 text-base hover:bg-gray-100"
-                                    href="{{ route('shop.customers.account.wishlist.index') }}"
-                                >
+                                <a class="cursor-pointer px-5 py-2 text-base hover:bg-gray-100"
+                                    href="{{ route('shop.customers.account.wishlist.index') }}">
                                     @lang('shop::app.components.layouts.header.desktop.bottom.wishlist')
                                 </a>
                             @endif
 
                             <!--Customers logout-->
                             @auth('customer')
-                                <x-shop::form
-                                    method="DELETE"
-                                    action="{{ route('shop.customer.session.destroy') }}"
-                                    id="customerLogout"
-                                />
+                                <x-shop::form method="DELETE" action="{{ route('shop.customer.session.destroy') }}"
+                                    id="customerLogout" />
 
-                                <a
-                                    class="cursor-pointer px-5 py-2 text-base hover:bg-gray-100"
+                                <a class="cursor-pointer px-5 py-2 text-base hover:bg-gray-100"
                                     href="{{ route('shop.customer.session.destroy') }}"
-                                    onclick="event.preventDefault(); document.getElementById('customerLogout').submit();"
-                                >
+                                    onclick="event.preventDefault(); document.getElementById('customerLogout').submit();">
                                     @lang('shop::app.components.layouts.header.desktop.bottom.logout')
                                 </a>
                             @endauth
@@ -264,45 +203,66 @@
     >
         <!-- Loading State -->
         <div
-            class="flex items-center gap-5"
+            class="d-flex align-items-center gap-3"
             v-if="isLoading"
         >
             <span
-                class="shimmer h-6 w-20 rounded"
+                class="shimmer rounded"
                 role="presentation"
+                style="height: 20px; width: 70px;"
             ></span>
 
             <span
-                class="shimmer h-6 w-20 rounded"
+                class="shimmer rounded"
                 role="presentation"
+                style="height: 20px; width: 70px;"
             ></span>
 
             <span
-                class="shimmer h-6 w-20 rounded"
+                class="shimmer rounded"
                 role="presentation"
+                style="height: 20px; width: 70px;"
             ></span>
         </div>
 
         <!-- Default category layout -->
         <div
-            class="flex items-center"
+            class="d-flex align-items-center"
             v-else-if="'{{ core()->getConfigData('general.design.categories.category_view') }}' !== 'sidebar'"
         >
             <div
-                class="group relative flex h-[77px] items-center border-b-4 border-transparent hover:border-b-4 hover:border-navyBlue"
+                class="category-group position-relative d-flex align-items-center border-bottom-4 border-transparent hover:border-navyBlue"
+                style="height: 70px;"
+                data-category-group
+                @mouseenter="showDropdown(category.id)"
+                @mouseleave="hideDropdown"
                 v-for="category in categories"
             >
                 <span>
                     <a
                         :href="category.url"
-                        class="inline-block px-5 uppercase"
+                        class="d-inline-block px-4 text-uppercase"
+                        style="font-size: 0.875rem;"
                     >
                         @{{ category.name }}
                     </a>
                 </span>
 
                 <div
-                    class="pointer-events-none absolute top-[78px] z-[1] max-h-[580px] w-max max-w-[1260px] translate-y-1 overflow-auto overflow-x-auto border border-b-0 border-l-0 border-r-0 border-t border-[#F3F3F3] bg-white p-9 opacity-0 shadow-[0_6px_6px_1px_rgba(0,0,0,.3)] transition duration-300 ease-out group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:opacity-100 group-hover:duration-200 group-hover:ease-in ltr:-left-9 rtl:-right-9"
+                    class="category-dropdown mega-menu-dropdown position-absolute overflow-auto overflow-x-auto bg-white"
+                    :style="{
+                        'top': '78px',
+                        'z-index': 1,
+                        'max-height': '580px',
+                        'max-width': '1260px',
+                        'width': 'max-content',
+                        'border': '1px solid #F3F3F3',
+                        'border-top': '1px solid #F3F3F3',
+                        'padding': '2.25rem',
+                        'box-shadow': '0 6px 6px 1px rgba(0,0,0,.3)',
+                        'display': visibleDropdown === category.id ? 'block' : 'none'
+                    }"
+                    data-category-dropdown
                     v-if="category.children && category.children.length"
                 >
                     <div class="flex justify-between gap-x-[70px]">
@@ -337,17 +297,18 @@
             </div>
         </div>
 
-        <!-- Sidebar category layout -->
+                <!-- Sidebar category layout -->
         <div v-else>
             <!-- Categories Navigation -->
-            <div class="flex items-center">
+            <div class="d-flex align-items-center">
                 <!-- "All" button for opening the category drawer -->
                 <div
-                    class="flex h-[77px] cursor-pointer items-center border-b-4 border-transparent hover:border-b-4 hover:border-navyBlue"
+                    class="d-flex cursor-pointer align-items-center border-bottom-4 border-transparent hover:border-navyBlue"
+                    style="height: 70px;"
                     @click="toggleCategoryDrawer"
                 >
-                    <span class="flex items-center gap-1 px-5 uppercase">
-                        <span class="icon-hamburger text-xl"></span>
+                    <span class="d-flex align-items-center gap-2 px-4 text-uppercase" style="font-size: 0.875rem;">
+                        <span class="icon-hamburger" style="font-size: 1.25rem;"></span>
 
                         @lang('shop::app.components.layouts.header.desktop.bottom.all')
                     </span>
@@ -355,26 +316,45 @@
 
                 <!-- Show only first 4 categories in main navigation -->
                 <div
-                    class="group relative flex h-[77px] items-center border-b-4 border-transparent hover:border-b-4 hover:border-navyBlue"
+                    class="category-group position-relative d-flex align-items-center border-bottom-4 border-transparent hover:border-navyBlue"
+                    style="height: 70px;"
+                    data-category-group
+                    @mouseenter="showDropdown(category.id)"
+                    @mouseleave="hideDropdown"
                     v-for="category in categories.slice(0, 4)"
                 >
                     <span>
                         <a
                             :href="category.url"
-                            class="inline-block px-5 uppercase"
+                            class="d-inline-block px-4 text-uppercase"
+                            style="font-size: 0.875rem;"
                         >
                             @{{ category.name }}
                         </a>
                     </span>
 
-                    <!-- Dropdown for each category -->
-                    <div
-                        class="pointer-events-none absolute top-[78px] z-[1] max-h-[580px] w-max max-w-[1260px] translate-y-1 overflow-auto overflow-x-auto border border-b-0 border-l-0 border-r-0 border-t border-[#F3F3F3] bg-white p-9 opacity-0 shadow-[0_6px_6px_1px_rgba(0,0,0,.3)] transition duration-300 ease-out group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:opacity-100 group-hover:duration-200 group-hover:ease-in ltr:-left-9 rtl:-right-9"
-                        v-if="category.children && category.children.length"
-                    >
-                        <div class="flex justify-between gap-x-[70px]">
-                            <div
-                                class="grid w-full min-w-max max-w-[150px] flex-auto grid-cols-[1fr] content-start gap-5"
+                <!-- Dropdown for each category -->
+                <div
+                    class="category-dropdown mega-menu-dropdown position-absolute overflow-auto bg-white"
+                    :style="{
+                        'top': '70px',
+                        'z-index': 1,
+                        'max-height': '580px',
+                        'max-width': '1260px',
+                        'width': 'max-content',
+                        'border': '1px solid #F3F3F3',
+                        'border-top': '1px solid #F3F3F3',
+                        'padding': '2.25rem',
+                        'box-shadow': '0 6px 6px 1px rgba(0,0,0,.3)',
+                        'left': '-36px',
+                        'display': visibleDropdown === category.id ? 'block' : 'none'
+                    }"
+                    data-category-dropdown
+                    v-if="category.children && category.children.length"
+                >
+                    <div class="d-flex justify-content-between" style="gap: 70px;">
+                        <div
+                            class="grid" style="grid-template-columns: 1fr; gap: 1.25rem; min-width: max-content; max-width: 150px; width: 100%; align-content: start;"
                                 v-for="pairCategoryChildren in pairCategoryChildren(category)"
                             >
                                 <template v-for="secondLevelCategory in pairCategoryChildren">
@@ -404,7 +384,7 @@
                 </div>
             </div>
 
-            <!-- Bagisto Drawer Integration -->
+                    <!-- Bagisto Drawer Integration -->
             <x-shop::drawer
                 position="left"
                 width="400px"
@@ -414,8 +394,8 @@
             >
                 <x-slot:toggle></x-slot>
 
-                <x-slot:header class="border-b border-gray-200">
-                    <div class="flex w-full items-center justify-between">
+                <x-slot:header class="border-bottom border-gray-200">
+                    <div class="d-flex w-100 align-items-center justify-content-between">
                         <p class="text-xl font-medium">
                             @lang('shop::app.components.layouts.header.desktop.bottom.categories')
                         </p>
@@ -433,22 +413,22 @@
                                 'ltr:-translate-x-full rtl:translate-x-full': currentViewLevel === 'third'
                             }"
                         >
-                            <!-- First level view -->
-                            <div class="h-[calc(100vh-74px)] w-full flex-shrink-0 overflow-auto">
-                                <div class="py-4">
-                                    <div
-                                        v-for="category in categories"
-                                        :key="category.id"
-                                        :class="{'mb-2': category.children && category.children.length}"
+                    <!-- First level view -->
+                    <div class="flex-shrink-0 overflow-auto" style="height: calc(100vh - 74px); width: 100%;">
+                        <div class="py-4">
+                            <div
+                                v-for="category in categories"
+                                :key="category.id"
+                                :class="{'mb-2': category.children && category.children.length}"
+                            >
+                                <div class="d-flex cursor-pointer align-items-center justify-content-between px-6 py-2 transition hover:bg-gray-100">
+                                    <a
+                                        :href="category.url"
+                                        class="text-base font-medium text-black text-decoration-none"
                                     >
-                                        <div class="flex cursor-pointer items-center justify-between px-6 py-2 transition-colors duration-200 hover:bg-gray-100">
-                                            <a
-                                                :href="category.url"
-                                                class="text-base font-medium text-black"
-                                            >
-                                                @{{ category.name }}
-                                            </a>
-                                        </div>
+                                        @{{ category.name }}
+                                    </a>
+                                </div>
 
                                         <!-- Second Level Categories -->
                                         <div v-if="category.children && category.children.length" >
@@ -457,12 +437,12 @@
                                                 :key="secondLevelCategory.id"
                                             >
                                                 <div
-                                                    class="flex cursor-pointer items-center justify-between px-6 py-2 transition-colors duration-200 hover:bg-gray-100"
+                                                    class="d-flex cursor-pointer align-items-center justify-content-between px-6 py-2 transition hover:bg-gray-100"
                                                     @click="showThirdLevel(secondLevelCategory, category, $event)"
                                                 >
                                                     <a
                                                         :href="secondLevelCategory.url"
-                                                        class="text-sm font-normal"
+                                                        class="text-sm font-normal text-decoration-none text-black"
                                                     >
                                                         @{{ secondLevelCategory.name }}
                                                     </a>
@@ -480,13 +460,14 @@
 
                             <!-- Third level view -->
                             <div
-                                class="h-full w-full flex-shrink-0"
+                                class="flex-shrink-0"
+                                style="height: 100%; width: 100%;"
                                 v-if="currentViewLevel === 'third'"
                             >
-                                <div class="border-b border-gray-200 px-6 py-4">
+                                <div class="border-bottom border-gray-200 px-6 py-4">
                                     <button
                                         @click="goBackToMainView"
-                                        class="flex items-center justify-center gap-2 focus:outline-none"
+                                        class="d-flex align-items-center justify-content-center gap-2 focus:outline-none"
                                         aria-label="Go back"
                                     >
                                         <span class="icon-arrow-left rtl:icon-arrow-right text-lg"></span>
@@ -506,7 +487,7 @@
                                     >
                                         <a
                                             :href="thirdLevelCategory.url"
-                                            class="block px-6 py-2 text-sm transition-colors duration-200 hover:bg-gray-100"
+                                            class="d-block px-6 py-2 text-sm transition hover:bg-gray-100 text-decoration-none text-black"
                                         >
                                             @{{ thirdLevelCategory.name }}
                                         </a>
@@ -531,7 +512,8 @@
                     isDrawerActive: false,
                     currentViewLevel: 'main',
                     currentSecondLevelCategory: null,
-                    currentParentCategory: null
+                    currentParentCategory: null,
+                    visibleDropdown: null
                 }
             },
 
@@ -569,7 +551,7 @@
                 },
 
                 pairCategoryChildren(category) {
-                    if (! category.children) return [];
+                    if (!category.children) return [];
 
                     return category.children.reduce((result, value, index, array) => {
                         if (index % 2 === 0) {
@@ -609,6 +591,14 @@
 
                 goBackToMainView() {
                     this.currentViewLevel = 'main';
+                },
+
+                showDropdown(categoryId) {
+                    this.visibleDropdown = categoryId;
+                },
+
+                hideDropdown() {
+                    this.visibleDropdown = null;
                 }
             },
         });

@@ -432,7 +432,7 @@ img.lazy {
     }
 
     .primary-button {
-        @apply flex gap-x-1.5 items-center place-content-center font-medium rounded-xl text-white bg-navyBlue border border-navyBlue px-8 py-4 max-w-max cursor-pointer transition-all hover:opacity-[0.9];
+        @apply flex gap-x-1.5 items-center place-content-center font-medium rounded-xl text-navyBlue bg-white border border-navyBlue px-8 py-4 max-w-max cursor-pointer transition-all hover:opacity-[0.9];
     }
 
     .secondary-button {
@@ -530,5 +530,20 @@ img.lazy {
     /* Category link styles */
     a {
         @apply text-decoration-none text-dark hover:text-primary transition-colors;
+    }
+
+    /* Mega menu dropdown classes */
+    .mega-menu-dropdown {
+        display: none;
+        opacity: 0;
+        transform: translateY(4px);
+        transition: all 0.3s ease-out;
+    }
+
+    /* Show dropdown on hover using data attributes */
+    [data-category-group]:hover [data-category-dropdown] {
+        display: block !important;
+        opacity: 1 !important;
+        transform: translateY(0) !important;
     }
 }

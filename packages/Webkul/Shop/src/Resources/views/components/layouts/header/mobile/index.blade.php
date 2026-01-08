@@ -3,6 +3,8 @@
     template as much as possible.
 -->
 @php
+
+  
     $showCompare = (bool) core()->getConfigData('catalog.products.settings.compare_option');
 
     $showWishlist = (bool) core()->getConfigData('customer.settings.wishlist.wishlist_option');
@@ -500,7 +502,7 @@
 
             computed: {
                 getCurrentScreenHeight() {
-                    return window.innerHeight - (window.innerWidth < 920 ? 61 : 0) + 'px';
+                    return window.innerHeight - (window.innerWidth < 992 ? 61 : 0) + 'px';
                 },
             },
 
