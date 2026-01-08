@@ -8,10 +8,10 @@
     $showWishlist = (bool) core()->getConfigData('customer.settings.wishlist.wishlist_option');
 @endphp
 
-<div class="flex flex-wrap gap-4 px-4 pb-4 pt-6 shadow-sm lg:hidden">
-    <div class="flex w-full items-center justify-between">
+<div class="d-lg-none shadow-sm p-3 pb-4 pt-4">
+    <div class="d-flex w-100 align-items-center justify-content-between mb-3">
         <!-- Left Navigation -->
-        <div class="flex items-center gap-x-1.5">
+        <div class="d-flex align-items-center gap-2">
             {!! view_render_event('bagisto.shop.components.layouts.header.mobile.drawer.before') !!}
 
             <!-- Drawer -->
@@ -23,7 +23,7 @@
 
             <a
                 href="{{ route('shop.home.index') }}"
-                class="max-h-[30px]"
+                style="max-height: 30px;"
                 aria-label="@lang('shop::app.components.layouts.header.mobile.bagisto')"
             >
                 <img
@@ -39,7 +39,7 @@
 
         <!-- Right Navigation -->
         <div>
-            <div class="flex items-center gap-x-5 max-md:gap-x-4">
+            <div class="d-flex align-items-center gap-3 gap-md-4">
                 {!! view_render_event('bagisto.shop.components.layouts.header.mobile.compare.before') !!}
 
                 @if($showCompare)
@@ -47,7 +47,7 @@
                         href="{{ route('shop.compare.index') }}"
                         aria-label="@lang('shop::app.components.layouts.header.mobile.compare')"
                     >
-                        <span class="icon-compare cursor-pointer text-2xl"></span>
+                        <span class="icon-compare cursor-pointer" style="font-size: 1.5rem;"></span>
                     </a>
                 @endif
 
@@ -62,10 +62,10 @@
                 {!! view_render_event('bagisto.shop.components.layouts.header.mobile.mini_cart.after') !!}
 
                 <!-- For Large screens -->
-                <div class="max-md:hidden">
+                <div class="d-none d-md-block">
                     <x-shop::dropdown position="bottom-{{ core()->getCurrentLocale()->direction === 'ltr' ? 'right' : 'left' }}">
                         <x-slot:toggle>
-                            <span class="icon-users cursor-pointer text-2xl"></span>
+                            <span class="icon-users cursor-pointer" style="font-size: 1.5rem;"></span>
                         </x-slot>
 
                         <!-- Guest Dropdown -->
@@ -176,13 +176,13 @@
                 </div>
 
                 <!-- For Medium and small screen -->
-                <div class="md:hidden">
+                <div class="d-none d-md-block d-lg-none">
                     @guest('customer')
                         <a
                             href="{{ route('shop.customer.session.create') }}"
                             aria-label="@lang('shop::app.components.layouts.header.mobile.account')"
                         >
-                            <span class="icon-users cursor-pointer text-2xl"></span>
+                            <span class="icon-users cursor-pointer" style="font-size: 1.5rem;"></span>
                         </a>
                     @endguest
 
@@ -192,7 +192,7 @@
                             href="{{ route('shop.customers.account.index') }}"
                             aria-label="@lang('shop::app.components.layouts.header.mobile.account')"
                         >
-                            <span class="icon-users cursor-pointer text-2xl"></span>
+                            <span class="icon-users cursor-pointer" style="font-size: 1.5rem;"></span>
                         </a>
                     @endauth
                 </div>
@@ -203,20 +203,21 @@
     {!! view_render_event('bagisto.shop.components.layouts.header.mobile.search.before') !!}
 
     <!-- Serach Catalog Form -->
-    <form action="{{ route('shop.search.index') }}" class="flex w-full items-center">
+    <form action="{{ route('shop.search.index') }}" class="d-flex w-100 align-items-center">
         <label
             for="organic-search"
-            class="sr-only"
+            class="visually-hidden"
         >
             @lang('shop::app.components.layouts.header.mobile.search')
         </label>
 
-        <div class="relative w-full">
-            <div class="icon-search pointer-events-none absolute top-3 flex items-center text-2xl max-md:text-xl max-sm:top-2.5 ltr:left-3 rtl:right-3"></div>
+        <div class="position-relative w-100">
+            <div class="icon-search position-absolute top-50 translate-middle-y d-flex align-items-center" style="left: 12px; font-size: 1.5rem; pointer-events: none;"></div>
 
             <input
                 type="text"
-                class="block w-full rounded-xl border border-['#E3E3E3'] px-11 py-3.5 text-sm font-medium text-gray-900 max-md:rounded-lg max-md:px-10 max-md:py-3 max-md:font-normal max-sm:text-xs"
+                class="form-control ps-5"
+                style="font-size: 0.875rem; border: 1px solid #E3E3E3;"
                 name="query"
                 value="{{ request('query') }}"
                 placeholder="@lang('shop::app.components.layouts.header.mobile.search-text')"

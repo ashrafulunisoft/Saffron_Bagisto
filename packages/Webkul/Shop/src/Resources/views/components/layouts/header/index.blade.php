@@ -1,78 +1,86 @@
 {!! view_render_event('bagisto.shop.layout.header.before') !!}
 
 @if(core()->getCurrentChannel()->locales()->count() > 1 || core()->getCurrentChannel()->currencies()->count() > 1 )
-    <div class="max-lg:hidden">
+    <div class="d-none d-lg-block">
         <x-shop::layouts.header.desktop.top />
     </div>
 @endif
 
-<header class="shadow-gray sticky top-0 z-10 bg-white shadow-sm max-lg:shadow-none">
+<header class="position-sticky top-0 z-10 bg-white shadow-sm">
     <v-header-switcher>
         <!-- Desktop Header Shimmer -->
-        <div class="flex flex-wrap max-lg:hidden">
-            <div class="flex min-h-[78px] w-full justify-between border border-b border-l-0 border-r-0 border-t-0 px-[60px] max-1180:px-8">
+        <div class="d-none d-lg-block">
+            <div class="d-flex align-items-center justify-content-between w-100 border-bottom px-5 py-0" style="min-height: 78px;">
                 <!-- Left Navigation Section -->
-                <div class="flex items-center gap-x-10 max-[1180px]:gap-x-5">
+                <div class="d-flex align-items-center gap-4">
                     <!-- Logo Shimmer -->
                     <span
-                        class="shimmer block h-[29px] w-[131px] rounded"
+                        class="shimmer d-block rounded"
                         role="presentation"
+                        style="height: 29px; width: 131px;"
                     >
                     </span>
 
                     <!-- Categories Shimmer -->
-                    <div class="flex items-center gap-5">
+                    <div class="d-flex align-items-center gap-3">
                         <span
-                            class="shimmer h-6 w-20 rounded"
+                            class="shimmer rounded"
                             role="presentation"
+                            style="height: 24px; width: 80px;"
                         >
                         </span>
 
                         <span
-                            class="shimmer h-6 w-20 rounded"
+                            class="shimmer rounded"
                             role="presentation"
+                            style="height: 24px; width: 80px;"
                         >
                         </span>
 
                         <span
-                            class="shimmer h-6 w-20 rounded"
+                            class="shimmer rounded"
                             role="presentation"
+                            style="height: 24px; width: 80px;"
                         >
                         </span>
                     </div>
                 </div>
 
                 <!-- Right Navigation Section -->
-                <div class="flex items-center gap-x-9 max-[1100px]:gap-x-6 max-lg:gap-x-8">
+                <div class="d-flex align-items-center gap-4">
                     <!-- Search Bar Shimmer -->
-                    <div class="relative w-full max-w-[445px]">
+                    <div class="position-relative flex-grow-1">
                         <span
-                            class="shimmer block h-[42px] w-[250px] rounded-lg px-11 py-3"
+                            class="shimmer d-block rounded px-3"
                             role="presentation"
+                            style="height: 42px; width: 250px;"
                         >
                         </span>
                     </div>
 
                     <!-- Right Navigation Icons Shimmer -->
-                    <div class="mt-1.5 flex gap-x-8 max-[1100px]:gap-x-6 max-lg:gap-x-8">
+                    <div class="d-flex gap-4">
                         <!-- Compare Icon Shimmer -->
                         <span
-                            class="shimmer h-6 w-6 rounded"
+                            class="shimmer rounded"
                             role="presentation"
+                            style="height: 24px; width: 24px;"
                         >
                         </span>
 
                         <!-- Cart Icon Shimmer -->
                         <span
-                            class="shimmer h-6 w-6 rounded"
+                            class="shimmer rounded"
                             role="presentation"
+                            style="height: 24px; width: 24px;"
                         >
                         </span>
 
                         <!-- Profile Icon Shimmer -->
                         <span
-                            class="shimmer h-6 w-6 rounded"
+                            class="shimmer rounded"
                             role="presentation"
+                            style="height: 24px; width: 24px;"
                         >
                         </span>
                     </div>
@@ -81,56 +89,62 @@
         </div>
 
         <!-- Mobile Header Shimmer -->
-        <div class="flex flex-wrap gap-4 px-4 pb-4 pt-6 shadow-sm lg:hidden">
-            <div class="flex w-full items-center justify-between">
+        <div class="d-lg-none shadow-sm p-3 pb-4 pt-4">
+            <div class="d-flex w-100 align-items-center justify-content-between mb-3">
                 <!-- Left Navigation -->
-                <div class="flex items-center gap-x-1.5">
+                <div class="d-flex align-items-center gap-2">
                     <!-- Hamburger Menu Shimmer -->
-                    <span 
-                        class="shimmer block h-6 w-6 rounded" 
+                    <span
+                        class="shimmer d-block rounded"
                         role="presentation"
+                        style="height: 24px; width: 24px;"
                     >
                     </span>
-                    
+
                     <!-- Logo Shimmer -->
-                    <span 
-                        class="shimmer block h-[29px] w-[131px] rounded" 
+                    <span
+                        class="shimmer d-block rounded"
                         role="presentation"
+                        style="height: 29px; width: 131px;"
                     >
                     </span>
                 </div>
 
                 <!-- Right Navigation Icons -->
-                <div class="flex items-center gap-x-5 max-md:gap-x-4">
+                <div class="d-flex align-items-center gap-3 gap-md-4">
                     <!-- Compare Icon Shimmer -->
-                    <span 
-                        class="shimmer block h-6 w-6 rounded" 
+                    <span
+                        class="shimmer d-block rounded"
                         role="presentation"
+                        style="height: 24px; width: 24px;"
                     >
                     </span>
-                    
+
                     <!-- Cart Icon Shimmer -->
-                    <span 
-                        class="shimmer block h-6 w-6 rounded" 
+                    <span
+                        class="shimmer d-block rounded"
                         role="presentation"
+                        style="height: 24px; width: 24px;"
                     >
                     </span>
-                    
+
                     <!-- Profile Icon Shimmer -->
-                    <span 
-                        class="shimmer block h-6 w-6 rounded" 
+                    <span
+                        class="shimmer d-block rounded"
                         role="presentation"
+                        style="height: 24px; width: 24px;"
                     >
                     </span>
                 </div>
             </div>
 
             <!-- Search Bar Shimmer -->
-            <div class="flex w-full items-center">
-                <div class="relative w-full">
+            <div class="d-flex w-100 align-items-center">
+                <div class="position-relative w-100">
                     <span
-                        class="shimmer block h-[42px] w-full rounded-xl px-11 py-3.5 max-md:rounded-lg"
+                        class="shimmer d-block rounded px-3"
                         role="presentation"
+                        style="height: 42px;"
                     >
                     </span>
                 </div>
@@ -142,12 +156,12 @@
 {!! view_render_event('bagisto.shop.layout.header.after') !!}
 
 @pushOnce('scripts')
-    <script 
-        type="text/x-template" 
+    <script
+        type="text/x-template"
         id="v-header-switcher-template"
     >
         <v-desktop-header v-if="isDesktop"></v-desktop-header>
-        
+
         <v-mobile-header v-else></v-mobile-header>
     </script>
 
@@ -187,15 +201,15 @@
         });
     </script>
 
-    <script 
-        type="text/x-template" 
+    <script
+        type="text/x-template"
         id="v-desktop-header-template"
     >
         <x-shop::layouts.header.desktop />
     </script>
 
-    <script 
-        type="text/x-template" 
+    <script
+        type="text/x-template"
         id="v-mobile-header-template"
     >
         <x-shop::layouts.header.mobile />
