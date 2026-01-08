@@ -21,6 +21,19 @@
 
             {!! view_render_event('bagisto.shop.components.layouts.header.mobile.drawer.after') !!}
 
+            <!-- Additional Menu Links -->
+            <div class="d-flex align-items-center gap-2">
+                <a href="/blog" class="d-inline-block px-2 text-uppercase text-decoration-none transition-colors duration-200" style="font-size: 0.75rem;">
+                    Blog
+                </a>
+                <a href="/page/about-us" class="d-inline-block px-2 text-uppercase text-decoration-none transition-colors duration-200" style="font-size: 0.75rem;">
+                    About
+                </a>
+                <a href="/page/contact-us" class="d-inline-block px-2 text-uppercase text-decoration-none transition-colors duration-200" style="font-size: 0.75rem;">
+                    Contact
+                </a>
+            </div>
+
             {!! view_render_event('bagisto.shop.components.layouts.header.mobile.logo.before') !!}
 
             <a

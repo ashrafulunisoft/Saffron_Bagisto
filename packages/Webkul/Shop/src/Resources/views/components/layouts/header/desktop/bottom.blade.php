@@ -29,6 +29,19 @@
             </div>
         </v-desktop-category>
 
+        <!-- Additional Menu Links -->
+        <div class="d-flex align-items-center gap-4 border-bottom-4 border-transparent hover:border-navyBlue" style="height: 70px;">
+            <a href="/blog" class="d-inline-block px-4 text-uppercase text-decoration-none transition-colors duration-200 font-bold" style="font-size: 0.875rem;">
+                Blog
+            </a>
+            <a href="/page/about-us" class="d-inline-block px-4 text-uppercase text-decoration-none transition-colors duration-200 font-bold" style="font-size: 0.875rem;">
+                About
+            </a>
+            <a href="/page/contact-us" class="d-inline-block px-4 text-uppercase text-decoration-none transition-colors duration-200 font-bold" style="font-size: 0.875rem;">
+                Contact
+            </a>
+        </div>
+
         {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.category.after') !!}
     </div>
 
@@ -121,7 +134,7 @@
                             {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.sign_in_button.before') !!}
 
                             <a href="{{ route('shop.customer.session.create') }}"
-                                class="primary-button m-0 mx-auto block w-max rounded-2xl px-7 text-center text-base max-md:rounded-lg ltr:ml-0 rtl:mr-0">
+                                class="primary-button m-0 mx-auto block w-max rounded-2xl px-7 text-center text-base text-white max-md:rounded-lg ltr:ml-0 rtl:mr-0">
                                 @lang('shop::app.components.layouts.header.desktop.bottom.sign-in')
                             </a>
 
@@ -241,7 +254,7 @@
                 <span>
                     <a
                         :href="category.url"
-                        class="d-inline-block px-4 text-uppercase"
+                        class="d-inline-block px-4 text-uppercase font-bold"
                         style="font-size: 0.875rem;"
                     >
                         @{{ category.name }}
@@ -249,7 +262,7 @@
                 </span>
 
                 <div
-                    class="category-dropdown mega-menu-dropdown position-absolute overflow-auto overflow-x-auto bg-white"
+                    class="category-dropdown mega-menu-dropdown position-absolute overflow-auto overflow-x-auto bg-white rounded-4"
                     :style="{
                         'top': '78px',
                         'z-index': 1,
@@ -259,7 +272,7 @@
                         'border': '1px solid #F3F3F3',
                         'border-top': '1px solid #F3F3F3',
                         'padding': '2.25rem',
-                        'box-shadow': '0 6px 6px 1px rgba(0,0,0,.3)',
+                        'box-shadow': '-4px 4px 12px rgba(0,0,0,0.15), 4px 4px 12px rgba(0,0,0,0.15), 0 4px 12px rgba(0,0,0,0.15)',
                         'display': visibleDropdown === category.id ? 'block' : 'none'
                     }"
                     data-category-dropdown
@@ -326,7 +339,7 @@
                     <span>
                         <a
                             :href="category.url"
-                            class="d-inline-block px-4 text-uppercase"
+                            class="d-inline-block px-4 text-uppercase font-bold"
                             style="font-size: 0.875rem;"
                         >
                             @{{ category.name }}
@@ -335,7 +348,7 @@
 
                 <!-- Dropdown for each category -->
                 <div
-                    class="category-dropdown mega-menu-dropdown position-absolute overflow-auto bg-white"
+                    class="category-dropdown mega-menu-dropdown position-absolute overflow-auto bg-white rounded-4"
                     :style="{
                         'top': '70px',
                         'z-index': 1,
@@ -345,7 +358,7 @@
                         'border': '1px solid #F3F3F3',
                         'border-top': '1px solid #F3F3F3',
                         'padding': '2.25rem',
-                        'box-shadow': '0 6px 6px 1px rgba(0,0,0,.3)',
+                        'box-shadow': '-4px 4px 12px rgba(0,0,0,0.15), 4px 4px 12px rgba(0,0,0,0.15), 0 4px 12px rgba(0,0,0,0.15)',
                         'left': '-36px',
                         'display': visibleDropdown === category.id ? 'block' : 'none'
                     }"
