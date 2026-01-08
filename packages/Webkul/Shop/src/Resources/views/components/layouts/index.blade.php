@@ -83,6 +83,14 @@
         @stack('styles')
 
         <style>
+            /* Global link and icon styles */
+            a, i {
+                text-decoration: none !important;
+                color: black !important;
+            }
+            a:hover {
+                color: #333 !important;
+            }
             {!! core()->getConfigData('general.content.custom_scripts.custom_css') !!}
         </style>
 

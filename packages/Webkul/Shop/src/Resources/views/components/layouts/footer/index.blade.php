@@ -21,7 +21,7 @@
                 <div class="mb-3">
                     <img src="{{ core()->getCurrentChannel()->logo_url ?? asset('images/logo.png') }}" alt="Logo" style="max-height: 40px;">
                 </div>
-                <p class="text-secondary small mb-3">
+                <p class="text-white small mb-3">
                     @lang('shop::app.components.layouts.footer.subscribe-stay-touch')
                 </p>
                 {{-- Social Icons --}}
@@ -39,7 +39,7 @@
                     @if ($customization?->options)
                         @foreach ($customization->options as $footerLinkSection)
                             <div class="col-6">
-                                <h6 class="text-uppercase text-secondary fw-bold small mb-3">
+                                <h6 class="text-uppercase text-white fw-bold small mb-3">
                                     @lang('shop::app.components.layouts.footer.footer-content')
                                 </h6>
                                 @php
@@ -50,7 +50,7 @@
                                 <ul class="list-unstyled">
                                     @foreach ($footerLinkSection as $link)
                                         <li class="mb-2">
-                                            <a href="{{ $link['url'] }}" class="text-secondary text-decoration-none small hover-light">
+                                            <a href="{{ $link['url'] }}" class="text-dark text-decoration-none small hover-light">
                                                 {{ $link['title'] }}
                                             </a>
                                         </li>
@@ -64,23 +64,23 @@
 
             {{-- Address Section --}}
             <div class="col-lg-2 col-md-6">
-                <h6 class="text-uppercase text-secondary fw-bold small mb-3">Contact Us</h6>
+                <h6 class="text-uppercase text-white fw-bold small mb-3">Contact Us</h6>
                 <ul class="list-unstyled small">
                     <li class="mb-3 d-flex align-items-start gap-2">
                         <i class="bi bi-geo-alt-fill text-warning"></i>
-                        <span class="text-secondary">123 Shopping Street, Market Area, City 12345</span>
+                        <span class="text-white">123 Shopping Street, Market Area, City 12345</span>
                     </li>
                     <li class="mb-3 d-flex align-items-center gap-2">
                         <i class="bi bi-telephone-fill text-warning"></i>
-                        <a href="tel:+1234567890" class="text-secondary text-decoration-none">+1 234 567 890</a>
+                        <a href="tel:+1234567890" class="text-dark text-decoration-none">+1 234 567 890</a>
                     </li>
                     <li class="mb-3 d-flex align-items-center gap-2">
                         <i class="bi bi-envelope-fill text-warning"></i>
-                        <a href="mailto:support@store.com" class="text-secondary text-decoration-none">support@store.com</a>
+                        <a href="mailto:support@store.com" class="text-dark text-decoration-none">support@store.com</a>
                     </li>
                     <li class="d-flex align-items-center gap-2">
                         <i class="bi bi-clock-fill text-warning"></i>
-                        <span class="text-secondary">Mon - Fri: 9AM - 6PM</span>
+                        <span class="text-white">Mon - Fri: 9AM - 6PM</span>
                     </li>
                 </ul>
             </div>
@@ -91,7 +91,7 @@
                 @if (core()->getConfigData('customer.settings.newsletter.subscription'))
                     <div class="bg-secondary bg-opacity-25 rounded p-3">
                         <h6 class="fw-bold mb-1">@lang('shop::app.components.layouts.footer.newsletter-text')</h6>
-                        <p class="text-secondary small mb-3">@lang('shop::app.components.layouts.footer.subscribe-stay-touch')</p>
+                        <p class="text-white small mb-3">@lang('shop::app.components.layouts.footer.subscribe-stay-touch')</p>
                         <x-shop::form action="{{ route('shop.subscription.store') }}" class="d-flex gap-2">
                             <input type="email" name="email" class="form-control form-control-sm" placeholder="Enter your email" required>
                             <button type="submit" class="btn btn-warning btn-sm">@lang('shop::app.components.layouts.footer.subscribe')</button>
@@ -124,7 +124,7 @@
                                     <ul class="list-unstyled mb-0">
                                         @foreach ($footerLinkSection as $link)
                                             <li class="mb-2">
-                                                <a href="{{ $link['url'] }}" class="text-secondary text-decoration-none small">{{ $link['title'] }}</a>
+                                                <a href="{{ $link['url'] }}" class="text-dark text-decoration-none small">{{ $link['title'] }}</a>
                                             </li>
                                         @endforeach
                                     </ul>
@@ -140,13 +140,13 @@
         <div class="border-top border-secondary pt-3">
             <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
                 {!! view_render_event('bagisto.shop.layout.footer.footer_text.before') !!}
-                <p class="text-secondary small mb-0">
+                <p class="text-white small mb-0">
                     @lang('shop::app.components.layouts.footer.footer-text', ['current_year' => date('Y')])
                 </p>
                 {!! view_render_event('bagisto.shop.layout.footer.footer_text.after') !!}
                 <div class="d-flex gap-3">
-                    <a href="#" class="text-secondary text-decoration-none small">Privacy Policy</a>
-                    <a href="#" class="text-secondary text-decoration-none small">Terms of Service</a>
+                    <a href="#" class="text-dark text-decoration-none small">Privacy Policy</a>
+                    <a href="#" class="text-dark text-decoration-none small">Terms of Service</a>
                 </div>
             </div>
         </div>
