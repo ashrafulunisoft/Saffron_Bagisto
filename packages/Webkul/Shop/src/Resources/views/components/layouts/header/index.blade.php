@@ -10,9 +10,9 @@
     <v-header-switcher>
         <!-- Desktop Header Shimmer -->
         <div class="d-none d-lg-block">
-            <div class="d-flex align-items-center justify-content-between w-100 border-bottom px-5 py-0" style="min-height: 78px;">
+            <div class="d-flex align-items-center justify-content-between w-100 border-bottom mx-auto px-3 py-2" style="min-height: 70px;">
                 <!-- Left Navigation Section -->
-                <div class="d-flex align-items-center gap-4">
+                <div class="d-flex align-items-center gap-3">
                     <!-- Logo Shimmer -->
                     <span
                         class="shimmer d-block rounded"
@@ -22,49 +22,49 @@
                     </span>
 
                     <!-- Categories Shimmer -->
-                    <div class="d-flex align-items-center gap-3">
+                    <div class="d-flex align-items-center gap-2">
                         <span
                             class="shimmer rounded"
                             role="presentation"
-                            style="height: 24px; width: 80px;"
+                            style="height: 20px; width: 70px;"
                         >
                         </span>
 
                         <span
                             class="shimmer rounded"
                             role="presentation"
-                            style="height: 24px; width: 80px;"
+                            style="height: 20px; width: 70px;"
                         >
                         </span>
 
                         <span
                             class="shimmer rounded"
                             role="presentation"
-                            style="height: 24px; width: 80px;"
+                            style="height: 20px; width: 70px;"
                         >
                         </span>
                     </div>
                 </div>
 
                 <!-- Right Navigation Section -->
-                <div class="d-flex align-items-center gap-4">
+                <div class="d-flex align-items-center gap-3">
                     <!-- Search Bar Shimmer -->
-                    <div class="position-relative flex-grow-1">
+                    <div class="position-relative">
                         <span
-                            class="shimmer d-block rounded px-3"
+                            class="shimmer d-block rounded px-2"
                             role="presentation"
-                            style="height: 42px; width: 250px;"
+                            style="height: 32px; width: 250px;"
                         >
                         </span>
                     </div>
 
                     <!-- Right Navigation Icons Shimmer -->
-                    <div class="d-flex gap-4">
+                    <div class="d-flex gap-3 align-items-center">
                         <!-- Compare Icon Shimmer -->
                         <span
                             class="shimmer rounded"
                             role="presentation"
-                            style="height: 24px; width: 24px;"
+                            style="height: 20px; width: 20px;"
                         >
                         </span>
 
@@ -72,7 +72,7 @@
                         <span
                             class="shimmer rounded"
                             role="presentation"
-                            style="height: 24px; width: 24px;"
+                            style="height: 20px; width: 20px;"
                         >
                         </span>
 
@@ -80,7 +80,7 @@
                         <span
                             class="shimmer rounded"
                             role="presentation"
-                            style="height: 24px; width: 24px;"
+                            style="height: 20px; width: 20px;"
                         >
                         </span>
                     </div>
@@ -89,8 +89,8 @@
         </div>
 
         <!-- Mobile Header Shimmer -->
-        <div class="d-lg-none shadow-sm p-3 pb-4 pt-4">
-            <div class="d-flex w-100 align-items-center justify-content-between mb-3">
+        <div class="d-lg-none shadow-sm p-2 pb-3 pt-2">
+            <div class="d-flex w-100 align-items-center justify-content-between mb-2">
                 <!-- Left Navigation -->
                 <div class="d-flex align-items-center gap-2">
                     <!-- Hamburger Menu Shimmer -->
@@ -111,7 +111,7 @@
                 </div>
 
                 <!-- Right Navigation Icons -->
-                <div class="d-flex align-items-center gap-3 gap-md-4">
+                <div class="d-flex align-items-center gap-2 gap-md-3">
                     <!-- Compare Icon Shimmer -->
                     <span
                         class="shimmer d-block rounded"
@@ -142,9 +142,9 @@
             <div class="d-flex w-100 align-items-center">
                 <div class="position-relative w-100">
                     <span
-                        class="shimmer d-block rounded px-3"
+                        class="shimmer d-block rounded px-2"
                         role="presentation"
-                        style="height: 42px;"
+                        style="height: 36px;"
                     >
                     </span>
                 </div>

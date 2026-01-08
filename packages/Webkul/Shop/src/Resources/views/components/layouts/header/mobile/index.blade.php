@@ -8,8 +8,8 @@
     $showWishlist = (bool) core()->getConfigData('customer.settings.wishlist.wishlist_option');
 @endphp
 
-<div class="d-lg-none shadow-sm p-3 pb-4 pt-4">
-    <div class="d-flex w-100 align-items-center justify-content-between mb-3">
+<div class="d-lg-none shadow-sm p-2 pb-3 pt-2">
+    <div class="d-flex w-100 align-items-center justify-content-between mb-2">
         <!-- Left Navigation -->
         <div class="d-flex align-items-center gap-2">
             {!! view_render_event('bagisto.shop.components.layouts.header.mobile.drawer.before') !!}
@@ -39,7 +39,7 @@
 
         <!-- Right Navigation -->
         <div>
-            <div class="d-flex align-items-center gap-3 gap-md-4">
+            <div class="d-flex align-items-center gap-2 gap-md-3">
                 {!! view_render_event('bagisto.shop.components.layouts.header.mobile.compare.before') !!}
 
                 @if($showCompare)
@@ -47,7 +47,7 @@
                         href="{{ route('shop.compare.index') }}"
                         aria-label="@lang('shop::app.components.layouts.header.mobile.compare')"
                     >
-                        <span class="icon-compare cursor-pointer" style="font-size: 1.5rem;"></span>
+                        <span class="icon-compare cursor-pointer" style="font-size: 1.25rem;"></span>
                     </a>
                 @endif
 
@@ -65,7 +65,7 @@
                 <div class="d-none d-md-block">
                     <x-shop::dropdown position="bottom-{{ core()->getCurrentLocale()->direction === 'ltr' ? 'right' : 'left' }}">
                         <x-slot:toggle>
-                            <span class="icon-users cursor-pointer" style="font-size: 1.5rem;"></span>
+                            <span class="icon-users cursor-pointer" style="font-size: 1.25rem;"></span>
                         </x-slot>
 
                         <!-- Guest Dropdown -->
@@ -182,7 +182,7 @@
                             href="{{ route('shop.customer.session.create') }}"
                             aria-label="@lang('shop::app.components.layouts.header.mobile.account')"
                         >
-                            <span class="icon-users cursor-pointer" style="font-size: 1.5rem;"></span>
+                            <span class="icon-users cursor-pointer" style="font-size: 1.25rem;"></span>
                         </a>
                     @endguest
 
@@ -192,7 +192,7 @@
                             href="{{ route('shop.customers.account.index') }}"
                             aria-label="@lang('shop::app.components.layouts.header.mobile.account')"
                         >
-                            <span class="icon-users cursor-pointer" style="font-size: 1.5rem;"></span>
+                            <span class="icon-users cursor-pointer" style="font-size: 1.25rem;"></span>
                         </a>
                     @endauth
                 </div>
@@ -212,12 +212,12 @@
         </label>
 
         <div class="position-relative w-100">
-            <div class="icon-search position-absolute top-50 translate-middle-y d-flex align-items-center" style="left: 12px; font-size: 1.5rem; pointer-events: none;"></div>
+            <div class="icon-search position-absolute top-50 translate-middle-y d-flex align-items-center" style="left: 8px; font-size: 1.1rem; pointer-events: none;"></div>
 
             <input
                 type="text"
-                class="form-control ps-5"
-                style="font-size: 0.875rem; border: 1px solid #E3E3E3;"
+                class="form-control ps-4"
+                style="font-size: 0.875rem; border: 1px solid #E3E3E3; padding: 0.5rem 0.5rem 0.5rem 2.5rem;"
                 name="query"
                 value="{{ request('query') }}"
                 placeholder="@lang('shop::app.components.layouts.header.mobile.search-text')"

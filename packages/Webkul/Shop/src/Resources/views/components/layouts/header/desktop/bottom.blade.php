@@ -1,12 +1,12 @@
 {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.before') !!}
 
-<div class="d-flex align-items-center justify-content-between w-100 border-bottom px-5 py-0" style="min-height: 78px;">
+<div class="d-flex align-items-center justify-content-between w-100 border-bottom mx-auto px-3 py-2" style="min-height: 70px;">
     <!--
         This section will provide categories for the first, second, and third levels. If
         additional levels are required, users can customize them according to their needs.
     -->
     <!-- Left Nagivation Section -->
-    <div class="d-flex align-items-center gap-4">
+    <div class="d-flex align-items-center gap-3">
         {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.logo.before') !!}
 
         <a
@@ -26,23 +26,23 @@
         {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.category.before') !!}
 
         <v-desktop-category>
-            <div class="d-flex align-items-center gap-3">
+            <div class="d-flex align-items-center gap-2">
                 <span
                     class="shimmer rounded"
                     role="presentation"
-                    style="height: 24px; width: 80px;"
+                    style="height: 20px; width: 70px;"
                 ></span>
 
                 <span
                     class="shimmer rounded"
                     role="presentation"
-                    style="height: 24px; width: 80px;"
+                    style="height: 20px; width: 70px;"
                 ></span>
 
                 <span
                     class="shimmer rounded"
                     role="presentation"
-                    style="height: 24px; width: 80px;"
+                    style="height: 20px; width: 70px;"
                 ></span>
             </div>
         </v-desktop-category>
@@ -51,16 +51,16 @@
     </div>
 
     <!-- Right Nagivation Section -->
-    <div class="d-flex align-items-center gap-4">
+    <div class="d-flex align-items-center gap-3">
 
         {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.search_bar.before') !!}
 
         <!-- Search Bar Container -->
-        <div class="position-relative flex-grow-1">
+        <div class="position-relative">
             <form
                 action="{{ route('shop.search.index') }}"
                 class="d-flex align-items-center"
-                style="max-width: 445px;"
+                style="max-width: 400px;"
                 role="search"
             >
                 <label
@@ -70,14 +70,14 @@
                     @lang('shop::app.components.layouts.header.desktop.bottom.search')
                 </label>
 
-                <div class="icon-search position-absolute top-50 translate-middle-y d-flex align-items-center text-muted" style="left: 12px; font-size: 1.25rem; pointer-events: none;"></div>
+                <div class="icon-search position-absolute top-50 translate-middle-y d-flex align-items-center text-muted" style="left: 8px; font-size: 1.1rem; pointer-events: none;"></div>
 
                 <input
                     type="text"
                     name="query"
                     value="{{ request('query') }}"
-                    class="form-control ps-5"
-                    style="font-size: 0.75rem; background-color: #f4f4f5;"
+                    class="form-control ps-4"
+                    style="font-size: 0.75rem; background-color: #f4f4f5; padding: 0.5rem 0.5rem 0.5rem 2.5rem;"
                     minlength="{{ core()->getConfigData('catalog.products.search.min_query_length') }}"
                     maxlength="{{ core()->getConfigData('catalog.products.search.max_query_length') }}"
                     placeholder="@lang('shop::app.components.layouts.header.desktop.bottom.search-text')"
@@ -103,7 +103,7 @@
         {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.search_bar.after') !!}
 
         <!-- Right Navigation Links -->
-        <div class="d-flex gap-4">
+        <div class="d-flex gap-3 align-items-center">
 
             {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.compare.before') !!}
 
@@ -116,7 +116,7 @@
                     <span
                         class="icon-compare d-inline-block cursor-pointer"
                         role="presentation"
-                        style="font-size: 1.5rem;"
+                        style="font-size: 1.25rem;"
                     ></span>
                 </a>
             @endif
@@ -142,7 +142,7 @@
                         role="button"
                         aria-label="@lang('shop::app.components.layouts.header.desktop.bottom.profile')"
                         tabindex="0"
-                        style="font-size: 1.5rem;"
+                        style="font-size: 1.25rem;"
                     ></span>
                 </x-slot>
 
