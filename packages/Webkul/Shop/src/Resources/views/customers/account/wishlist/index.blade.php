@@ -11,11 +11,11 @@
         @endSection
     @endif
 
-    <div class="max-md:hidden">
+    <div class="col-lg-3 col-md-4 d-none d-md-block">
         <x-shop::layouts.account.navigation />
     </div>
 
-    <div class="mx-4 flex-auto">
+    <div class="col-lg-9 col-md-8 account-main-content">
         <!-- Wishlist Vue Component -->
         <v-wishlist-products>
             <!-- Wishlist Shimmer Effect -->
@@ -236,7 +236,7 @@
                                 </div>
                             </div>
 
-                            <div class="max-md:hidden">
+                            <div class="col-lg-3 col-md-4 d-none d-md-block">
                                 <p
                                     class="text-lg font-semibold"
                                     v-html="wishlist.product.price_html"

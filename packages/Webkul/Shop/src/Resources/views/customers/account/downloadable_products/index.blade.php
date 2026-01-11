@@ -11,11 +11,11 @@
         @endSection
     @endif
 
-    <div class="max-md:hidden">
+    <div class="col-lg-3 col-md-4 d-none d-md-block">
         <x-shop::layouts.account.navigation />
     </div>
 
-    <div class="mx-4 flex-auto max-md:mx-6 max-sm:mx-4">
+    <div class="col-lg-9 col-md-8 account-main-content">
         <div class="mb-8 flex items-center max-md:mb-5">
             <!-- Back Button -->
             <a
@@ -33,7 +33,7 @@
         {!! view_render_event('bagisto.shop.customers.account.downloadable_products.list.before') !!}
 
             <!-- For Desktop View -->
-        <div class="max-md:hidden">
+        <div class="w-100">
             <x-shop::datagrid :src="route('shop.customers.account.downloadable_products.index')" />
         </div>
 
@@ -82,7 +82,7 @@
 
                                         <p v-html="record.status"></p>
                                     </div>
-            
+
                                     <div class="text-xs font-normal">
                                         <p
                                             class="text-sm font-semibold text-blue-600"
