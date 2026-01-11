@@ -12,17 +12,12 @@
                 />
             </x-shop::form.control-group>
 
-            <!-- Company Name -->
-            <x-shop::form.control-group>
-                <x-shop::form.control-group.label>
-                    @lang('shop::app.checkout.onepage.address.company-name')
-                </x-shop::form.control-group.label>
-
+            <!-- Company Name - Hidden -->
+            <x-shop::form.control-group class="hidden">
                 <x-shop::form.control-group.control
                     type="text"
                     ::name="controlName + '.company_name'"
                     ::value="address.company_name"
-                    :placeholder="trans('shop::app.checkout.onepage.address.company-name')"
                 />
             </x-shop::form.control-group>
 
@@ -90,22 +85,14 @@
 
             {!! view_render_event('bagisto.shop.checkout.onepage.address.form.email.after') !!}
 
-            <!-- Vat ID -->
-            <template v-if="controlName=='billing'">
-                <x-shop::form.control-group>
-                    <x-shop::form.control-group.label>
-                        @lang('shop::app.checkout.onepage.address.vat-id')
-                    </x-shop::form.control-group.label>
-
+            <!-- Vat ID - Hidden -->
+            <template v-if="controlName=='billing'" class="hidden">
+                <x-shop::form.control-group class="hidden">
                     <x-shop::form.control-group.control
                         type="text"
                         ::name="controlName + '.vat_id'"
                         ::value="address.vat_id"
-                        :label="trans('shop::app.checkout.onepage.address.vat-id')"
-                        :placeholder="trans('shop::app.checkout.onepage.address.vat-id')"
                     />
-
-                    <x-shop::form.control-group.error ::name="controlName + '.vat_id'" />
                 </x-shop::form.control-group>
 
                 {!! view_render_event('bagisto.shop.checkout.onepage.address.form.vat_id.after') !!}
@@ -326,7 +313,7 @@
 
             data() {
                 return {
-                    selectedCountry: this.address.country,
+                    selectedCountry: this.address.country || 'BD',
 
                     countries: [],
 
