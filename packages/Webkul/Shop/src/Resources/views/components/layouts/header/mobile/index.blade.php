@@ -38,14 +38,15 @@
 
             <a
                 href="{{ route('shop.home.index') }}"
-                style="max-height: 30px;"
+                style="max-height: 40px;"
                 aria-label="@lang('shop::app.components.layouts.header.mobile.bagisto')"
             >
                 <img
-                    src="{{ core()->getCurrentChannel()->logo_url ?? bagisto_asset('images/logo.svg') }}"
+                    src="/themes/admin/default/build/assets/Saffron__Logo_Removebg.png"
                     alt="{{ config('app.name') }}"
-                    width="131"
-                    height="29"
+                    width="120"
+                    height="40"
+                    style="object-fit: contain;"
                 >
             </a>
 
@@ -263,10 +264,11 @@
                 <div class="flex items-center justify-between">
                     <a href="{{ route('shop.home.index') }}">
                         <img
-                            src="{{ core()->getCurrentChannel()->logo_url ?? bagisto_asset('images/logo.svg') }}"
+                            src="/themes/admin/default/build/assets/Saffron__Logo_Removebg.png"
                             alt="{{ config('app.name') }}"
-                            width="131"
-                            height="29"
+                            width="150"
+                            height="50"
+                            style="object-fit: contain;"
                         >
                     </a>
                 </div>

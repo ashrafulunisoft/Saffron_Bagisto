@@ -56,9 +56,9 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
                             <div class="col-lg-6 col-md-12">
                                 <div class="hero-text-wrapper">
                                     <div class="hero-badge animate-fade-in-up">
-                                        <span class="badge-inner">
+                                        <span class="badge-inner" style="background:rgba(0, 0, 0, 0.1)">
                                             <span class="badge-icon">✨</span>
-                                            Premium Bengali Sweets & Bakery
+                                            Welcome To Saffron Sweets & Bakery
                                         </span>
                                     </div>
 
@@ -94,7 +94,7 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
                                             <div class="stat-label">Happy Customers</div>
                                         </div>
                                         <div class="stat-item">
-                                            <div class="stat-number" data-target="25">0</div>
+                                            <div class="stat-number" data-target="21">0</div>
                                             <div class="stat-label">Years Experience</div>
                                         </div>
                                     </div>
@@ -149,7 +149,8 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
             display: flex;
             align-items: center;
             overflow: hidden;
-            background: linear-gradient(135deg, #fff9e6 0%, #fff5f0 50%, #fff5f5 100%);
+            background: linear-gradient(135deg, rgba(255, 249, 230, 0.8) 0%, rgba(255, 245, 240, 0.8) 50%, rgba(255, 245, 245, 0.8) 100%);
+            backdrop-filter: blur(20px);
         }
 
         /* Animated Background Layers */
@@ -283,8 +284,8 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            background: rgba(255, 193, 7, 0.15);
-            border: 2px solid rgba(255, 193, 7, 0.3);
+            background: rgba(255, 193, 7, 0.2);
+            border: 2px solid rgba(255, 193, 7, 0.4);
             border-radius: 50px;
             padding: 0.75rem 1.5rem;
             font-weight: 600;
@@ -292,7 +293,8 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
             font-size: 1rem;
             text-transform: uppercase;
             letter-spacing: 1px;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(20px) saturate(180%);
+            box-shadow: 0 8px 32px rgba(255, 193, 7, 0.2);
             transition: all 0.3s ease;
         }
 
@@ -389,6 +391,12 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
             gap: 1.5rem;
             margin-bottom: 3rem;
             flex-wrap: wrap;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px) saturate(150%);
+            padding: 1.5rem 2rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
 
         .btn-hero {
@@ -459,6 +467,12 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
         .hero-stats {
             display: flex;
             gap: 3rem;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px) saturate(180%);
+            padding: 1.5rem 2.5rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
 
         .stat-item {
@@ -542,12 +556,12 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.75);
             padding: 0.75rem 1.25rem;
             border-radius: 50px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 193, 7, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(20px) saturate(180%);
+            border: 2px solid rgba(255, 193, 7, 0.4);
         }
 
         .label-1 {
@@ -1073,6 +1087,10 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
             padding: 1rem;
             border-radius: 10px;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(15px) saturate(150%);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
         }
 
         .category-card:hover .category-image {
@@ -1417,13 +1435,17 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
 
         .feature-card {
             transition: all 0.3s ease;
-            border: 2px solid transparent;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(15px) saturate(150%);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
         }
 
         .feature-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
-            border-color: #d4af37;
+            box-shadow: 0 10px 40px rgba(212, 175, 55, 0.25) !important;
+            border-color: rgba(212, 175, 55, 0.5);
+            background: rgba(255, 255, 255, 0.85);
         }
 
         .feature-icon {
@@ -1562,13 +1584,14 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
         }
 
         .product-card {
-            border: 2px solid #e8f5e9;
+            border: 1px solid rgba(255, 255, 255, 0.3);
             border-radius: 16px;
             overflow: hidden;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px) saturate(180%);
             height: 100%;
-            box-shadow: 0 4px 20px rgba(40, 167, 69, 0.12);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.5);
             position: relative;
         }
 
@@ -2624,13 +2647,17 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
 
         .sweet-card {
             transition: all 0.3s ease;
-            border: 2px solid transparent;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(15px) saturate(150%);
+            box-shadow: 0 4px 20px rgba(255, 140, 0, 0.08);
         }
 
         .sweet-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
-            border-color: #ff8c00;
+            box-shadow: 0 10px 40px rgba(255, 140, 0, 0.25) !important;
+            border-color: rgba(255, 140, 0, 0.5);
+            background: rgba(255, 255, 255, 0.85);
         }
 
         .sweet-icon {
@@ -3197,13 +3224,17 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
 
         .chocolate-feature-card {
             transition: all 0.3s ease;
-            border: 2px solid transparent;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(15px) saturate(150%);
+            box-shadow: 0 4px 20px rgba(139, 69, 19, 0.08);
         }
 
         .chocolate-feature-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
-            border-color: #8B4513;
+            box-shadow: 0 10px 40px rgba(139, 69, 19, 0.25) !important;
+            border-color: rgba(139, 69, 19, 0.5);
+            background: rgba(255, 255, 255, 0.85);
         }
 
         .chocolate-feature-icon {
@@ -4402,16 +4433,17 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
         }
 
         .blog-card {
-            background: #ffffff;
+            background: rgba(255, 255, 255, 0.75);
             border-radius: 16px;
             overflow: hidden;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 20px rgba(2, 119, 189, 0.15);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.5);
             height: 100%;
             display: flex;
             flex-direction: column;
             position: relative;
-            border: 2px solid #e3f2fd;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(20px) saturate(180%);
         }
 
         .blog-card::before {
