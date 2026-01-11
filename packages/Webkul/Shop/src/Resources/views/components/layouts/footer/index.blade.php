@@ -12,16 +12,16 @@
     ]);
 @endphp
 
-<footer class="bg-dark text-white pt-5 pb-3 mt-4 shadow-lg">
+<footer class="bg-dark text-dark pt-5 pb-3 mt-4 shadow-lg" style=" background-image: linear-gradient(to left,rgb(189, 200, 146),rgb(229, 228, 220));">
     <div class="container">
         <div class="row g-4 mb-4">
 
             {{-- Brand --}}
             <div class="col-lg-3 col-md-6">
                 <div class="mb-3">
-                    <img src="/themes/admin/default/build/assets/Saffron__Logo_Removebg.png" alt="Saffron Logo" style="max-height: 50px; width: auto;">
+                    <img src="/themes/admin/default/build/assets/Saffron__Logo_Removebg.png" alt="Saffron Logo" style="max-height: 100px; width: auto;">
                 </div>
-                <p class="text-white-70 small mb-3" style="color: rgba(255,255,255,0.7);">
+                <p class="text-dark-70 small mb-3">
                     @lang('shop::app.components.layouts.footer.subscribe-stay-touch')
                 </p>
                 {{-- Social Icons --}}
@@ -39,7 +39,7 @@
                     @if ($customization?->options)
                         @foreach ($customization->options as $footerLinkSection)
                             <div class="col-6">
-                                <h6 class="text-uppercase text-white fw-bold small mb-3">
+                                <h6 class="text-uppercase text-dark fw-bold small mb-3">
                                     @lang('shop::app.components.layouts.footer.footer-content')
                                 </h6>
                                 @php
@@ -50,7 +50,7 @@
                                 <ul class="list-unstyled">
                                     @foreach ($footerLinkSection as $link)
                                         <li class="mb-2">
-                                            <a href="{{ $link['url'] }}" class="text-white text-decoration-none small hover-light" style="color: rgba(255,255,255,0.7);">
+                                            <a href="{{ $link['url'] }}" class="text-dark text-decoration-none small hover-light" style="color: rgba(255,255,255,0.7);">
                                                 {{ $link['title'] }}
                                             </a>
                                         </li>
@@ -64,23 +64,23 @@
 
             {{-- Address Section --}}
             <div class="col-lg-2 col-md-6">
-                <h6 class="text-uppercase text-white fw-bold small mb-3">Contact Us</h6>
+                <h6 class="text-uppercase text-dark fw-bold small mb-3">Contact Us</h6>
                 <ul class="list-unstyled small">
                     <li class="mb-3 d-flex align-items-start gap-2">
                         <i class="bi bi-geo-alt-fill text-warning" ></i>
-                        <span class="text-white" style="color: rgba(255,255,255,0.7);">Jahir Smart Tower, 205/1 & 205/1/A, Begum Rokeya Sharani,<br>Taltola, Dhaka-1207</span>
+                        <span class="text-dark" style="color: rgba(255,255,255,0.7);">Jahir Smart Tower, 205/1 & 205/1/A, Begum Rokeya Sharani,<br>Taltola, Dhaka-1207</span>
                     </li>
                     <li class="mb-3 d-flex align-items-center gap-2">
                         <i class="bi bi-telephone-fill text-warning" ></i>
-                        <a href="tel:+8801730702000" class="text-white text-decoration-none" style="color: rgba(255,255,255,0.7);">+880 1730 702000</a>
+                        <a href="tel:+8801730702000" class="text-dark text-decoration-none" style="color: rgba(255,255,255,0.7);">+880 1730 702000</a>
                     </li>
                     <li class="mb-3 d-flex align-items-center gap-2">
                         <i class="bi bi-envelope-fill text-warning" ></i>
-                        <a href="mailto:info@saffronsweets.com.bd" class="text-white text-decoration-none" style="color: rgba(255,255,255,0.7);">info@saffronsweets.com.bd</a>
+                        <a href="mailto:info@saffronsweets.com.bd" class="text-dark text-decoration-none" style="color: rgba(255,255,255,0.7);">info@saffronsweets.com.bd</a>
                     </li>
                     <li class="d-flex align-items-center gap-2">
                         <i class="bi bi-clock-fill text-warning" ></i>
-                        <span class="text-white" style="color: rgba(255,255,255,0.7);">Mon - Fri: 9AM - 6PM</span>
+                        <span class="text-dark" style="color: rgba(255,255,255,0.7);">Mon - Fri: 9AM - 6PM</span>
                     </li>
                 </ul>
             </div>
@@ -139,7 +139,7 @@
         {{-- Bottom Bar --}}
         <div class="border-top border-secondary pt-3">
             <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
-                <p class="text-white small mb-0" style="color: rgba(255,255,255,0.7);">
+                <p class="text-dark small mb-0" style="color: rgba(255,255,255,0.7);">
                     Saffron Sweets & Backery &copy; {{ date('Y') }}
                 </p>
                 {{-- {!! view_render_event('bagisto.shop.layout.footer.footer_text.before') !!}
@@ -148,8 +148,8 @@
                 </p>
                 {!! view_render_event('bagisto.shop.layout.footer.footer_text.after') !!} --}}
                 <div class="d-flex gap-3">
-                    <a href="#" class="text-white text-decoration-none small" style="color: rgba(255,255,255,0.7);">Privacy Policy</a>
-                    <a href="#" class="text-white text-decoration-none small" style="color: rgba(255,255,255,0.7);">Terms of Service</a>
+                    <a href="#" class="text-dark text-decoration-none small" >Privacy Policy</a>
+                    <a href="#" class="text-dark text-decoration-none small" >Terms of Service</a>
                 </div>
             </div>
         </div>
