@@ -18,7 +18,7 @@
         id="v-quantity-changer-template"
     >
         <div>
-            <span 
+            <span
                 class="icon-minus cursor-pointer text-2xl"
                 role="button"
                 tabindex="0"
@@ -27,11 +27,11 @@
             >
             </span>
 
-            <p class="w-2.5 select-none text-center max-sm:text-sm">
+            <p class="w-2.5 select-none text-center max-sm:text-sm mb-0">
                 @{{ quantity }}
             </p>
-            
-            <span 
+
+            <span
                 class="icon-plus cursor-pointer text-2xl"
                 role="button"
                 tabindex="0"
