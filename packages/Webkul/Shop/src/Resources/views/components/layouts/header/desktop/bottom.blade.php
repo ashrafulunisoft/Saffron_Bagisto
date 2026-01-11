@@ -37,7 +37,7 @@
             <a href="/page/about-us" class="d-inline-block px-4 text-uppercase text-decoration-none transition-colors duration-200 font-bold" style="font-size: 0.875rem;">
                 About
             </a>
-            <a href="/page/contact-us" class="d-inline-block px-4 text-uppercase text-decoration-none transition-colors duration-200 font-bold" style="font-size: 0.875rem;">
+            <a href="/contact-us" class="d-inline-block px-4 text-uppercase text-decoration-none transition-colors duration-200 font-bold" style="font-size: 0.875rem;">
                 Contact
             </a>
         </div>
