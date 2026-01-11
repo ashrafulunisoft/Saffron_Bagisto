@@ -1,4 +1,3 @@
-
 @php
 $channel = core()->getCurrentChannel();
 @endphp
@@ -12,7 +11,12 @@ $channel = core()->getCurrentChannel();
 
 @push('scripts')
 <script>
-{{-- Categories stored in localStorage for other features --}}
+{
+    {
+        --Categories stored in localStorage
+        for other features--
+    }
+}
 @if(isset($categories) && $categories)
 localStorage.setItem('categories', JSON.stringify(@json($categories)));
 @endif
@@ -58,7 +62,7 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
                                     <div class="hero-badge animate-fade-in-up">
                                         <span class="badge-inner">
                                             <span class="badge-icon">✨</span>
-                                            Premium Bengali Sweets & Bakery
+                                            Welcome To Saffron Sweets & Bakery
                                         </span>
                                     </div>
 
@@ -69,11 +73,14 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
                                     </h1>
 
                                     <p class="hero-subtitle animate-slide-in-left delay-2">
-                                        Discover Bangladesh's finest collection of authentic Bengali sweets, premium chocolates, and freshly baked treats made with pure saffron and love. Crafted using time-honored recipes passed down through generations.
+                                        Discover Bangladesh's finest collection of authentic Bengali sweets, premium
+                                        chocolates, and freshly baked treats made with pure saffron and love. Crafted
+                                        using time-honored recipes passed down through generations.
                                     </p>
 
                                     <div class="hero-buttons animate-fade-in-up delay-3">
-                                        <a href="{{ route('shop.search.index') }}" class="btn btn-hero btn-primary-hero">
+                                        <a href="{{ route('shop.search.index') }}"
+                                            class="btn btn-hero btn-primary-hero">
                                             <span class="btn-text">Shop Now</span>
                                             <span class="btn-icon">→</span>
                                         </a>
@@ -86,15 +93,15 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
                                     <!-- Stats -->
                                     <div class="hero-stats animate-fade-in-up delay-4">
                                         <div class="stat-item">
-                                            <div class="stat-number" data-target="500">0</div>
+                                            <div class="stat-number">500</div>
                                             <div class="stat-label">Products</div>
                                         </div>
                                         <div class="stat-item">
-                                            <div class="stat-number" data-target="1000">0</div>
+                                            <div class="stat-number">1000</div>
                                             <div class="stat-label">Happy Customers</div>
                                         </div>
                                         <div class="stat-item">
-                                            <div class="stat-number" data-target="25">0</div>
+                                            <div class="stat-number">25</div>
                                             <div class="stat-label">Years Experience</div>
                                         </div>
                                     </div>
@@ -106,8 +113,7 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
                                     <div class="hero-image-container">
                                         <div class="image-glow"></div>
                                         <img src="https://images.unsplash.com/photo-1509365465985-25d11c17e812?w=800&h=600&fit=crop"
-                                             alt="Delicious Sweets"
-                                             class="hero-image">
+                                            alt="Delicious Sweets" class="hero-image">
                                         <div class="image-overlay"></div>
                                     </div>
 
@@ -185,9 +191,12 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
         }
 
         @keyframes gradient-shift {
-            0%, 100% {
+
+            0%,
+            100% {
                 transform: scale(1) rotate(0deg);
             }
+
             50% {
                 transform: scale(1.1) rotate(5deg);
             }
@@ -219,6 +228,7 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
             0% {
                 transform: translateY(0);
             }
+
             100% {
                 transform: translateY(-60px);
             }
@@ -242,20 +252,62 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
             filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
         }
 
-        .item-1 { top: 10%; left: 5%; animation-delay: 0s; }
-        .item-2 { top: 20%; right: 10%; animation-delay: -1s; }
-        .item-3 { top: 60%; left: 8%; animation-delay: -2s; }
-        .item-4 { top: 70%; right: 5%; animation-delay: -3s; }
-        .item-5 { top: 40%; left: 15%; animation-delay: -4s; }
-        .item-6 { top: 50%; right: 15%; animation-delay: -5s; }
-        .item-7 { top: 30%; left: 3%; animation-delay: -6s; }
-        .item-8 { top: 80%; right: 12%; animation-delay: -7s; }
+        .item-1 {
+            top: 10%;
+            left: 5%;
+            animation-delay: 0s;
+        }
+
+        .item-2 {
+            top: 20%;
+            right: 10%;
+            animation-delay: -1s;
+        }
+
+        .item-3 {
+            top: 60%;
+            left: 8%;
+            animation-delay: -2s;
+        }
+
+        .item-4 {
+            top: 70%;
+            right: 5%;
+            animation-delay: -3s;
+        }
+
+        .item-5 {
+            top: 40%;
+            left: 15%;
+            animation-delay: -4s;
+        }
+
+        .item-6 {
+            top: 50%;
+            right: 15%;
+            animation-delay: -5s;
+        }
+
+        .item-7 {
+            top: 30%;
+            left: 3%;
+            animation-delay: -6s;
+        }
+
+        .item-8 {
+            top: 80%;
+            right: 12%;
+            animation-delay: -7s;
+        }
 
         @keyframes float-emoji {
-            0%, 100% {
+
+            0%,
+            100% {
                 transform: translateY(0) rotate(0deg) scale(1);
                 opacity: 0.8;
             }
+
             50% {
                 transform: translateY(-20px) rotate(10deg) scale(1.1);
                 opacity: 1;
@@ -308,8 +360,15 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
         }
 
         @keyframes badge-pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.2); }
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.2);
+            }
         }
 
         /* Hero Title */
@@ -379,9 +438,17 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
             }
         }
 
-        .delay-2 { animation-delay: 0.8s; }
-        .delay-3 { animation-delay: 1s; }
-        .delay-4 { animation-delay: 1.2s; }
+        .delay-2 {
+            animation-delay: 0.8s;
+        }
+
+        .delay-3 {
+            animation-delay: 1s;
+        }
+
+        .delay-4 {
+            animation-delay: 1.2s;
+        }
 
         /* Hero Buttons */
         .hero-buttons {
@@ -496,8 +563,15 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
         }
 
         @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
         }
 
         .image-glow {
@@ -576,12 +650,24 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
         }
 
         @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
         }
 
-        .delay-1 { animation-delay: -1s; }
-        .delay-2 { animation-delay: -2s; }
+        .delay-1 {
+            animation-delay: -1s;
+        }
+
+        .delay-2 {
+            animation-delay: -2s;
+        }
 
         /* Scroll Indicator */
         .scroll-indicator {
@@ -623,10 +709,13 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
         }
 
         @keyframes scroll-bounce {
-            0%, 100% {
+
+            0%,
+            100% {
                 top: 8px;
                 opacity: 1;
             }
+
             50% {
                 top: 30px;
                 opacity: 0.3;
@@ -733,45 +822,6 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
 
         @push('scripts-bottom')
         <script>
-        // Animate stats counter
-        function animateStats() {
-            const stats = document.querySelectorAll('.stat-number');
-
-            stats.forEach(stat => {
-                const target = parseInt(stat.getAttribute('data-target'));
-                const duration = 2000;
-                const step = target / (duration / 16);
-                let current = 0;
-
-                const updateCounter = () => {
-                    current += step;
-                    if (current < target) {
-                        stat.textContent = Math.ceil(current);
-                        requestAnimationFrame(updateCounter);
-                    } else {
-                        stat.textContent = target;
-                    }
-                };
-
-                // Start animation when element is in view
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            updateCounter();
-                            observer.unobserve(entry.target);
-                        }
-                    });
-                }, { threshold: 0.5 });
-
-                observer.observe(stat);
-            });
-        }
-
-        // Initialize animations
-        document.addEventListener('DOMContentLoaded', function() {
-            animateStats();
-        });
-
         // Parallax effect for floating elements
         document.addEventListener('mousemove', function(e) {
             const floatingItems = document.querySelectorAll('.floating-item');
@@ -821,55 +871,54 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
                         <p class="lead text-white mb-4 carousel-text">Taste sweetness of our traditional & modern treats
                         </p>
                         <a href="{{ route('shop.search.index') }}" class="btn text-white btn-dark carousel-btn"
-                            style="color:#f8f9fa!important">Shop Now</a>
-                    </div>
-                </div>
+        style="color:#f8f9fa!important">Shop Now</a>
+        </div>
+        </div>
 
-                <div class="carousel-item">
-                    <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?w=1200&h=500&fit=crop"
-                        class="d-block w-100" alt="Fresh Baked Goods" style="height: 500px; object-fit: cover;">
-                    <div class="carousel-caption">
-                        <h3 class="display-4 fw-bold text-white mb-3 carousel-title">Fresh Baked Goods</h3>
-                        <p class="lead text-white mb-4 carousel-text">Get up to 50% off on freshly baked items</p>
-                        <a href="{{ route('shop.search.index') }}" class="btn text-white btn-dark carousel-btn">View
-                            Deals</a>
-                    </div>
-                </div>
-
-                <div class="carousel-item">
-                    <img src="https://images.unsplash.com/photo-1551024601-bec78aea704b?w=1200&h=500&fit=crop"
-                        class="d-block w-100" alt="Special Cakes" style="height: 500px; object-fit: cover;">
-                    <div class="carousel-caption">
-                        <h3 class="display-4 fw-bold text-white mb-3 carousel-title">Special Cakes</h3>
-                        <p class="lead text-white mb-4 carousel-text">Celebrate with our premium cakes for every
-                            occasion</p>
-                        <a href="{{ route('shop.search.index') }}"
-                            class="btn text-white btn-dark carousel-btn">Explore</a>
-                    </div>
-                </div>
-
-                <div class="carousel-item">
-                    <img src="https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?w=1200&h=500&fit=crop"
-                        class="d-block w-100" alt="Premium Bakery" style="height: 500px; object-fit: cover;">
-                    <div class="carousel-caption">
-                        <h3 class="display-4 fw-bold text-white mb-3 carousel-title">Premium Bakery</h3>
-                        <p class="lead text-white mb-4 carousel-text">Experience finest bakery products</p>
-                        <a href="{{ route('shop.search.index') }}"
-                            class="btn text-white btn-dark carousel-btn text-white">Discover More</a>
-                    </div>
-                </div>
+        <div class="carousel-item">
+            <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?w=1200&h=500&fit=crop"
+                class="d-block w-100" alt="Fresh Baked Goods" style="height: 500px; object-fit: cover;">
+            <div class="carousel-caption">
+                <h3 class="display-4 fw-bold text-white mb-3 carousel-title">Fresh Baked Goods</h3>
+                <p class="lead text-white mb-4 carousel-text">Get up to 50% off on freshly baked items</p>
+                <a href="{{ route('shop.search.index') }}" class="btn text-white btn-dark carousel-btn">View
+                    Deals</a>
             </div>
+        </div>
 
-            <button class="carousel-control-prev" type="button" data-bs-target="#customBootstrapCarousel"
-                data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#customBootstrapCarousel"
-                data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
+        <div class="carousel-item">
+            <img src="https://images.unsplash.com/photo-1551024601-bec78aea704b?w=1200&h=500&fit=crop"
+                class="d-block w-100" alt="Special Cakes" style="height: 500px; object-fit: cover;">
+            <div class="carousel-caption">
+                <h3 class="display-4 fw-bold text-white mb-3 carousel-title">Special Cakes</h3>
+                <p class="lead text-white mb-4 carousel-text">Celebrate with our premium cakes for every
+                    occasion</p>
+                <a href="{{ route('shop.search.index') }}" class="btn text-white btn-dark carousel-btn">Explore</a>
+            </div>
+        </div>
+
+        <div class="carousel-item">
+            <img src="https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?w=1200&h=500&fit=crop"
+                class="d-block w-100" alt="Premium Bakery" style="height: 500px; object-fit: cover;">
+            <div class="carousel-caption">
+                <h3 class="display-4 fw-bold text-white mb-3 carousel-title">Premium Bakery</h3>
+                <p class="lead text-white mb-4 carousel-text">Experience finest bakery products</p>
+                <a href="{{ route('shop.search.index') }}"
+                    class="btn text-white btn-dark carousel-btn text-white">Discover More</a>
+            </div>
+        </div>
+        </div>
+
+        <button class="carousel-control-prev" type="button" data-bs-target="#customBootstrapCarousel"
+            data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#customBootstrapCarousel"
+            data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
         </div> --}}
 
         <!-- Custom CSS for better slider appearance -->
@@ -1487,10 +1536,12 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
                     <a href="{{ route('shop.search.index') }}" class="btn btn-outline-success d-lg-none">
                         View All
                     </a>
-                    <button id="products-prev" class="btn btn-outline-success product-nav-btn" type="button" onclick="scrollProducts('prev')">
+                    <button id="products-prev" class="btn btn-outline-success product-nav-btn" type="button"
+                        onclick="scrollProducts('prev')">
                         <i class="fas fa-arrow-left"></i>
                     </button>
-                    <button id="products-next" class="btn btn-outline-success product-nav-btn" type="button" onclick="scrollProducts('next')">
+                    <button id="products-next" class="btn btn-outline-success product-nav-btn" type="button"
+                        onclick="scrollProducts('next')">
                         <i class="fas fa-arrow-right"></i>
                     </button>
                 </div>
@@ -1546,8 +1597,17 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
         }
 
         @keyframes sparkle {
-            0%, 100% { transform: scale(1) rotate(0deg); opacity: 1; }
-            50% { transform: scale(1.2) rotate(10deg); opacity: 0.8; }
+
+            0%,
+            100% {
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.2) rotate(10deg);
+                opacity: 0.8;
+            }
         }
 
         .section-title {
@@ -1567,7 +1627,8 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
             overflow: hidden;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
-            height: 100%;
+            display: flex;
+            flex-direction: column;
             box-shadow: 0 4px 20px rgba(40, 167, 69, 0.12);
             position: relative;
         }
@@ -1692,8 +1753,15 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
         }
 
         @keyframes pulse-badge {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
         }
 
         .badge-new {
@@ -1794,7 +1862,7 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
             transition: left 0.5s ease;
         }
 
@@ -1837,11 +1905,9 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
             transform: scale(1.1);
         }
 
-        /* Fix featured carousel alignment */
+        /* Center products in featured carousel */
         #products-scroll-container {
-            justify-content: flex-start;
-            padding-left: 0;
-            padding-right: 0;
+            justify-content: center;
         }
 
         #products-scroll-container::-webkit-scrollbar {
@@ -1904,10 +1970,10 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
         </style>
         @endpush
 
-@push('scripts')
-<!-- SweetAlert2 for beautiful notifications -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-@endpush
+        @push('scripts')
+        <!-- SweetAlert2 for beautiful notifications -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        @endpush
 
         @push('scripts-bottom')
         <script>
@@ -2091,143 +2157,161 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
 
             // Use fetch API (native browser API)
             fetch(url, {
-                method: 'POST',
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    'X-CSRF-TOKEN': csrfToken
-                },
-                body: new URLSearchParams({
-                    product_id: productId,
-                    quantity: 1
-                })
-            })
-            .then(response => {
-                console.log('Response status:', response.status);
-                if (!response.ok) {
-                    throw new Error('HTTP ' + response.status);
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log('Cart response SUCCESS:', data);
-
-                // Check for redirect first (e.g., for configurable products)
-                if (data.redirect_uri) {
-                    window.location.href = data.redirect_uri;
-                    return;
-                }
-
-                // Fetch updated cart data from API to ensure accurate cart count
-                const cartApiUrl = "{{ route('shop.api.checkout.cart.index') }}";
-                fetch(cartApiUrl, {
-                    method: 'GET',
+                    method: 'POST',
                     headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
                         'Accept': 'application/json',
-                        'X-Requested-With': 'XMLHttpRequest'
-                    }
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-CSRF-TOKEN': csrfToken
+                    },
+                    body: new URLSearchParams({
+                        product_id: productId,
+                        quantity: 1
+                    })
                 })
-                .then(response => response.json())
-                .then(cartResponse => {
-                    console.log('Fetched updated cart data:', cartResponse.data);
+                .then(response => {
+                    console.log('Response status:', response.status);
+                    if (!response.ok) {
+                        throw new Error('HTTP ' + response.status);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Cart response SUCCESS:', data);
 
-                    // Emit update-mini-cart event using Vue emitter - this updates cart counter
-                    if (window.app && window.app.config && window.app.config.globalProperties && window.app.config.globalProperties.$emitter) {
-                        window.app.config.globalProperties.$emitter.emit('update-mini-cart', cartResponse.data);
-                        console.log('Emitted update-mini-cart event with cart data:', cartResponse.data);
-                    } else if (window.app && window.app._context && window.app._context.provides && window.app._context.provides.emitter) {
-                        // Alternative access path for emitter
-                        window.app._context.provides.emitter.emit('update-mini-cart', cartResponse.data);
-                        console.log('Emitted update-mini-cart event (alternative path) with cart data:', cartResponse.data);
-                    } else {
-                        console.warn('Vue emitter not accessible, attempting DOM update as fallback');
+                    // Check for redirect first (e.g., for configurable products)
+                    if (data.redirect_uri) {
+                        window.location.href = data.redirect_uri;
+                        return;
+                    }
 
-                        // Fallback: Direct DOM update for cart counter
-                        const cartData = cartResponse.data;
-                        if (cartData) {
-                            const badgeSelectors = [
-                                '.absolute.-top-4.rounded-\\[44px\\].bg-navyBlue',
-                                'span[class*="cart"] span[class*="-top-4"]',
-                                'span[style*="position: absolute"][style*="-top"]'
-                            ];
+                    // Fetch updated cart data from API to ensure accurate cart count
+                    const cartApiUrl = "{{ route('shop.api.checkout.cart.index') }}";
+                    fetch(cartApiUrl, {
+                            method: 'GET',
+                            headers: {
+                                'Accept': 'application/json',
+                                'X-Requested-With': 'XMLHttpRequest'
+                            }
+                        })
+                        .then(response => response.json())
+                        .then(cartResponse => {
+                            console.log('Fetched updated cart data:', cartResponse.data);
 
-                            badgeSelectors.forEach(selector => {
-                                const badges = document.querySelectorAll(selector);
-                                badges.forEach(badge => {
-                                    const displayMode = "{{ core()->getConfigData('sales.checkout.my_cart.summary') }}";
-                                    const newValue = displayMode === 'display_item_quantity' ? cartData.items_qty : cartData.items_count;
-                                    badge.textContent = newValue;
-                                    console.log('Updated cart counter to:', newValue);
-                                });
+                            // Emit update-mini-cart event using Vue emitter - this updates cart counter
+                            if (window.app && window.app.config && window.app.config.globalProperties && window
+                                .app.config.globalProperties.$emitter) {
+                                window.app.config.globalProperties.$emitter.emit('update-mini-cart',
+                                    cartResponse.data);
+                                console.log('Emitted update-mini-cart event with cart data:', cartResponse
+                                .data);
+                            } else if (window.app && window.app._context && window.app._context.provides &&
+                                window.app._context.provides.emitter) {
+                                // Alternative access path for emitter
+                                window.app._context.provides.emitter.emit('update-mini-cart', cartResponse
+                                .data);
+                                console.log('Emitted update-mini-cart event (alternative path) with cart data:',
+                                    cartResponse.data);
+                            } else {
+                                console.warn('Vue emitter not accessible, attempting DOM update as fallback');
+
+                                // Fallback: Direct DOM update for cart counter
+                                const cartData = cartResponse.data;
+                                if (cartData) {
+                                    const badgeSelectors = [
+                                        '.absolute.-top-4.rounded-\\[44px\\].bg-navyBlue',
+                                        'span[class*="cart"] span[class*="-top-4"]',
+                                        'span[style*="position: absolute"][style*="-top"]'
+                                    ];
+
+                                    badgeSelectors.forEach(selector => {
+                                        const badges = document.querySelectorAll(selector);
+                                        badges.forEach(badge => {
+                                            const displayMode =
+                                                "{{ core()->getConfigData('sales.checkout.my_cart.summary') }}";
+                                            const newValue = displayMode ===
+                                                'display_item_quantity' ? cartData.items_qty :
+                                                cartData.items_count;
+                                            badge.textContent = newValue;
+                                            console.log('Updated cart counter to:', newValue);
+                                        });
+                                    });
+                                }
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error fetching cart data:', error);
+                        });
+
+                    // Emit add-flash event (shows toaster notification)
+                    if (window.app && window.app.$emitter) {
+                        if (data.message) {
+                            window.app.$emitter.emit('add-flash', {
+                                type: 'success',
+                                message: data.message
+                            });
+                        } else {
+                            window.app.$emitter.emit('add-flash', {
+                                type: 'warning',
+                                message: data.data.message
                             });
                         }
+                        console.log('Emitted add-flash event');
+                    } else {
+                        // Show SweetAlert2 toast notification
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Added to Cart',
+                            text: data.message || 'Product added to cart successfully!',
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true
+                        });
                     }
+
+                    resetButton();
                 })
                 .catch(error => {
-                    console.error('Error fetching cart data:', error);
-                });
+                    console.error('Error adding to cart:', error);
 
-                // Emit add-flash event (shows toaster notification)
-                if (window.app && window.app.$emitter) {
-                    if (data.message) {
-                        window.app.$emitter.emit('add-flash', { type: 'success', message: data.message });
+                    let errorMessage = 'Failed to add product to cart. Please try again.';
+
+                    // Try to get error message from response
+                    if (error.response) {
+                        errorMessage = error.response?.data?.message ||
+                            error.response?.message ||
+                            error.message ||
+                            errorMessage;
                     } else {
-                        window.app.$emitter.emit('add-flash', { type: 'warning', message: data.data.message });
+                        errorMessage = error.message || errorMessage;
                     }
-                    console.log('Emitted add-flash event');
-                } else {
-                    // Show SweetAlert2 toast notification
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Added to Cart',
-                        text: data.message || 'Product added to cart successfully!',
-                        toast: true,
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 3000,
-                        timerProgressBar: true
-                    });
-                }
 
-                resetButton();
-            })
-            .catch(error => {
-                console.error('Error adding to cart:', error);
+                    console.log('Error message:', errorMessage);
 
-                let errorMessage = 'Failed to add product to cart. Please try again.';
+                    // Emit error flash
+                    if (window.app && window.app.$emitter) {
+                        window.app.$emitter.emit('add-flash', {
+                            type: 'error',
+                            message: errorMessage
+                        });
+                    } else {
+                        // Show SweetAlert2 error notification
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: errorMessage,
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true
+                        });
+                    }
 
-                // Try to get error message from response
-                if (error.response) {
-                    errorMessage = error.response?.data?.message ||
-                                  error.response?.message ||
-                                  error.message ||
-                                  errorMessage;
-                } else {
-                    errorMessage = error.message || errorMessage;
-                }
-
-                console.log('Error message:', errorMessage);
-
-                // Emit error flash
-                if (window.app && window.app.$emitter) {
-                    window.app.$emitter.emit('add-flash', { type: 'error', message: errorMessage });
-                } else {
-                    // Show SweetAlert2 error notification
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: errorMessage,
-                        toast: true,
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 3000,
-                        timerProgressBar: true
-                    });
-                }
-
-                resetButton();
-            });
+                    resetButton();
+                });
         }
 
         function addToWishlist(productId, button) {
@@ -2263,7 +2347,8 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
                     // Show SweetAlert2 wishlist notification
                     Swal.fire({
                         icon: 'success',
-                        title: button.classList.contains('active') ? 'Removed from Wishlist' : 'Added to Wishlist',
+                        title: button.classList.contains('active') ? 'Removed from Wishlist' :
+                            'Added to Wishlist',
                         text: data.data?.message || 'Wishlist updated successfully!',
                         toast: true,
                         position: 'top-end',
@@ -2480,7 +2565,8 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
                     <div class="col-lg-6 col-md-12">
                         <div class="sweets-content h-100 d-flex flex-column justify-content-center">
                             <div class="section-badge d-inline-block mb-3">
-                                <span class="badge bg-warning text-dark px-3 py-2 rounded-pill fw-bold">OUR SPECIALTY</span>
+                                <span class="badge bg-warning text-dark px-3 py-2 rounded-pill fw-bold">OUR
+                                    SPECIALTY</span>
                             </div>
 
                             <h2 class="display-4 fw-bold mb-4 text-dark"
@@ -2489,11 +2575,14 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
                             </h2>
 
                             <p class="lead text-secondary mb-4">
-                                Indulge in the rich heritage of Bengal with our exquisite collection of traditional sweets, crafted with love and the finest ingredients.
+                                Indulge in the rich heritage of Bengal with our exquisite collection of traditional
+                                sweets, crafted with love and the finest ingredients.
                             </p>
 
                             <p class="text-muted mb-4">
-                                From the melt-in-your-mouth roshogolla to the delicate sandesh, our sweets are made using recipes passed down through generations. Each sweet is a celebration of authentic Bengali tradition, bringing you the true taste of home.
+                                From the melt-in-your-mouth roshogolla to the delicate sandesh, our sweets are made
+                                using recipes passed down through generations. Each sweet is a celebration of authentic
+                                Bengali tradition, bringing you the true taste of home.
                             </p>
 
                             <!-- Sweet Types Grid -->
@@ -2565,8 +2654,7 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
                     <div class="col-lg-6 col-md-12 mb-4 mb-lg-0">
                         <div class="sweets-image-wrapper position-relative rounded-4 overflow-hidden shadow-lg">
                             <img src="https://images.unsplash.com/photo-1607330289024-1535c6b4e1c1?w=800&h=600&fit=crop"
-                                alt="Bengali Sweets" class="img-fluid w-100"
-                                style="height: 500px; object-fit: cover;">
+                                alt="Bengali Sweets" class="img-fluid w-100" style="height: 500px; object-fit: cover;">
                             <div class="overlay position-absolute top-0 start-0 w-100 h-100"
                                 style="background: linear-gradient(135deg, rgba(255, 215, 0, 0.25) 0%, rgba(255, 140, 0, 0.15) 100%);">
                             </div>
@@ -2694,10 +2782,12 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
                     <a href="{{ route('shop.search.index') }}" class="btn btn-outline-warning d-lg-none">
                         View All
                     </a>
-                    <button id="sweets-prev" class="btn btn-outline-warning sweet-nav-btn" type="button" onclick="scrollSweets('prev')">
+                    <button id="sweets-prev" class="btn btn-outline-warning sweet-nav-btn" type="button"
+                        onclick="scrollSweets('prev')">
                         <i class="fas fa-arrow-left"></i>
                     </button>
-                    <button id="sweets-next" class="btn btn-outline-warning sweet-nav-btn" type="button" onclick="scrollSweets('next')">
+                    <button id="sweets-next" class="btn btn-outline-warning sweet-nav-btn" type="button"
+                        onclick="scrollSweets('next')">
                         <i class="fas fa-arrow-right"></i>
                     </button>
                 </div>
@@ -2751,8 +2841,15 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
         }
 
         @keyframes bounce-sweet {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-10px) rotate(5deg); }
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-10px) rotate(5deg);
+            }
         }
 
         .sweet-category-products-section .section-title {
@@ -2850,7 +2947,8 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
                         sweetProducts = data.data;
                     } else if (data.data && data.data.data && Array.isArray(data.data.data)) {
                         sweetProducts = data.data.data;
-                    } else if (data.data && data.data.data && data.data.data.data && Array.isArray(data.data.data.data)) {
+                    } else if (data.data && data.data.data && data.data.data.data && Array.isArray(data.data.data
+                            .data)) {
                         sweetProducts = data.data.data.data;
                     } else {
                         console.warn('Unknown data structure:', data);
@@ -2865,7 +2963,8 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
                 .catch(error => {
                     console.error('Error loading sweet products:', error);
                     document.getElementById('sweets-carousel').innerHTML =
-                        '<div class="col-12 text-center text-danger">Error loading sweet products: ' + error.message + '</div>';
+                        '<div class="col-12 text-center text-danger">Error loading sweet products: ' + error
+                        .message + '</div>';
                 });
         }
 
@@ -3056,7 +3155,8 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
                                 style="width: 80px; height: 80px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
                                 <span class="fw-bold" style="color: #8B4513; font-size: 1.5rem;">30+</span>
                             </div>
-                            <div class="position-absolute bottom-4 start-4 bg-dark text-white rounded-3 px-4 py-2 shadow">
+                            <div
+                                class="position-absolute bottom-4 start-4 bg-dark text-white rounded-3 px-4 py-2 shadow">
                                 <p class="mb-0 fw-bold fs-5">Handcrafted</p>
                             </div>
                         </div>
@@ -3066,7 +3166,8 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
                     <div class="col-lg-6 col-md-12">
                         <div class="chocolate-content h-100 d-flex flex-column justify-content-center">
                             <div class="section-badge d-inline-block mb-3">
-                                <span class="badge bg-danger text-white px-3 py-2 rounded-pill fw-bold">CHOCOLATE PARADISE</span>
+                                <span class="badge bg-danger text-white px-3 py-2 rounded-pill fw-bold">CHOCOLATE
+                                    PARADISE</span>
                             </div>
 
                             <h2 class="display-4 fw-bold mb-4 text-dark"
@@ -3075,17 +3176,22 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
                             </h2>
 
                             <p class="lead text-secondary mb-4">
-                                Experience the ultimate indulgence with our exquisite collection of handcrafted chocolates, made from the finest cocoa beans sourced from around the world.
+                                Experience the ultimate indulgence with our exquisite collection of handcrafted
+                                chocolates, made from the finest cocoa beans sourced from around the world.
                             </p>
 
                             <p class="text-muted mb-4">
-                                From silky smooth dark chocolate to creamy milk chocolate truffles, our master chocolatiers create artisanal pieces that will delight your senses. Each chocolate is carefully crafted to deliver an unforgettable taste experience, perfect for gifts or personal indulgence.
+                                From silky smooth dark chocolate to creamy milk chocolate truffles, our master
+                                chocolatiers create artisanal pieces that will delight your senses. Each chocolate is
+                                carefully crafted to deliver an unforgettable taste experience, perfect for gifts or
+                                personal indulgence.
                             </p>
 
                             <!-- Features Grid -->
                             <div class="row g-3 mb-5">
                                 <div class="col-6">
-                                    <div class="chocolate-feature-card bg-light rounded-3 p-3 d-flex align-items-center gap-3">
+                                    <div
+                                        class="chocolate-feature-card bg-light rounded-3 p-3 d-flex align-items-center gap-3">
                                         <div class="chocolate-feature-icon bg-danger rounded-circle d-flex align-items-center justify-content-center"
                                             style="width: 50px; height: 50px;">
                                             <span style="font-size: 1.5rem;">🍫</span>
@@ -3097,7 +3203,8 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
                                     </div>
                                 </div>
                                 <div class="col-6">
-                                    <div class="chocolate-feature-card bg-light rounded-3 p-3 d-flex align-items-center gap-3">
+                                    <div
+                                        class="chocolate-feature-card bg-light rounded-3 p-3 d-flex align-items-center gap-3">
                                         <div class="chocolate-feature-icon bg-danger rounded-circle d-flex align-items-center justify-content-center"
                                             style="width: 50px; height: 50px;">
                                             <span style="font-size: 1.5rem;">👨‍🍳</span>
@@ -3109,7 +3216,8 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
                                     </div>
                                 </div>
                                 <div class="col-6">
-                                    <div class="chocolate-feature-card bg-light rounded-3 p-3 d-flex align-items-center gap-3">
+                                    <div
+                                        class="chocolate-feature-card bg-light rounded-3 p-3 d-flex align-items-center gap-3">
                                         <div class="chocolate-feature-icon bg-danger rounded-circle d-flex align-items-center justify-content-center"
                                             style="width: 50px; height: 50px;">
                                             <span style="font-size: 1.5rem;">🎁</span>
@@ -3121,7 +3229,8 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
                                     </div>
                                 </div>
                                 <div class="col-6">
-                                    <div class="chocolate-feature-card bg-light rounded-3 p-3 d-flex align-items-center gap-3">
+                                    <div
+                                        class="chocolate-feature-card bg-light rounded-3 p-3 d-flex align-items-center gap-3">
                                         <div class="chocolate-feature-icon bg-danger rounded-circle d-flex align-items-center justify-content-center"
                                             style="width: 50px; height: 50px;">
                                             <span style="font-size: 1.5rem;">💝</span>
@@ -3267,10 +3376,12 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
                     <a href="{{ route('shop.search.index') }}" class="btn btn-outline-danger d-lg-none">
                         View All
                     </a>
-                    <button id="chocolate-prev" class="btn btn-outline-danger chocolate-nav-btn" type="button" onclick="scrollChocolates('prev')">
+                    <button id="chocolate-prev" class="btn btn-outline-danger chocolate-nav-btn" type="button"
+                        onclick="scrollChocolates('prev')">
                         <i class="fas fa-arrow-left"></i>
                     </button>
-                    <button id="chocolate-next" class="btn btn-outline-danger chocolate-nav-btn" type="button" onclick="scrollChocolates('next')">
+                    <button id="chocolate-next" class="btn btn-outline-danger chocolate-nav-btn" type="button"
+                        onclick="scrollChocolates('next')">
                         <i class="fas fa-arrow-right"></i>
                     </button>
                 </div>
@@ -3324,8 +3435,15 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
         }
 
         @keyframes bounce-chocolate {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-10px) rotate(5deg); }
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-10px) rotate(5deg);
+            }
         }
 
         .chocolate-category-products-section .section-title {
@@ -3423,7 +3541,8 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
                         chocolateProducts = data.data;
                     } else if (data.data && data.data.data && Array.isArray(data.data.data)) {
                         chocolateProducts = data.data.data;
-                    } else if (data.data && data.data.data && data.data.data.data && Array.isArray(data.data.data.data)) {
+                    } else if (data.data && data.data.data && data.data.data.data && Array.isArray(data.data.data
+                            .data)) {
                         chocolateProducts = data.data.data.data;
                     } else {
                         console.warn('Unknown data structure:', data);
@@ -3438,7 +3557,8 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
                 .catch(error => {
                     console.error('Error loading chocolate products:', error);
                     document.getElementById('chocolate-carousel').innerHTML =
-                        '<div class="col-12 text-center text-danger">Error loading chocolate products: ' + error.message + '</div>';
+                        '<div class="col-12 text-center text-danger">Error loading chocolate products: ' + error
+                        .message + '</div>';
                 });
         }
 
@@ -3446,7 +3566,8 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
             const carousel = document.getElementById('chocolate-carousel');
 
             if (!chocolateProducts || chocolateProducts.length === 0) {
-                carousel.innerHTML = '<div class="col-12 text-center text-muted">No chocolate products available.</div>';
+                carousel.innerHTML =
+                '<div class="col-12 text-center text-muted">No chocolate products available.</div>';
                 return;
             }
 
@@ -3626,10 +3747,12 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
                     <a href="{{ route('shop.search.index') }}" class="btn btn-outline-success d-lg-none">
                         View All
                     </a>
-                    <button id="best-selling-prev" class="btn btn-outline-success best-selling-nav-btn" type="button" onclick="scrollBestSelling('prev')">
+                    <button id="best-selling-prev" class="btn btn-outline-success best-selling-nav-btn" type="button"
+                        onclick="scrollBestSelling('prev')">
                         <i class="fas fa-arrow-left"></i>
                     </button>
-                    <button id="best-selling-next" class="btn btn-outline-success best-selling-nav-btn" type="button" onclick="scrollBestSelling('next')">
+                    <button id="best-selling-next" class="btn btn-outline-success best-selling-nav-btn" type="button"
+                        onclick="scrollBestSelling('next')">
                         <i class="fas fa-arrow-right"></i>
                     </button>
                 </div>
@@ -3683,8 +3806,16 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
         }
 
         @keyframes trophy-glow {
-            0%, 100% { transform: scale(1) rotate(0deg); }
-            50% { transform: scale(1.2) rotate(10deg); opacity: 0.9; }
+
+            0%,
+            100% {
+                transform: scale(1) rotate(0deg);
+            }
+
+            50% {
+                transform: scale(1.2) rotate(10deg);
+                opacity: 0.9;
+            }
         }
 
         .best-selling-section .section-title {
@@ -3782,7 +3913,8 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
                         bestSellingProducts = data.data;
                     } else if (data.data && data.data.data && Array.isArray(data.data.data)) {
                         bestSellingProducts = data.data.data;
-                    } else if (data.data && data.data.data && data.data.data.data && Array.isArray(data.data.data.data)) {
+                    } else if (data.data && data.data.data && data.data.data.data && Array.isArray(data.data.data
+                            .data)) {
                         bestSellingProducts = data.data.data.data;
                     } else {
                         console.warn('Unknown data structure:', data);
@@ -3797,7 +3929,8 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
                 .catch(error => {
                     console.error('Error loading best selling products:', error);
                     document.getElementById('best-selling-carousel').innerHTML =
-                        '<div class="col-12 text-center text-danger">Error loading best selling products: ' + error.message + '</div>';
+                        '<div class="col-12 text-center text-danger">Error loading best selling products: ' + error
+                        .message + '</div>';
                 });
         }
 
@@ -3805,7 +3938,8 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
             const carousel = document.getElementById('best-selling-carousel');
 
             if (!bestSellingProducts || bestSellingProducts.length === 0) {
-                carousel.innerHTML = '<div class="col-12 text-center text-muted">No best selling products available.</div>';
+                carousel.innerHTML =
+                    '<div class="col-12 text-center text-muted">No best selling products available.</div>';
                 return;
             }
 
@@ -3982,10 +4116,12 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
                     <a href="{{ route('shop.search.index') }}" class="btn btn-outline-danger d-lg-none">
                         View All
                     </a>
-                    <button id="popular-prev" class="btn btn-outline-danger popular-nav-btn" type="button" onclick="scrollPopular('prev')">
+                    <button id="popular-prev" class="btn btn-outline-danger popular-nav-btn" type="button"
+                        onclick="scrollPopular('prev')">
                         <i class="fas fa-arrow-left"></i>
                     </button>
-                    <button id="popular-next" class="btn btn-outline-danger popular-nav-btn" type="button" onclick="scrollPopular('next')">
+                    <button id="popular-next" class="btn btn-outline-danger popular-nav-btn" type="button"
+                        onclick="scrollPopular('next')">
                         <i class="fas fa-arrow-right"></i>
                     </button>
                 </div>
@@ -4039,8 +4175,16 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
         }
 
         @keyframes fire-pulse {
-            0%, 100% { transform: scale(1) rotate(0deg); }
-            50% { transform: scale(1.2) rotate(10deg); opacity: 0.9; }
+
+            0%,
+            100% {
+                transform: scale(1) rotate(0deg);
+            }
+
+            50% {
+                transform: scale(1.2) rotate(10deg);
+                opacity: 0.9;
+            }
         }
 
         .popular-products-section .section-title {
@@ -4138,7 +4282,8 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
                         popularProducts = data.data;
                     } else if (data.data && data.data.data && Array.isArray(data.data.data)) {
                         popularProducts = data.data.data;
-                    } else if (data.data && data.data.data && data.data.data.data && Array.isArray(data.data.data.data)) {
+                    } else if (data.data && data.data.data && data.data.data.data && Array.isArray(data.data.data
+                            .data)) {
                         popularProducts = data.data.data.data;
                     } else {
                         console.warn('Unknown data structure:', data);
@@ -4153,7 +4298,8 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
                 .catch(error => {
                     console.error('Error loading popular products:', error);
                     document.getElementById('popular-carousel').innerHTML =
-                        '<div class="col-12 text-center text-danger">Error loading popular products: ' + error.message + '</div>';
+                        '<div class="col-12 text-center text-danger">Error loading popular products: ' + error
+                        .message + '</div>';
                 });
         }
 
@@ -4386,8 +4532,15 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
         }
 
         @keyframes float-blog {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-10px) rotate(5deg); }
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-10px) rotate(5deg);
+            }
         }
 
         .blog-section .section-title {
@@ -4667,7 +4820,8 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
                 .catch(error => {
                     console.error('Error loading blog posts:', error);
                     document.getElementById('blog-carousel').innerHTML =
-                        '<div class="col-12 text-center text-danger">Error loading blog posts: ' + error.message + '</div>';
+                        '<div class="col-12 text-center text-danger">Error loading blog posts: ' + error.message +
+                        '</div>';
                 });
         }
 
@@ -4689,19 +4843,21 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
                 let categorySlug = null;
 
                 // Extract category slug from assign_categorys array (API response structure)
-                if (blog.assign_categorys && Array.isArray(blog.assign_categorys) && blog.assign_categorys.length > 0) {
+                if (blog.assign_categorys && Array.isArray(blog.assign_categorys) && blog.assign_categorys
+                    .length > 0) {
                     categorySlug = blog.assign_categorys[0].slug;
                 }
 
                 const blogSlug = blog.slug || blog.id;
 
                 // Try to build URL with category slug first, fallback to blog slug only
-                const blogUrl = categorySlug
-                    ? "{{ url('blog') }}/" + categorySlug + "/" + blogSlug
-                    : "{{ url('blog') }}/" + blogSlug;
+                const blogUrl = categorySlug ?
+                    "{{ url('blog') }}/" + categorySlug + "/" + blogSlug :
+                    "{{ url('blog') }}/" + blogSlug;
 
                 // Use src_url for real blog images, fallback to demo image if not available
-                const blogImage = blog.src_url || blog.image || 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=400&h=300&fit=crop';
+                const blogImage = blog.src_url || blog.image ||
+                    'https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=400&h=300&fit=crop';
                 const blogTitle = blog.name || blog.title || 'Untitled Blog';
                 const blogExcerpt = blog.description || blog.excerpt || blog.content || '';
                 const blogAuthor = blog.author_name || 'Saffron Admin';
@@ -4763,4 +4919,4 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
 
         <!-------------------------------- End Blog Section --->
 
-        </x-shop::layouts>
+</x-shop::layouts>

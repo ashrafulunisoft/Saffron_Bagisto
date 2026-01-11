@@ -37,6 +37,10 @@ Route::group(['prefix' => 'api'], function () {
         Route::get('{id}/related', 'relatedProducts')->name('shop.api.products.related.index');
 
         Route::get('{id}/up-sell', 'upSellProducts')->name('shop.api.products.up-sell.index');
+
+        Route::get('best-selling', 'bestSelling')->name('shop.api.products.best-selling.index');
+
+        Route::get('popular', 'popular')->name('shop.api.products.popular.index');
     });
 
     Route::controller(ReviewController::class)->prefix('product/{id}')->group(function () {

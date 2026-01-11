@@ -436,7 +436,7 @@ img.lazy {
     }
 
     .secondary-button {
-        @apply flex gap-x-1.5 items-center place-content-center font-medium rounded-xl bg-white text-navyBlue border border-navyBlue px-8 py-4 max-w-max cursor-pointer transition-all hover:bg-[#050e3a0d];
+        @apply flex gap-x-1.5 items-center place-content-center font-medium rounded-xl bg-[#212529] text-white border border-[#212529] px-8 py-4 max-w-max cursor-pointer transition-all hover:bg-[#343a40];
     }
 
     .shimmer {

@@ -1837,11 +1837,9 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
             transform: scale(1.1);
         }
 
-        /* Fix featured carousel alignment */
+        /* Center products in featured carousel */
         #products-scroll-container {
-            justify-content: flex-start;
-            padding-left: 0;
-            padding-right: 0;
+            justify-content: center;
         }
 
         #products-scroll-container::-webkit-scrollbar {
