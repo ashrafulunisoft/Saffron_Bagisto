@@ -12,11 +12,13 @@
         />
     @endSection
 
-    <div class="max-md:hidden">
+    <!-- Sidebar Navigation (Desktop) -->
+    <div class="col-lg-3 col-md-4 d-none d-md-block">
         <x-shop::layouts.account.navigation />
     </div>
 
-    <div class="mx-4 flex-auto max-md:mx-6 max-sm:mx-4">
+    <!-- Main Content -->
+    <div class="col-lg-9 col-md-8 account-main-content">
 
         <!-- Cancel and Reorder buttons -->
         <div class="flex items-center justify-between">
@@ -2263,5 +2265,10 @@
 
         {!! view_render_event('bagisto.shop.customers.account.orders.view.after', ['order' => $order]) !!}
 
+    </div>
+
+    <!-- Mobile Navigation -->
+    <div class="col-12 d-md-none">
+        <x-shop::layouts.account.navigation />
     </div>
 </x-shop::layouts.account>

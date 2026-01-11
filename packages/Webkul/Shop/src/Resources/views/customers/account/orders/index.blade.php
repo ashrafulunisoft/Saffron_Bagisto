@@ -48,10 +48,19 @@
 
         <!-- For Desktop View -->
         <div class="d-none d-md-block">
-            <x-shop::datagrid :src="route('shop.customers.account.orders.index')">
-                <template #toolbar>
-                    <div class="d-none"></div>
-                </template>
+            <x-shop::datagrid :src="route('shop.customers.account.orders.index')" class="orders-datagrid-wrapper">
+
+                <x-slot:toolbar>
+                    <div class="mt-7 flex justify-content-end">
+                        <nav v-if="available.meta && available.meta.last_page > 1">
+                            <ul class="pagination mb-0">
+                                <li v-for="page in available.meta.last_page" :key="page" class="page-item" :class="{ 'active': page === available.meta.current_page }">
+                                    <a class="page-link" href="#" @click.prevent="changePage(page)" v-text="page"></a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </x-slot:toolbar>
 
                 <template #header="{
                     isLoading,
@@ -80,46 +89,41 @@
                         <div class="row g-4">
                             <template v-for="record in available.records">
                                 <div class="col-lg-6">
-                                    <a :href="record.actions[0].url" class="text-decoration-none">
-                                        <div class="card h-100 border-0 shadow transition-all" style="border-left: 5px solid #667eea; border-radius: 10px;">
-                                            <div class="card-body">
-                                                <div class="d-flex justify-content-between align-items-start mb-3">
-                                                    <div class="flex-grow-1">
-                                                        <div class="d-flex align-items-center mb-2">
-                                                            <div class="rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 32px; height: 32px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-                                                                <i class="icon-shopping-bag text-white small"></i>
-                                                            </div>
-                                                            <span class="badge bg-light text-dark mb-0">
-                                                                @lang('shop::app.customers.account.orders.order-id')
-                                                            </span>
+                                    <div class="card h-100 border-0 shadow transition-all" style="border-left: 5px solid #667eea; border-radius: 10px;">
+                                        <div class="card-body">
+                                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                                <div class="flex-grow-1">
+                                                    <div class="d-flex align-items-center mb-2">
+                                                        <div class="rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 32px; height: 32px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                                                            <i class="icon-shopping-bag text-white small"></i>
                                                         </div>
-                                                        <h5 class="mb-1 fw-bold" style="color: #667eea;">
-                                                            #@{{ record.id }}
-                                                        </h5>
-                                                        <p class="small text-muted mb-0">
-                                                            <i class="icon-calendar me-1"></i>@{{ record.created_at }}
-                                                        </p>
+                                                        <span class="badge bg-light text-dark mb-0">
+                                                            @lang('shop::app.customers.account.orders.order-id')
+                                                        </span>
                                                     </div>
-                                                    <div v-html="record.status" class="ms-2"></div>
-                                                </div>
-
-                                                <div class="pt-3 border-top">
-                                                    <p class="small text-muted mb-2">
-                                                        @lang('shop::app.customers.account.orders.grand-total')
+                                                    <h5 class="mb-1 fw-bold" style="color: #667eea;">
+                                                        #@{{ record.id }}
+                                                    </h5>
+                                                    <p class="small text-muted mb-0">
+                                                        <i class="icon-calendar me-1"></i>@{{ record.created_at }}
                                                     </p>
-                                                    <h4 class="mb-0 fw-bold" style="color: #667eea;">
-                                                        @{{ record.grand_total }}
-                                                    </h4>
                                                 </div>
+                                                <div v-html="record.status" class="ms-2"></div>
+                                            </div>
 
-                                                <div class="mt-3 text-end">
-                                                    <span class="text-primary small fw-semibold" style="color: #667eea;">
-                                                        View Details <i class="icon-arrow-right rtl:icon-arrow-left ms-1"></i>
-                                                    </span>
-                                                </div>
+                                            <div class="pt-3 border-top">
+                                                <h4 class="mb-0 fw-bold" style="color: #667eea;">
+                                                    @{{ record.grand_total }}
+                                                </h4>
+                                            </div>
+
+                                            <div class="mt-3 text-end">
+                                                <a :href="record.actions[0].url" class="text-primary small fw-semibold text-decoration-none" style="color: #667eea;">
+                                                    View Details <i class="icon-arrow-right rtl:icon-arrow-left ms-1"></i>
+                                                </a>
                                             </div>
                                         </div>
-                                    </a>
+                                    </div>
                                 </div>
                             </template>
 
@@ -140,23 +144,6 @@
                                 </div>
                             </template>
                         </div>
-
-                        <!-- Custom Pagination -->
-                        <div class="mt-4" v-if="available.meta && available.meta.total > available.meta.per_page">
-                            <nav>
-                                <ul class="pagination justify-content-center">
-                                    <li class="page-item" v-for="page in getPaginationPages(available.meta)" :key="page"
-                                        :class="{ 'active': page === available.meta.current_page }">
-                                        <a class="page-link"
-                                           :href="getPaginationUrl(page)"
-                                           v-text="page"
-                                           :class="{ 'bg-primary': page === available.meta.current_page, 'border-primary': page === available.meta.current_page }"
-                                           :style="page === available.meta.current_page ? 'background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-color: #667eea;' : ''">
-                                        </a>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
                     </template>
                 </template>
 
@@ -170,34 +157,24 @@
                 }">
                     <div class="d-none"></div>
                 </template>
-
-                <script>
-                    export default {
-                        methods: {
-                            getPaginationPages(meta) {
-                                const pages = [];
-                                for (let i = 1; i <= meta.last_page; i++) {
-                                    pages.push(i);
-                                }
-                                return pages;
-                            },
-                            getPaginationUrl(page) {
-                                const url = new URL(window.location.href);
-                                url.searchParams.set('page', page);
-                                return url.toString();
-                            }
-                        }
-                    }
-                </script>
             </x-shop::datagrid>
         </div>
 
         <!-- For Mobile View -->
         <div class="d-md-none">
-            <x-shop::datagrid :src="route('shop.customers.account.orders.index')">
-                <template #toolbar>
-                    <div class="d-none"></div>
-                </template>
+            <x-shop::datagrid :src="route('shop.customers.account.orders.index')" class="orders-datagrid-wrapper-mobile">
+
+                <x-slot:toolbar>
+                    <div class="mt-7">
+                        <nav v-if="available.meta && available.meta.last_page > 1">
+                            <ul class="pagination justify-content-center">
+                                <li v-for="page in available.meta.last_page" :key="page" class="page-item" :class="{ 'active': page === available.meta.current_page }">
+                                    <a class="page-link" href="#" @click.prevent="changePage(page)" v-text="page"></a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </x-slot:toolbar>
 
                 <template #header="{
                     isLoading,
@@ -226,46 +203,41 @@
                         <div class="row">
                             <template v-for="record in available.records">
                                 <div class="col-12 mb-3">
-                                    <a :href="record.actions[0].url" class="text-decoration-none">
-                                        <div class="card border-0 shadow" style="border-left: 4px solid #667eea; border-radius: 10px;">
-                                            <div class="card-body">
-                                                <div class="d-flex justify-content-between align-items-start mb-3">
-                                                    <div class="flex-grow-1">
-                                                        <div class="d-flex align-items-center mb-2">
-                                                            <div class="rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 32px; height: 32px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-                                                                <i class="icon-shopping-bag text-white small"></i>
-                                                            </div>
-                                                            <span class="badge bg-light text-dark mb-0">
-                                                                @lang('shop::app.customers.account.orders.order-id')
-                                                            </span>
+                                    <div class="card border-0 shadow" style="border-left: 4px solid #667eea; border-radius: 10px;">
+                                        <div class="card-body">
+                                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                                <div class="flex-grow-1">
+                                                    <div class="d-flex align-items-center mb-2">
+                                                        <div class="rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 32px; height: 32px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                                                            <i class="icon-shopping-bag text-white small"></i>
                                                         </div>
-                                                        <h5 class="mb-1 fw-bold" style="color: #667eea;">
-                                                            #@{{ record.id }}
-                                                        </h5>
-                                                        <p class="small text-muted mb-0">
-                                                            <i class="icon-calendar me-1"></i>@{{ record.created_at }}
-                                                        </p>
+                                                        <span class="badge bg-light text-dark mb-0">
+                                                            @lang('shop::app.customers.account.orders.order-id')
+                                                        </span>
                                                     </div>
-                                                    <div v-html="record.status" class="ms-2"></div>
-                                                </div>
-
-                                                <div class="pt-3 border-top">
-                                                    <p class="small text-muted mb-2">
-                                                        @lang('shop::app.customers.account.orders.grand-total')
+                                                    <h5 class="mb-1 fw-bold" style="color: #667eea;">
+                                                        #@{{ record.id }}
+                                                    </h5>
+                                                    <p class="small text-muted mb-0">
+                                                        <i class="icon-calendar me-1"></i>@{{ record.created_at }}
                                                     </p>
-                                                    <h4 class="mb-0 fw-bold" style="color: #667eea;">
-                                                        @{{ record.grand_total }}
-                                                    </h4>
                                                 </div>
+                                                <div v-html="record.status" class="ms-2"></div>
+                                            </div>
 
-                                                <div class="mt-3 text-end">
-                                                    <span class="text-primary small fw-semibold" style="color: #667eea;">
-                                                        View Details <i class="icon-arrow-right rtl:icon-arrow-left ms-1"></i>
-                                                    </span>
-                                                </div>
+                                            <div class="pt-3 border-top">
+                                                <h4 class="mb-0 fw-bold" style="color: #667eea;">
+                                                    @{{ record.grand_total }}
+                                                </h4>
+                                            </div>
+
+                                            <div class="mt-3 text-end">
+                                                <a :href="record.actions[0].url" class="text-primary small fw-semibold text-decoration-none" style="color: #667eea;">
+                                                    View Details <i class="icon-arrow-right rtl:icon-arrow-left ms-1"></i>
+                                                </a>
                                             </div>
                                         </div>
-                                    </a>
+                                    </div>
                                 </div>
                             </template>
 
@@ -286,23 +258,6 @@
                                 </div>
                             </template>
                         </div>
-
-                        <!-- Mobile Pagination -->
-                        <div class="mt-4" v-if="available.meta && available.meta.total > available.meta.per_page">
-                            <nav>
-                                <ul class="pagination justify-content-center">
-                                    <li class="page-item" v-for="page in getPaginationPages(available.meta)" :key="page"
-                                        :class="{ 'active': page === available.meta.current_page }">
-                                        <a class="page-link"
-                                           :href="getPaginationUrl(page)"
-                                           v-text="page"
-                                           :class="{ 'bg-primary': page === available.meta.current_page, 'border-primary': page === available.meta.current_page }"
-                                           :style="page === available.meta.current_page ? 'background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-color: #667eea;' : ''">
-                                        </a>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
                     </template>
                 </template>
 
@@ -316,25 +271,6 @@
                 }">
                     <div class="d-none"></div>
                 </template>
-
-                <script>
-                    export default {
-                        methods: {
-                            getPaginationPages(meta) {
-                                const pages = [];
-                                for (let i = 1; i <= meta.last_page; i++) {
-                                    pages.push(i);
-                                }
-                                return pages;
-                            },
-                            getPaginationUrl(page) {
-                                const url = new URL(window.location.href);
-                                url.searchParams.set('page', page);
-                                return url.toString();
-                            }
-                        }
-                    }
-                </script>
             </x-shop::datagrid>
         </div>
 
