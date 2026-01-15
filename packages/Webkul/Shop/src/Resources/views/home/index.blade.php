@@ -1028,9 +1028,11 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
             transform: translateX(3px);
         }
 
-        /* Center categories in scroll container */
+        /* Fix category carousel alignment */
         #categories-scroll-container {
-            justify-content: center;
+            justify-content: flex-start;
+            padding-left: 0;
+            padding-right: 0;
         }
 
         #categories-scroll-container::-webkit-scrollbar {
