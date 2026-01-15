@@ -140,7 +140,7 @@
         <div class="border-top border-secondary pt-3">
             <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
                 <p class="text-dark small mb-0" style="color: rgba(255,255,255,0.7);">
-                    Saffron Sweets & Backery &copy; {{ date('Y') }}
+                    © Copyright 2010 - 2026, Saffron Sweets & Bakery. All rights reserved.
                 </p>
                 {{-- {!! view_render_event('bagisto.shop.layout.footer.footer_text.before') !!}
                 <p class="text-white small mb-0" style="color: rgba(255,255,255,0.7);">

@@ -3,6 +3,8 @@
     <meta name="description" content="@lang('shop::app.checkout.onepage.index.checkout')"/>
 
     <meta name="keywords" content="@lang('shop::app.checkout.onepage.index.checkout')"/>
+
+    <link rel="icon" type="image/x-icon" href="/themes/admin/default/build/assets/saffron_fev_icon.ico">
 @endPush
 
 <x-shop::layouts
@@ -12,7 +14,7 @@
 >
     <!-- Page Title -->
     <x-slot:title>
-        @lang('shop::app.checkout.onepage.index.checkout')
+        Saffron Sweets & Bakery - Checkout
     </x-slot>
 
     {!! view_render_event('bagisto.shop.checkout.onepage.header.before') !!}
@@ -27,10 +29,10 @@
                     aria-label="@lang('shop::checkout.onepage.index.bagisto')"
                 >
                     <img
-                        src="{{ core()->getCurrentChannel()->logo_url ?? bagisto_asset('images/logo.svg') }}"
-                        alt="{{ config('app.name') }}"
+                        src="/themes/admin/default/build/assets/Saffron__Logo_Removebg.png"
+                        alt="Saffron Sweets & Bakery"
                         width="131"
-                        height="29"
+                        height="60"
                     >
                 </a>
             </div>
@@ -146,7 +148,7 @@
                             prices: "{{ core()->getConfigData('sales.taxes.shopping_cart.display_prices') }}",
 
                             subtotal: "{{ core()->getConfigData('sales.taxes.shopping_cart.display_subtotal') }}",
-                            
+
                             shipping: "{{ core()->getConfigData('sales.taxes.shopping_cart.display_shipping_amount') }}",
                         },
 

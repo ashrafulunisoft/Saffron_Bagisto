@@ -17,8 +17,8 @@
         <!-- Company Logo -->
         <div class="flex items-center gap-x-8">
             <a href="{{ route('shop.home.index') }}" class="m-[0_auto_12px_auto]" aria-label="@lang('shop::app.customers.signup-form.bagisto')">
-                <img src="{{ core()->getCurrentChannel()->logo_url ?? bagisto_asset('images/logo.svg') }}"
-                    alt="{{ config('app.name') }}" width="100" height="22" margin-bottom="12px">
+                <img src="/themes/admin/default/build/assets/Saffron__Logo_Removebg.png"
+                    alt="Saffron Sweets & Bakery" width="100" height="60" margin-bottom="12px">
             </a>
         </div>
 
@@ -194,7 +194,7 @@
         </div>
 
         <p class="mb-4 mt-5 text-center text-xs text-zinc-400">
-            @lang('shop::app.customers.signup-form.footer', ['current_year' => date('Y')])
+            © Copyright 2010 - 2026, Saffron Sweets & Bakery. All rights reserved.
         </p>
     </div>
 

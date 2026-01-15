@@ -14,7 +14,7 @@
 
         {!! view_render_event('bagisto.shop.layout.head.before') !!}
 
-        <title>{{ $title ?? '' }}</title>
+        <title>{{ $title ?? 'Saffron Sweets & Bakery' }}</title>
 
         <meta charset="UTF-8">
 
@@ -49,7 +49,7 @@
         <link
             rel="icon"
             sizes="16x16"
-            href="{{ core()->getCurrentChannel()->favicon_url ?? bagisto_asset('images/favicon.ico') }}"
+            href="/themes/admin/default/build/assets/saffron_fev_icon.ico"
         />
 
         @bagistoVite(['src/Resources/assets/css/app.css', 'src/Resources/assets/js/app.js'])

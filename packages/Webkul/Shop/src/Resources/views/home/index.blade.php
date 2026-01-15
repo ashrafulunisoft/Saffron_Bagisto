@@ -1,6 +1,7 @@
 
 @php
 $channel = core()->getCurrentChannel();
+// dd("Hello");
 @endphp
 
 <!-- SEO Meta Content -->
@@ -810,287 +811,202 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
 
         <!-- ----------------------------------------------- Static content : only Bootstrap ------------------------------------------------------------------------ -->
 
-        <!-- 1. Task 1:   add here custom slider #customBootstrapCarousel -->
 
-        <!-- Bootstrap Carousel Slider -->
-        {{-- <div id="customBootstrapCarousel" class="carousel slide mb-4" data-bs-ride="carousel" data-bs-interval="5000"
-            data-bs-pause="hover">
-            <div class="carousel-indicators">
-                <button type="button" data-bs-target="#customBootstrapCarousel" data-bs-slide-to="0" class="active"
-                    aria-current="true" aria-label="Slide 1"></button>
-                <button type="button" data-bs-target="#customBootstrapCarousel" data-bs-slide-to="1"
-                    aria-label="Slide 2"></button>
-                <button type="button" data-bs-target="#customBootstrapCarousel" data-bs-slide-to="2"
-                    aria-label="Slide 3"></button>
-                <button type="button" data-bs-target="#customBootstrapCarousel" data-bs-slide-to="3"
-                    aria-label="Slide 4"></button>
-            </div>
-
-            <div class="carousel-inner rounded">
-                <div class="carousel-item active">
-                    <img src="https://images.unsplash.com/photo-1509365465985-25d11c17e812?w=1200&h=500&fit=crop"
-                        class="d-block w-100" alt="Delicious Sweets" style="height: 500px; object-fit: cover;">
-                    <div class="carousel-caption">
-                        <h3 class="display-4 fw-bold text-white mb-3 carousel-title">Delicious Sweets</h3>
-                        <p class="lead text-white mb-4 carousel-text">Taste sweetness of our traditional & modern treats
-                        </p>
-                        <a href="{{ route('shop.search.index') }}" class="btn text-white btn-dark carousel-btn"
-                            style="color:#f8f9fa!important">Shop Now</a>
-                    </div>
-                </div>
-
-                <div class="carousel-item">
-                    <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?w=1200&h=500&fit=crop"
-                        class="d-block w-100" alt="Fresh Baked Goods" style="height: 500px; object-fit: cover;">
-                    <div class="carousel-caption">
-                        <h3 class="display-4 fw-bold text-white mb-3 carousel-title">Fresh Baked Goods</h3>
-                        <p class="lead text-white mb-4 carousel-text">Get up to 50% off on freshly baked items</p>
-                        <a href="{{ route('shop.search.index') }}" class="btn text-white btn-dark carousel-btn">View
-                            Deals</a>
-                    </div>
-                </div>
-
-                <div class="carousel-item">
-                    <img src="https://images.unsplash.com/photo-1551024601-bec78aea704b?w=1200&h=500&fit=crop"
-                        class="d-block w-100" alt="Special Cakes" style="height: 500px; object-fit: cover;">
-                    <div class="carousel-caption">
-                        <h3 class="display-4 fw-bold text-white mb-3 carousel-title">Special Cakes</h3>
-                        <p class="lead text-white mb-4 carousel-text">Celebrate with our premium cakes for every
-                            occasion</p>
-                        <a href="{{ route('shop.search.index') }}"
-                            class="btn text-white btn-dark carousel-btn">Explore</a>
-                    </div>
-                </div>
-
-                <div class="carousel-item">
-                    <img src="https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?w=1200&h=500&fit=crop"
-                        class="d-block w-100" alt="Premium Bakery" style="height: 500px; object-fit: cover;">
-                    <div class="carousel-caption">
-                        <h3 class="display-4 fw-bold text-white mb-3 carousel-title">Premium Bakery</h3>
-                        <p class="lead text-white mb-4 carousel-text">Experience finest bakery products</p>
-                        <a href="{{ route('shop.search.index') }}"
-                            class="btn text-white btn-dark carousel-btn text-white">Discover More</a>
-                    </div>
-                </div>
-            </div>
-
-            <button class="carousel-control-prev" type="button" data-bs-target="#customBootstrapCarousel"
-                data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#customBootstrapCarousel"
-                data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
-        </div> --}}
-
-        <!-- Custom CSS for better slider appearance -->
-        @push('styles')
-        <style>
-        #customBootstrapCarousel .carousel-item img {
-            filter: brightness(0.85);
-            backdrop-filter: blur(0.5px);
-            opacity: 0.95;
-            position: relative;
-            transition: filter 0.5s ease, opacity 0.5s ease, backdrop-filter 0.5s ease;
-        }
-
-        #customBootstrapCarousel .carousel-item.active img {
-            filter: brightness(0.95);
-            backdrop-filter: blur(0px);
-            opacity: 1;
-        }
-
-        #customBootstrapCarousel .carousel-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.3) 100%);
-            pointer-events: none;
-        }
-
-        #customBootstrapCarousel .carousel-caption {
-            padding: 2rem;
-            border-radius: 0 0 10px 10px;
-            bottom: 0;
-            background: transparent;
-        }
-
-        #customBootstrapCarousel .carousel-indicators {
-            margin-bottom: 1rem;
-        }
-
-        #customBootstrapCarousel .carousel-indicators button {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            margin: 0 5px;
-        }
-
-        @media (max-width: 768px) {
-            #customBootstrapCarousel .carousel-inner {
-                border-radius: 0;
-            }
-
-            #customBootstrapCarousel .carousel-item img {
-                height: 250px !important;
-            }
-
-            #customBootstrapCarousel .carousel-title {
-                font-size: 1.5rem !important;
-            }
-
-            #customBootstrapCarousel .carousel-text {
-                font-size: 0.9rem !important;
-            }
-
-            #customBootstrapCarousel .carousel-btn {
-                padding: 0.5rem 1rem !important;
-                font-size: 0.875rem !important;
-            }
-
-            #customBootstrapCarousel .carousel-caption {
-                padding: 1rem !important;
-                bottom: 0 !important;
-            }
-        }
-        </style>
-        @endpush
-
-        <!-- JavaScript for carousel initialization -->
-        @push('scripts-bottom')
-        <script>
-        (function initCustomCarousel() {
-            if (typeof bootstrap !== 'undefined' && document.getElementById('customBootstrapCarousel')) {
-                var carousel = new bootstrap.Carousel('#customBootstrapCarousel', {
-                    interval: 5000,
-                    wrap: true,
-                    pause: 'hover',
-                    touch: true,
-                    keyboard: true
-                });
-                console.log('Custom Bootstrap carousel initialized');
-            } else {
-                setTimeout(initCustomCarousel, 100);
-            }
-        })();
-        </script>
-        @endpush
 
         <!-------------------------------- End Slider  ---------------------------------------------------------------->
 
-        <!-------------------------------- Category Carousel (Swiper Carousel) ----------------->
+        <!-------------------------------- Category Carousel ----------------->
         @if($categories && $categories->count() > 0)
-        <section class="py-5 overflow-hidden">
+        <section class="py-5 category-section">
             <div class="container-lg">
-                <div class="row">
-                    <div class="col-md-12">
-
-                        <div class="section-header d-flex flex-wrap justify-content-between mb-5">
-                            <h2 class="section-title">Shop by Category</h2>
-
-                            <div class="d-flex align-items-center">
-                                <div class="category-carousel-buttons">
-                                    <button class="btn text-white btn-dark category-carousel-prev me-2"
-                                        type="button">❮</button>
-                                    <button class="btn text-white btn-dark category-carousel-next"
-                                        type="button">❯</button>
-                                </div>
-                            </div>
-                        </div>
-
+                <div class="text-center mb-5">
+                    <div class="category-header mb-3">
+                        <span class="category-icon">🛒</span>
+                        <h2 class="section-title">Shop by Category</h2>
+                        <span class="category-icon">🛒</span>
                     </div>
+                    <p class="text-muted mb-0">Browse our wide range of product categories</p>
+                </div>
+                <div class="d-flex justify-content-center align-items-center gap-3 mb-4">
+                    <button id="category-prev" class="btn btn-outline-success category-nav-btn" type="button" onclick="scrollCategories('prev')">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                    <button id="category-next" class="btn btn-outline-success category-nav-btn" type="button" onclick="scrollCategories('next')">
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
                 </div>
 
-                <div class="row">
-                    <div class="col-md-12">
+                <div id="category-carousel" class="row gx-3 gy-4">
+                    <div class="d-flex gap-4" id="categories-scroll-container" style="overflow-x: auto; scroll-behavior: smooth; scrollbar-width: thin; -webkit-overflow-scrolling: touch; padding-bottom: 10px;">
 
-                        <div class="category-carousel swiper">
-                            <div class="swiper-wrapper">
+                        @php
+                        $subCategories = [];
+                        $categoriesArray = $categories->collection->toArray();
+                        foreach($categoriesArray as $category) {
+                        if (!empty($category['children'])) {
+                        $children = $category['children'];
+                        if (is_array($children)) {
+                        $subCategories = array_merge($subCategories, $children);
+                        } elseif (is_object($children) && method_exists($children, 'toArray')) {
+                        $subCategories = array_merge($subCategories, $children->toArray());
+                        }
+                        }
+                        }
+                        $subCategories = collect($subCategories)->take(12);
+                        @endphp
 
-                                @php
-                                $subCategories = [];
-                                $categoriesArray = $categories->collection->toArray();
-                                foreach($categoriesArray as $category) {
-                                if (!empty($category['children'])) {
-                                $children = $category['children'];
-                                if (is_array($children)) {
-                                $subCategories = array_merge($subCategories, $children);
-                                } elseif (is_object($children) && method_exists($children, 'toArray')) {
-                                $subCategories = array_merge($subCategories, $children->toArray());
-                                }
-                                }
-                                }
-                                $subCategories = collect($subCategories)->take(12);
-                                @endphp
+                        @if(!empty($subCategories))
+                        @foreach($subCategories as $subCat)
+                        @php
+                        $catName = $subCat['name'] ?? 'Category';
+                        $catSlug = $subCat['slug'] ?? '#';
+                        $catImage = $subCat['logo_url'] ?? $subCat['image_url'] ?? $subCat['logo'] ??
+                        $subCat['image'] ?? null;
+                        @endphp
 
-                                @if(!empty($subCategories))
-                                @foreach($subCategories as $subCat)
-                                @php
-                                $catName = $subCat['name'] ?? 'Category';
-                                $catSlug = $subCat['slug'] ?? '#';
-                                $catImage = $subCat['logo_url'] ?? $subCat['image_url'] ?? $subCat['logo'] ??
-                                $subCat['image'] ?? null;
-                                @endphp
-
-                                <div class="swiper-slide">
-                                    <a href="{{ url('products/' . $catSlug) }}"
-                                        class="nav-link text-center text-decoration-none text-dark">
-                                        <div class="category-card d-flex flex-column align-items-center">
-                                            @if($catImage)
-                                            <img src="{{ $catImage }}" alt="{{ $catName }}"
-                                                class="rounded-circle mb-3 img-fluid category-image"
-                                                style="width: 140px; height: 140px; object-fit: cover; border: 3px solid #dee2e6; transition: transform 0.3s ease, box-shadow 0.3s ease;">
-                                            @else
-                                            <div class="rounded-circle mb-3 d-flex align-items-center justify-content-center bg-light"
-                                                style="width: 140px; height: 140px; border: 3px solid #dee2e6; margin: 0 auto;">
-                                                <span class="fw-bold text-secondary"
-                                                    style="font-size: 2rem;">{{ substr($catName, 0, 2) }}</span>
-                                            </div>
-                                            @endif
-                                            <h4 class="fs-6 mt-3 fw-normal category-title text-dark text-center">
-                                                {{ $catName }}</h4>
-                                        </div>
-                                    </a>
-                                </div>
-                                @endforeach
-                                @else
-                                <div class="swiper-slide">
-                                    <div class="text-center text-muted py-4 w-100">
-                                        <p>No sub-categories available</p>
+                        <div class="category-card flex-shrink-0" style="width: 200px; min-width: 200px;">
+                            <a href="{{ url('products/' . $catSlug) }}"
+                                class="nav-link text-center text-decoration-none text-dark">
+                                <div class="category-card-inner d-flex flex-column align-items-center">
+                                    @if($catImage)
+                                    <img src="{{ $catImage }}" alt="{{ $catName }}"
+                                        class="rounded-circle mb-3 img-fluid category-image"
+                                        style="width: 140px; height: 140px; object-fit: cover; border: 3px solid #dee2e6; transition: transform 0.3s ease, box-shadow 0.3s ease;">
+                                    @else
+                                    <div class="rounded-circle mb-3 d-flex align-items-center justify-content-center bg-light"
+                                        style="width: 140px; height: 140px; border: 3px solid #dee2e6; margin: 0 auto;">
+                                        <span class="fw-bold text-secondary"
+                                            style="font-size: 2rem;">{{ substr($catName, 0, 2) }}</span>
                                     </div>
+                                    @endif
+                                    <h4 class="fs-6 mt-3 fw-normal category-title text-dark text-center">
+                                        {{ $catName }}</h4>
                                 </div>
-                                @endif
-
-                            </div>
-
+                            </a>
                         </div>
+                        @endforeach
+                        @else
+                        <div class="col-12 text-center text-muted py-4 w-100">
+                            <p>No sub-categories available</p>
+                        </div>
+                        @endif
+
                     </div>
                 </div>
+            </div>
         </section>
         @endif
 
         <!-------------------------------- Category Carousel Styles ----------------->
         @push('styles')
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css">
         <style>
-        .category-carousel {
-            padding: 10px;
+        .category-section {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 30%, #ffffff 70%, #f0fdf4 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2328a745' fill-opacity='0.05'%3E%3Cpath d='M40 35c-2.8 0-5 2.2-5 5s2.2 5 5 5-2.2 5-5-2.2-5-5-5zm0 10c-2.8 0-5 2.2-5 5s2.2 5 5 5-2.2 5-5-2.2-5-5-5zM20 30c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 10c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zM60 30c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 10c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            pointer-events: none;
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .category-icon {
+            font-size: 2rem;
+            animation: bounce-category 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce-category {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(5deg); }
+        }
+
+        .category-section .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin: 0;
+            background: linear-gradient(135deg, #28a745, #20c997);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .category-nav-btn {
+            width: 45px;
+            height: 45px;
+            padding: 0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .category-nav-btn:hover {
+            background: #28a745 !important;
+            color: white !important;
+            transform: scale(1.1);
         }
 
         .category-card {
-            padding: 1rem;
-            border-radius: 10px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(15px) saturate(150%);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            backdrop-filter: blur(20px) saturate(180%);
+            height: 100%;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+            position: relative;
+        }
+
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 14px;
+            padding: 3px;
+            background: linear-gradient(135deg, #28a745, #20c997, #16a34a);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 1;
+        }
+
+        .category-card:hover::before {
+            opacity: 1;
+        }
+
+        .category-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 20px 50px rgba(40, 167, 69, 0.25);
+            border-color: #28a745;
+        }
+
+        .category-card-inner {
+            padding: 1.5rem;
+            position: relative;
+            z-index: 1;
         }
 
         .category-card:hover .category-image {
@@ -1099,36 +1015,40 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
         }
 
         .category-title {
-            transition: color 0.3s ease;
+            transition: all 0.3s ease;
+            color: #2d3748;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
         .category-card:hover .category-title {
-            color: #0d6efd !important;
+            color: #28a745 !important;
+            transform: translateX(3px);
         }
 
-        .category-carousel-buttons {
-            display: flex;
-            gap: 5px;
+        /* Center categories in scroll container */
+        #categories-scroll-container {
+            justify-content: center;
         }
 
-        .category-carousel-prev,
-        .category-carousel-next {
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s ease;
+        #categories-scroll-container::-webkit-scrollbar {
+            height: 8px;
         }
 
-        .category-carousel-prev:hover,
-        .category-carousel-next:hover {
-            transform: scale(1.1);
-            background-color: #212529 !important;
+        #categories-scroll-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
         }
 
-        .category-carousel-prev:disabled,
-        .category-carousel-next:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
+        #categories-scroll-container::-webkit-scrollbar-thumb {
+            background: #28a745;
+            border-radius: 10px;
+        }
+
+        #categories-scroll-container::-webkit-scrollbar-thumb:hover {
+            background: #20c997;
         }
 
         @media (max-width: 768px) {
@@ -1137,20 +1057,14 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
                 height: 100px !important;
             }
 
-            .category-carousel-prev,
-            .category-carousel-next {
-                padding: 0.375rem 0.75rem;
-                font-size: 0.875rem;
+            .category-nav-btn {
+                width: 38px;
+                height: 38px;
             }
 
-            .swiper-slide {
-                text-align: center;
-            }
-
-            .category-title {
-                text-align: center;
-                display: block;
-                width: 100%;
+            .category-card {
+                width: 160px !important;
+                min-width: 160px !important;
             }
         }
         </style>
@@ -1158,110 +1072,98 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
 
         <!-------------------------------- Category Carousel Scripts ----------------->
         @push('scripts-bottom')
-        <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
         <script>
-        var categorySwiper = null;
+        var categoryScrollAmount = 300;
 
-        function initCategoryCarousel() {
-            console.log('Initializing category carousel...');
+        // Setup category navigation buttons
+        function setupCategoryNavigationButtons() {
+            const prevBtn = document.getElementById('category-prev');
+            const nextBtn = document.getElementById('category-next');
 
-            if (typeof Swiper === 'undefined') {
-                console.log('Swiper not loaded yet, waiting...');
-                setTimeout(initCategoryCarousel, 500);
+            if (!prevBtn || !nextBtn) {
+                console.warn('Category navigation buttons not found');
                 return;
             }
 
-            var categoryCarouselEl = document.querySelector('.category-carousel');
-            if (!categoryCarouselEl) {
-                console.log('Category carousel element not found');
-                return;
-            }
+            // Remove old event listeners
+            const newPrevBtn = prevBtn.cloneNode(true);
+            const newNextBtn = nextBtn.cloneNode(true);
+            prevBtn.parentNode.replaceChild(newPrevBtn, prevBtn);
+            nextBtn.parentNode.replaceChild(newNextBtn, nextBtn);
 
-            var prevButton = document.querySelector('.category-carousel-prev');
-            var nextButton = document.querySelector('.category-carousel-next');
-
-            console.log('Carousel element:', categoryCarouselEl);
-            console.log('Prev button:', prevButton);
-            console.log('Next button:', nextButton);
-
-            if (categorySwiper) {
-                categorySwiper.destroy(true);
-            }
-
-            categorySwiper = new Swiper(categoryCarouselEl, {
-                slidesPerView: 6,
-                spaceBetween: 30,
-                loop: true,
-                autoplay: {
-                    delay: 3000,
-                    disableOnInteraction: false,
-                },
-                navigation: {
-                    nextEl: nextButton,
-                    prevEl: prevButton,
-                    enabled: true,
-                },
-                on: {
-                    init: function() {
-                        console.log('Category swiper initialized successfully');
-                    },
-                    navigationShow: function() {
-                        console.log('Navigation buttons shown');
-                    },
-                    navigationHide: function() {
-                        console.log('Navigation buttons hidden');
-                    },
-                },
-                breakpoints: {
-                    320: {
-                        slidesPerView: 2,
-                        spaceBetween: 10,
-                    },
-                    480: {
-                        slidesPerView: 3,
-                        spaceBetween: 15,
-                    },
-                    768: {
-                        slidesPerView: 4,
-                        spaceBetween: 20,
-                    },
-                    992: {
-                        slidesPerView: 5,
-                        spaceBetween: 25,
-                    },
-                    1200: {
-                        slidesPerView: 6,
-                        spaceBetween: 30,
-                    },
-                },
+            // Add new event listeners
+            newPrevBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const container = document.getElementById('categories-scroll-container');
+                if (container) {
+                    container.scrollBy({
+                        left: -categoryScrollAmount,
+                        behavior: 'smooth'
+                    });
+                    console.log('Category Previous clicked, scrollLeft:', container.scrollLeft);
+                } else {
+                    console.error('Category scroll container not found');
+                }
             });
 
-            console.log('Category carousel instance:', categorySwiper);
+            newNextBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const container = document.getElementById('categories-scroll-container');
+                if (container) {
+                    if (container.scrollLeft + container.clientWidth >= container.scrollWidth - 10) {
+                        container.scrollTo({
+                            left: 0,
+                            behavior: 'smooth'
+                        });
+                        console.log('Category reached end, scrolling to start');
+                    } else {
+                        container.scrollBy({
+                            left: categoryScrollAmount,
+                            behavior: 'smooth'
+                        });
+                        console.log('Category Next clicked, scrollLeft:', container.scrollLeft);
+                    }
+                } else {
+                    console.error('Category scroll container not found');
+                }
+            });
+
+            console.log('Category navigation buttons setup complete');
         }
 
-        // Initialize on window load
-        window.addEventListener('load', initCategoryCarousel);
-
-        // Also try on DOMContentLoaded as fallback
-        document.addEventListener('DOMContentLoaded', function() {
-            setTimeout(initCategoryCarousel, 500);
-        });
-
-        // Manual button control as backup
-        document.addEventListener('click', function(e) {
-            if (e.target.closest('.category-carousel-next') && categorySwiper) {
-                console.log('Next button clicked');
-                categorySwiper.slideNext();
-                e.preventDefault();
+        // Helper function for Category carousel scrolling (inline onclick backup)
+        function scrollCategories(direction) {
+            const container = document.getElementById('categories-scroll-container');
+            if (!container) {
+                console.error('Category scroll container not found');
+                return;
             }
-            if (e.target.closest('.category-carousel-prev') && categorySwiper) {
-                console.log('Previous button clicked');
-                categorySwiper.slidePrev();
-                e.preventDefault();
-            }
-        }, true);
 
-        console.log('Category carousel scripts loaded');
+            if (direction === 'prev') {
+                container.scrollBy({
+                    left: -categoryScrollAmount,
+                    behavior: 'smooth'
+                });
+                console.log('Category Previous clicked, scrollLeft:', container.scrollLeft);
+            } else if (direction === 'next') {
+                if (container.scrollLeft + container.clientWidth >= container.scrollWidth - 10) {
+                    container.scrollTo({
+                        left: 0,
+                        behavior: 'smooth'
+                    });
+                    console.log('Category reached end, scrolling to start');
+                } else {
+                    container.scrollBy({
+                        left: categoryScrollAmount,
+                        behavior: 'smooth'
+                    });
+                    console.log('Category Next clicked, scrollLeft:', container.scrollLeft);
+                }
+            }
+        }
+
+        // Setup category navigation on DOM load
+        document.addEventListener('DOMContentLoaded', setupCategoryNavigationButtons);
         </script>
         @endpush
 
@@ -1536,401 +1438,401 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
 
         @push('styles')
         <!-- Font Awesome for icons -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-        <style>
-        .featured-products-section {
-            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 30%, #ffffff 70%, #f0fdf4 100%);
-            position: relative;
-            overflow: hidden;
-        }
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+            <style>
+            .featured-products-section {
+                background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 30%, #ffffff 70%, #f0fdf4 100%);
+                position: relative;
+                overflow: hidden;
+            }
 
-        .featured-products-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 100%;
-            background: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2328a745' fill-opacity='0.05'%3E%3Cpath d='M40 35c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 10c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zM20 30c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 10c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zM60 30c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 10c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-            pointer-events: none;
-        }
+            .featured-products-section::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 100%;
+                background: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2328a745' fill-opacity='0.05'%3E%3Cpath d='M40 35c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 10c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zM20 30c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 10c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zM60 30c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 10c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+                pointer-events: none;
+            }
 
-        .featured-header {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 1rem;
-        }
+            .featured-header {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 1rem;
+            }
 
-        .featured-icon {
-            font-size: 2rem;
-            animation: sparkle 2s ease-in-out infinite;
-        }
+            .featured-icon {
+                font-size: 2rem;
+                animation: sparkle 2s ease-in-out infinite;
+            }
 
-        @keyframes sparkle {
-            0%, 100% { transform: scale(1) rotate(0deg); opacity: 1; }
-            50% { transform: scale(1.2) rotate(10deg); opacity: 0.8; }
-        }
+            @keyframes sparkle {
+                0%, 100% { transform: scale(1) rotate(0deg); opacity: 1; }
+                50% { transform: scale(1.2) rotate(10deg); opacity: 0.8; }
+            }
 
-        .section-title {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #1a1a1a;
-            margin: 0;
-            background: linear-gradient(135deg, #28a745, #20c997);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
+            .section-title {
+                font-size: 2rem;
+                font-weight: 700;
+                color: #1a1a1a;
+                margin: 0;
+                background: linear-gradient(135deg, #28a745, #20c997);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
 
-        .product-card {
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 16px;
-            overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(20px) saturate(180%);
-            height: 100%;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.5);
-            position: relative;
-        }
+            .product-card {
+                border: 1px solid rgba(255, 255, 255, 0.3);
+                border-radius: 16px;
+                overflow: hidden;
+                transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                background: rgba(255, 255, 255, 0.7);
+                backdrop-filter: blur(20px) saturate(180%);
+                height: 100%;
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+                position: relative;
+            }
 
-        .product-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            border-radius: 14px;
-            padding: 3px;
-            background: linear-gradient(135deg, #28a745, #20c997, #16a34a);
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            z-index: 1;
-        }
+            .product-card::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                border-radius: 14px;
+                padding: 3px;
+                background: linear-gradient(135deg, #28a745, #20c997, #16a34a);
+                -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+                mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+                -webkit-mask-composite: xor;
+                mask-composite: exclude;
+                opacity: 0;
+                transition: opacity 0.4s ease;
+                z-index: 1;
+            }
 
-        .product-card:hover::before {
-            opacity: 1;
-        }
+            .product-card:hover::before {
+                opacity: 1;
+            }
 
-        .product-card:hover {
-            transform: translateY(-10px) scale(1.03);
-            box-shadow: 0 20px 50px rgba(40, 167, 69, 0.25);
-            border-color: #28a745;
-        }
+            .product-card:hover {
+                transform: translateY(-10px) scale(1.03);
+                box-shadow: 0 20px 50px rgba(40, 167, 69, 0.25);
+                border-color: #28a745;
+            }
 
-        .product-image-container {
-            position: relative;
-            overflow: hidden;
-            height: 200px;
-            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
-            z-index: 1;
-        }
-
-        .product-image-container::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to bottom, transparent 70%, rgba(40, 167, 69, 0.05) 100%);
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        .product-card:hover .product-image {
-            transform: scale(1.1);
-        }
-
-        .product-image {
-            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            position: relative;
-            z-index: 1;
-        }
-
-        .product-name {
-            font-size: 0.95rem;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            color: #2d3748;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            height: 2.5rem;
-            line-height: 1.25;
-            margin-bottom: 0.5rem;
-        }
-
-        .product-card:hover .product-name {
-            color: #28a745 !important;
-            transform: translateX(3px);
-        }
-
-        .product-price {
-            display: flex;
-            align-items: baseline;
-            gap: 8px;
-            margin-bottom: 0.5rem;
-        }
-
-        .price-current {
-            font-size: 1.15rem;
-            font-weight: 700;
-            color: #28a745;
-            line-height: 1;
-        }
-
-        .price-original {
-            font-size: 0.85rem;
-            color: #9ca3af;
-            text-decoration: line-through;
-            font-weight: 400;
-        }
-
-        .badge-sale {
-            position: absolute;
-            top: 12px;
-            left: 12px;
-            background: linear-gradient(135deg, #ff4757 0%, #dc3545 100%);
-            color: white;
-            padding: 8px 18px;
-            border-radius: 25px;
-            font-size: 0.8rem;
-            font-weight: 800;
-            z-index: 2;
-            box-shadow: 0 5px 15px rgba(220, 53, 69, 0.5);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            animation: pulse-badge 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse-badge {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
-        .badge-new {
-            position: absolute;
-            top: 12px;
-            left: 12px;
-            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-            color: white;
-            padding: 8px 18px;
-            border-radius: 25px;
-            font-size: 0.8rem;
-            font-weight: 800;
-            z-index: 2;
-            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.5);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            animation: pulse-badge 2s ease-in-out infinite;
-        }
-
-        .action-icons {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            opacity: 0;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 3;
-            transform: translateX(15px);
-        }
-
-        .product-card:hover .action-icons {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        .action-icon {
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(40, 167, 69, 0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            color: #4a5568;
-            font-size: 1.1rem;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .action-icon:hover {
-            background: linear-gradient(135deg, #28a745, #20c997);
-            color: white;
-            border-color: transparent;
-            transform: scale(1.1);
-            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4);
-        }
-
-        .action-icon.active {
-            color: #dc3545;
-            border-color: #dc3545;
-            background: rgba(255, 255, 255, 0.95);
-        }
-
-        .action-icon.active:hover {
-            color: white;
-            background: linear-gradient(135deg, #dc3545, #c82333);
-            border-color: transparent;
-        }
-
-        .btn-add-cart {
-            width: 100%;
-            background: linear-gradient(135deg, #28a745 0%, #20c997 100%) !important;
-            color: white !important;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            padding: 12px 16px;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            box-shadow: 0 3px 10px rgba(40, 167, 69, 0.3);
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
-            cursor: pointer;
-        }
-
-        .btn-add-cart::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            transition: left 0.5s ease;
-        }
-
-        .btn-add-cart:hover::before {
-            left: 100%;
-        }
-
-        .btn-add-cart:hover {
-            background: linear-gradient(135deg, #218838 0%, #1e7e34 100%) !important;
-            color: white !important;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
-        }
-
-        .btn-add-cart:disabled {
-            background: #a0aec0 !important;
-            cursor: not-allowed;
-            transform: none !important;
-            box-shadow: none !important;
-        }
-
-        .btn-add-cart:disabled::before {
-            display: none;
-        }
-
-        .product-nav-btn {
-            width: 45px;
-            height: 45px;
-            padding: 0;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
-
-        .product-nav-btn:hover {
-            background: #28a745 !important;
-            color: white !important;
-            transform: scale(1.1);
-        }
-
-        /* Fix featured carousel alignment */
-        #products-scroll-container {
-            justify-content: flex-start;
-            padding-left: 0;
-            padding-right: 0;
-        }
-
-        #products-scroll-container::-webkit-scrollbar {
-            height: 8px;
-        }
-
-        #products-scroll-container::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 10px;
-        }
-
-        #products-scroll-container::-webkit-scrollbar-thumb {
-            background: #28a745;
-            border-radius: 10px;
-        }
-
-        #products-scroll-container::-webkit-scrollbar-thumb:hover {
-            background: #20c997;
-        }
-
-        @media (max-width: 768px) {
             .product-image-container {
-                height: 160px;
+                position: relative;
+                overflow: hidden;
+                height: 200px;
+                background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+                z-index: 1;
+            }
+
+            .product-image-container::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(to bottom, transparent 70%, rgba(40, 167, 69, 0.05) 100%);
+                pointer-events: none;
+                z-index: 1;
+            }
+
+            .product-card:hover .product-image {
+                transform: scale(1.1);
+            }
+
+            .product-image {
+                transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                position: relative;
+                z-index: 1;
             }
 
             .product-name {
-                font-size: 0.85rem;
-                height: 2.3rem;
+                font-size: 0.95rem;
+                font-weight: 600;
+                transition: all 0.3s ease;
+                color: #2d3748;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+                height: 2.5rem;
+                line-height: 1.25;
+                margin-bottom: 0.5rem;
+            }
+
+            .product-card:hover .product-name {
+                color: #28a745 !important;
+                transform: translateX(3px);
+            }
+
+            .product-price {
+                display: flex;
+                align-items: baseline;
+                gap: 8px;
+                margin-bottom: 0.5rem;
             }
 
             .price-current {
-                font-size: 1rem;
+                font-size: 1.15rem;
+                font-weight: 700;
+                color: #28a745;
+                line-height: 1;
             }
 
             .price-original {
-                font-size: 0.75rem;
+                font-size: 0.85rem;
+                color: #9ca3af;
+                text-decoration: line-through;
+                font-weight: 400;
+            }
+
+            .badge-sale {
+                position: absolute;
+                top: 12px;
+                left: 12px;
+                background: linear-gradient(135deg, #ff4757 0%, #dc3545 100%);
+                color: white;
+                padding: 8px 18px;
+                border-radius: 25px;
+                font-size: 0.8rem;
+                font-weight: 800;
+                z-index: 2;
+                box-shadow: 0 5px 15px rgba(220, 53, 69, 0.5);
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                animation: pulse-badge 2s ease-in-out infinite;
+            }
+
+            @keyframes pulse-badge {
+                0%, 100% { transform: scale(1); }
+                50% { transform: scale(1.05); }
+            }
+
+            .badge-new {
+                position: absolute;
+                top: 12px;
+                left: 12px;
+                background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+                color: white;
+                padding: 8px 18px;
+                border-radius: 25px;
+                font-size: 0.8rem;
+                font-weight: 800;
+                z-index: 2;
+                box-shadow: 0 5px 15px rgba(40, 167, 69, 0.5);
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                animation: pulse-badge 2s ease-in-out infinite;
             }
 
             .action-icons {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+                opacity: 0;
+                transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                z-index: 3;
+                transform: translateX(15px);
+            }
+
+            .product-card:hover .action-icons {
                 opacity: 1;
                 transform: translateX(0);
             }
 
             .action-icon {
-                width: 35px;
-                height: 35px;
-                font-size: 1rem;
+                width: 38px;
+                height: 38px;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.95);
+                backdrop-filter: blur(10px);
+                border: 2px solid rgba(40, 167, 69, 0.2);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                color: #4a5568;
+                font-size: 1.1rem;
+                box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            }
+
+            .action-icon:hover {
+                background: linear-gradient(135deg, #28a745, #20c997);
+                color: white;
+                border-color: transparent;
+                transform: scale(1.1);
+                box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4);
+            }
+
+            .action-icon.active {
+                color: #dc3545;
+                border-color: #dc3545;
+                background: rgba(255, 255, 255, 0.95);
+            }
+
+            .action-icon.active:hover {
+                color: white;
+                background: linear-gradient(135deg, #dc3545, #c82333);
+                border-color: transparent;
             }
 
             .btn-add-cart {
-                padding: 10px 14px;
-                font-size: 0.85rem;
+                width: 100%;
+                background: linear-gradient(135deg, #28a745 0%, #20c997 100%) !important;
+                color: white !important;
+                border: none;
+                border-radius: 8px;
+                font-weight: 600;
+                transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                padding: 12px 16px;
+                font-size: 0.9rem;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                box-shadow: 0 3px 10px rgba(40, 167, 69, 0.3);
+                position: relative;
+                overflow: hidden;
+                z-index: 1;
+                cursor: pointer;
+            }
+
+            .btn-add-cart::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+                transition: left 0.5s ease;
+            }
+
+            .btn-add-cart:hover::before {
+                left: 100%;
+            }
+
+            .btn-add-cart:hover {
+                background: linear-gradient(135deg, #218838 0%, #1e7e34 100%) !important;
+                color: white !important;
+                transform: translateY(-2px);
+                box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+            }
+
+            .btn-add-cart:disabled {
+                background: #a0aec0 !important;
+                cursor: not-allowed;
+                transform: none !important;
+                box-shadow: none !important;
+            }
+
+            .btn-add-cart:disabled::before {
+                display: none;
             }
 
             .product-nav-btn {
-                width: 38px;
-                height: 38px;
+                width: 45px;
+                height: 45px;
+                padding: 0;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: all 0.3s ease;
             }
-        }
-        </style>
+
+            .product-nav-btn:hover {
+                background: #28a745 !important;
+                color: white !important;
+                transform: scale(1.1);
+            }
+
+            /* Fix featured carousel alignment */
+            #products-scroll-container {
+                justify-content: flex-start;
+                padding-left: 0;
+                padding-right: 0;
+            }
+
+            #products-scroll-container::-webkit-scrollbar {
+                height: 8px;
+            }
+
+            #products-scroll-container::-webkit-scrollbar-track {
+                background: #f1f1f1;
+                border-radius: 10px;
+            }
+
+            #products-scroll-container::-webkit-scrollbar-thumb {
+                background: #28a745;
+                border-radius: 10px;
+            }
+
+            #products-scroll-container::-webkit-scrollbar-thumb:hover {
+                background: #20c997;
+            }
+
+            @media (max-width: 768px) {
+                .product-image-container {
+                    height: 160px;
+                }
+
+                .product-name {
+                    font-size: 0.85rem;
+                    height: 2.3rem;
+                }
+
+                .price-current {
+                    font-size: 1rem;
+                }
+
+                .price-original {
+                    font-size: 0.75rem;
+                }
+
+                .action-icons {
+                    opacity: 1;
+                    transform: translateX(0);
+                }
+
+                .action-icon {
+                    width: 35px;
+                    height: 35px;
+                    font-size: 1rem;
+                }
+
+                .btn-add-cart {
+                    padding: 10px 14px;
+                    font-size: 0.85rem;
+                }
+
+                .product-nav-btn {
+                    width: 38px;
+                    height: 38px;
+                }
+            }
+            </style>
         @endpush
 
-@push('scripts')
-<!-- SweetAlert2 for beautiful notifications -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-@endpush
+        @push('scripts')
+        <!-- SweetAlert2 for beautiful notifications -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        @endpush
 
         @push('scripts-bottom')
         <script>

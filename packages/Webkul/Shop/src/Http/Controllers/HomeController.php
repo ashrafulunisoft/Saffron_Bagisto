@@ -42,6 +42,8 @@ class HomeController extends Controller
 
         $categories = CategoryTreeResource::collection($categories);
 
+        // dd("Hello"); 
+
         return view('shop::home.index', compact('customizations', 'categories'));
     }
 

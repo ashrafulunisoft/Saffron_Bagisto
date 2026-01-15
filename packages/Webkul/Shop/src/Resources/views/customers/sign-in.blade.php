@@ -1,4 +1,4 @@
-w<!-- SEO Meta Content -->
+<!-- SEO Meta Content -->
 @push('meta')
     <meta name="description" content="@lang('shop::app.customers.login-form.page-title')"/>
 
@@ -26,10 +26,10 @@ w<!-- SEO Meta Content -->
                 aria-label="@lang('shop::app.customers.login-form.bagisto')"
             >
                 <img
-                    src="{{ core()->getCurrentChannel()->logo_url ?? bagisto_asset('images/logo.svg') }}"
-                    alt="{{ config('app.name') }}"
+                    src="/themes/admin/default/build/assets/Saffron__Logo_Removebg.png"
+                    alt="Saffron Sweets & Bakery"
                     width="131"
-                    height="29"
+                    height="60"
                 >
             </a>
         </div>
@@ -168,7 +168,7 @@ w<!-- SEO Meta Content -->
         </div>
 
         <p class="mb-2 mt-5 text-center text-[10px] text-zinc-500">
-            @lang('shop::app.customers.login-form.footer', ['current_year'=> date('Y') ])
+            © Copyright 2010 - 2026, Saffron Sweets & Bakery. All rights reserved.
         </p>
     </div>
 
