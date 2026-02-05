@@ -106,9 +106,10 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
                                 <div class="hero-image-wrapper animate-float">
                                     <div class="hero-image-container">
                                         <div class="image-glow"></div>
-                                        <img src="https://images.unsplash.com/photo-1509365465985-25d11c17e812?w=800&h=600&fit=crop"
-                                             alt="Delicious Sweets"
-                                             class="hero-image">
+                                <img src="https://images.unsplash.com/photo-1509365465985-25d11c17e812?w=800&h=600&fit=crop"
+                                     alt="Delicious Sweets"
+                                     class="hero-image"
+                                     loading="lazy">
                                         <div class="image-overlay"></div>
                                     </div>
 
