@@ -798,14 +798,6 @@
                     </div>
                     <p class="text-muted mb-0">Browse our wide range of product categories</p>
                 </div>
-                <div class="d-flex justify-content-center align-items-center gap-3 mb-4">
-                    <button id="category-prev" class="btn btn-outline-success category-nav-btn" type="button">
-                        <i class="fas fa-arrow-left"></i>
-                    </button>
-                    <button id="category-next" class="btn btn-outline-success category-nav-btn" type="button">
-                        <i class="fas fa-arrow-right"></i>
-                    </button>
-                </div>
 
                 <div id="category-carousel" class="row gx-3 gy-4">
                     <div class="d-flex gap-4" id="categories-scroll-container"
@@ -925,23 +917,6 @@
                 background-clip: text;
             }
 
-            .category-nav-btn {
-                width: 45px;
-                height: 45px;
-                padding: 0;
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                transition: all 0.3s ease;
-            }
-
-            .category-nav-btn:hover {
-                background: #28a745 !important;
-                color: white !important;
-                transform: scale(1.1);
-            }
-
             .category-card {
                 border: 1px solid rgba(255, 255, 255, 0.3);
                 border-radius: 16px;
@@ -1038,61 +1013,12 @@
                     height: 100px !important;
                 }
 
-                .category-nav-btn {
-                    width: 38px;
-                    height: 38px;
-                }
-
                 .category-card {
                     width: 160px !important;
                     min-width: 160px !important;
                 }
             }
         </style>
-    @endpush
-
-    @push('scripts-bottom')
-        <script>
-            var categoryScrollAmount = 300;
-
-            function setupCategoryNavigationButtons() {
-                const prevBtn = document.getElementById('category-prev');
-                const nextBtn = document.getElementById('category-next');
-
-                if (!prevBtn || !nextBtn) return;
-
-                prevBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const container = document.getElementById('categories-scroll-container');
-                    if (container) {
-                        container.scrollBy({
-                            left: -categoryScrollAmount,
-                            behavior: 'smooth'
-                        });
-                    }
-                });
-
-                nextBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const container = document.getElementById('categories-scroll-container');
-                    if (container) {
-                        if (container.scrollLeft + container.clientWidth >= container.scrollWidth - 10) {
-                            container.scrollTo({
-                                left: 0,
-                                behavior: 'smooth'
-                            });
-                        } else {
-                            container.scrollBy({
-                                left: categoryScrollAmount,
-                                behavior: 'smooth'
-                            });
-                        }
-                    }
-                });
-            }
-
-            document.addEventListener('DOMContentLoaded', setupCategoryNavigationButtons);
-        </script>
     @endpush
 
     <!-------------------------------- End Category Carousel ----------------->
@@ -1299,7 +1225,7 @@
     <!-------------------------------- End About Section ----------------->
 
 
-    <!-------------------------------- Featured Products (Server-Side Rendered) ----------------->
+    <!-------------------------------- Featured Products (Grid Layout) ----------------->
     <section class="py-5 featured-products-section">
         <div class="container-lg">
             <div class="text-center mb-5">
@@ -1310,19 +1236,10 @@
                 </div>
                 <p class="text-muted mb-0">Discover our handpicked selection of finest products</p>
             </div>
-            <div class="d-flex justify-content-center align-items-center gap-3 mb-4 text-white">
-                <button id="products-prev" class="btn btn-outline-success product-nav-btn" type="button">
-                    <i class="fas fa-arrow-left"></i>
-                </button>
-                <button id="products-next" class="btn btn-outline-success product-nav-btn" type="button">
-                    <i class="fas fa-arrow-right"></i>
-                </button>
-            </div>
 
             <div id="products-carousel">
                 @if (!empty($featuredProducts))
-                    <div class="d-flex gap-4" id="products-scroll-container"
-                        style="overflow-x: auto; scroll-behavior: smooth; scrollbar-width: thin; -webkit-overflow-scrolling: touch; padding-bottom: 10px;">
+                    <div class="row g-4">
                         @foreach ($featuredProducts as $product)
                             @php
                                 $isSaleable = $product['is_saleable'] ?? true;
@@ -1332,37 +1249,39 @@
                                 $productImage =
                                     $product['base_image']['medium_image_url'] ?? '/images/default-product.png';
                             @endphp
-                            <div class="product-card flex-shrink-0" style="width: 270px; min-width: 270px;">
-                                <div class="product-image-container">
-                                    @if ($isOnSale)
-                                        <span class="badge-sale">Sale</span>
-                                    @endif
-                                    @if ($isNew && !$isOnSale)
-                                        <span class="badge-new">New</span>
-                                    @endif
-                                    <a href="{{ $productUrl }}" class="text-decoration-none">
-                                        <img src="{{ $productImage }}" alt="{{ $product['name'] ?? 'Product' }}"
-                                            class="product-image" loading="lazy">
-                                    </a>
-                                    <div class="action-icons">
-                                        <button class="action-icon"
-                                            onclick="addToWishlist('{{ $product['id'] }}', this)"
-                                            title="Add to Wishlist">♡</button>
-                                        <button class="action-icon" onclick="addToCompare('{{ $product['id'] }}')"
-                                            title="Add to Compare">⤢</button>
+                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
+                                <div class="product-card h-100">
+                                    <div class="product-image-container">
+                                        @if ($isOnSale)
+                                            <span class="badge-sale">Sale</span>
+                                        @endif
+                                        @if ($isNew && !$isOnSale)
+                                            <span class="badge-new">New</span>
+                                        @endif
+                                        <a href="{{ $productUrl }}" class="text-decoration-none">
+                                            <img src="{{ $productImage }}" alt="{{ $product['name'] ?? 'Product' }}"
+                                                class="product-image" loading="lazy">
+                                        </a>
+                                        <div class="action-icons">
+                                            <button class="action-icon"
+                                                onclick="addToWishlist('{{ $product['id'] }}', this)"
+                                                title="Add to Wishlist">♡</button>
+                                            <button class="action-icon" onclick="addToCompare('{{ $product['id'] }}')"
+                                                title="Add to Compare">⤢</button>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="p-3" style="position: relative; z-index: 1;">
-                                    <a href="{{ $productUrl }}" class="text-decoration-none">
-                                        <h5 class="product-name mb-2">{{ $product['name'] ?? 'Product' }}</h5>
-                                    </a>
-                                    <div class="product-price mb-2">
-                                        {!! $product['price_html'] ?? '৳0.00' !!}
+                                    <div class="p-3" style="position: relative; z-index: 1;">
+                                        <a href="{{ $productUrl }}" class="text-decoration-none">
+                                            <h5 class="product-name mb-2">{{ $product['name'] ?? 'Product' }}</h5>
+                                        </a>
+                                        <div class="product-price mb-2">
+                                            {!! $product['price_html'] ?? '৳0.00' !!}
+                                        </div>
+                                        <button class="btn btn-add-cart w-100" @if (!$isSaleable) disabled @endif
+                                            onclick="addToCart('{{ $product['id'] }}', this)">
+                                            Add To Cart
+                                        </button>
                                     </div>
-                                    <button class="btn btn-add-cart" @if (!$isSaleable) disabled @endif
-                                        onclick="addToCart('{{ $product['id'] }}', this)">
-                                        Add To Cart
-                                    </button>
                                 </div>
                             </div>
                         @endforeach
@@ -1372,7 +1291,7 @@
                 @endif
             </div>
 
-            <div class="text-center mt-4 d-none d-lg-block">
+            <div class="text-center mt-4">
                 <a href="{{ route('shop.search.index') }}" class="btn btn-success btn-lg px-5">
                     View All Products
                 </a>
@@ -1694,47 +1613,6 @@
                 box-shadow: none !important;
             }
 
-            .product-nav-btn {
-                width: 45px;
-                height: 45px;
-                padding: 0;
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                transition: all 0.3s ease;
-            }
-
-            .product-nav-btn:hover {
-                background: #28a745 !important;
-                color: white !important;
-                transform: scale(1.1);
-            }
-
-            #products-scroll-container {
-                justify-content: flex-start;
-                padding-left: 0;
-                padding-right: 0;
-            }
-
-            #products-scroll-container::-webkit-scrollbar {
-                height: 8px;
-            }
-
-            #products-scroll-container::-webkit-scrollbar-track {
-                background: #f1f1f1;
-                border-radius: 10px;
-            }
-
-            #products-scroll-container::-webkit-scrollbar-thumb {
-                background: #28a745;
-                border-radius: 10px;
-            }
-
-            #products-scroll-container::-webkit-scrollbar-thumb:hover {
-                background: #20c997;
-            }
-
             @media (max-width: 768px) {
                 .product-image-container {
                     height: 160px;
@@ -1760,71 +1638,12 @@
                     padding: 10px 14px;
                     font-size: 0.85rem;
                 }
-
-                .product-nav-btn {
-                    width: 38px;
-                    height: 38px;
-                }
             }
         </style>
     @endpush
 
     @push('scripts')
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    @endpush
-
-    @push('scripts-bottom')
-        <script>
-            // Configure SweetAlert2 default settings
-            if (typeof Swal !== 'undefined') {
-                Swal.mixin({
-                    toast: true,
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    timer: 3000,
-                    timerProgressBar: true,
-                    didOpen: (toast) => {
-                        toast.addEventListener('mouseenter', Swal.stopTimer)
-                        toast.addEventListener('mouseleave', Swal.resumeTimer)
-                    }
-                });
-            }
-
-            var productScrollAmount = 300;
-
-            function setupProductsNavigation() {
-                const prevBtn = document.getElementById('products-prev');
-                const nextBtn = document.getElementById('products-next');
-                const container = document.getElementById('products-scroll-container');
-
-                if (!prevBtn || !nextBtn || !container) return;
-
-                prevBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    container.scrollBy({
-                        left: -productScrollAmount,
-                        behavior: 'smooth'
-                    });
-                });
-
-                nextBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    if (container.scrollLeft + container.clientWidth >= container.scrollWidth - 10) {
-                        container.scrollTo({
-                            left: 0,
-                            behavior: 'smooth'
-                        });
-                    } else {
-                        container.scrollBy({
-                            left: productScrollAmount,
-                            behavior: 'smooth'
-                        });
-                    }
-                });
-            }
-
-            document.addEventListener('DOMContentLoaded', setupProductsNavigation);
-        </script>
     @endpush
 
     <!-------------------------------- End Featured Products --->
@@ -2029,7 +1848,7 @@
     <!-------------------------------- End Traditional Bengali Sweets Section --->
 
 
-    <!-------------------------------- Sweet Category Products (Server-Side) ----------------->
+    <!-------------------------------- Sweet Category Products (Grid Layout) ----------------->
     <section class="py-5 sweet-category-products-section">
         <div class="container-lg">
             <div class="text-center mb-5">
@@ -2040,19 +1859,10 @@
                 </div>
                 <p class="text-muted mb-0">Discover our delicious collection of sweets</p>
             </div>
-            <div class="d-flex justify-content-center align-items-center gap-3 mb-4">
-                <button id="sweets-prev" class="btn btn-outline-warning sweet-nav-btn" type="button">
-                    <i class="fas fa-arrow-left"></i>
-                </button>
-                <button id="sweets-next" class="btn btn-outline-warning sweet-nav-btn" type="button">
-                    <i class="fas fa-arrow-right"></i>
-                </button>
-            </div>
 
             <div id="sweets-carousel">
                 @if (!empty($sweetProducts))
-                    <div class="d-flex gap-4" id="sweets-scroll-container"
-                        style="overflow-x: auto; scroll-behavior: smooth; scrollbar-width: thin; -webkit-overflow-scrolling: touch; padding-bottom: 10px;">
+                    <div class="row g-4">
                         @foreach ($sweetProducts as $product)
                             @php
                                 $isSaleable = $product['is_saleable'] ?? true;
@@ -2062,37 +1872,39 @@
                                 $productImage =
                                     $product['base_image']['medium_image_url'] ?? '/images/default-product.png';
                             @endphp
-                            <div class="product-card flex-shrink-0" style="width: 270px; min-width: 270px;">
-                                <div class="product-image-container">
-                                    @if ($isOnSale)
-                                        <span class="badge-sale">Sale</span>
-                                    @endif
-                                    @if ($isNew && !$isOnSale)
-                                        <span class="badge-new">New</span>
-                                    @endif
-                                    <a href="{{ $productUrl }}" class="text-decoration-none">
-                                        <img src="{{ $productImage }}" alt="{{ $product['name'] ?? 'Product' }}"
-                                            class="product-image" loading="lazy">
-                                    </a>
-                                    <div class="action-icons">
-                                        <button class="action-icon"
-                                            onclick="addToWishlist('{{ $product['id'] }}', this)"
-                                            title="Add to Wishlist">♡</button>
-                                        <button class="action-icon" onclick="addToCompare('{{ $product['id'] }}')"
-                                            title="Add to Compare">⤢</button>
+                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
+                                <div class="product-card h-100">
+                                    <div class="product-image-container">
+                                        @if ($isOnSale)
+                                            <span class="badge-sale">Sale</span>
+                                        @endif
+                                        @if ($isNew && !$isOnSale)
+                                            <span class="badge-new">New</span>
+                                        @endif
+                                        <a href="{{ $productUrl }}" class="text-decoration-none">
+                                            <img src="{{ $productImage }}" alt="{{ $product['name'] ?? 'Product' }}"
+                                                class="product-image" loading="lazy">
+                                        </a>
+                                        <div class="action-icons">
+                                            <button class="action-icon"
+                                                onclick="addToWishlist('{{ $product['id'] }}', this)"
+                                                title="Add to Wishlist">♡</button>
+                                            <button class="action-icon" onclick="addToCompare('{{ $product['id'] }}')"
+                                                title="Add to Compare">⤢</button>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="p-3" style="position: relative; z-index: 1;">
-                                    <a href="{{ $productUrl }}" class="text-decoration-none">
-                                        <h5 class="product-name mb-2">{{ $product['name'] ?? 'Product' }}</h5>
-                                    </a>
-                                    <div class="product-price mb-2">
-                                        {!! $product['price_html'] ?? '৳0.00' !!}
+                                    <div class="p-3" style="position: relative; z-index: 1;">
+                                        <a href="{{ $productUrl }}" class="text-decoration-none">
+                                            <h5 class="product-name mb-2">{{ $product['name'] ?? 'Product' }}</h5>
+                                        </a>
+                                        <div class="product-price mb-2">
+                                            {!! $product['price_html'] ?? '৳0.00' !!}
+                                        </div>
+                                        <button class="btn btn-add-cart w-100" @if (!$isSaleable) disabled @endif
+                                            onclick="addToCart('{{ $product['id'] }}', this)">
+                                            Add To Cart
+                                        </button>
                                     </div>
-                                    <button class="btn btn-add-cart" @if (!$isSaleable) disabled @endif
-                                        onclick="addToCart('{{ $product['id'] }}', this)">
-                                        Add To Cart
-                                    </button>
                                 </div>
                             </div>
                         @endforeach
@@ -2102,7 +1914,7 @@
                 @endif
             </div>
 
-            <div class="text-center mt-4 d-none d-lg-block">
+            <div class="text-center mt-4">
                 <a href="{{ route('shop.search.index') }}" class="btn btn-warning btn-lg px-5 text-white">
                     View All Sweets
                 </a>
@@ -2164,103 +1976,14 @@
                 background-clip: text;
             }
 
-            .sweet-nav-btn {
-                width: 45px;
-                height: 45px;
-                padding: 0;
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                transition: all 0.3s ease;
+            .sweet-category-products-section .btn-add-cart {
+                background: linear-gradient(135deg, #ffc107, #ff9800) !important;
             }
 
-            .sweet-nav-btn:hover {
-                background: #ffc107 !important;
-                color: #212529 !important;
-                transform: scale(1.1);
-            }
-
-            #sweets-scroll-container {
-                justify-content: flex-start;
-            }
-
-            #sweets-scroll-container::-webkit-scrollbar {
-                height: 8px;
-            }
-
-            #sweets-scroll-container::-webkit-scrollbar-track {
-                background: #f1f1f1;
-                border-radius: 10px;
-            }
-
-            #sweets-scroll-container::-webkit-scrollbar-thumb {
-                background: #ffc107;
-                border-radius: 10px;
-            }
-
-            #sweets-scroll-container::-webkit-scrollbar-thumb:hover {
-                background: #ff9800;
-            }
-
-            @media (min-width: 769px) {
-                #sweets-scroll-container {
-                    justify-content: center;
-                }
-            }
-
-            @media (max-width: 768px) {
-                .sweet-nav-btn {
-                    width: 38px;
-                    height: 38px;
-                }
-
-                #sweets-scroll-container {
-                    justify-content: flex-start !important;
-                    padding-left: 0;
-                    padding-right: 0;
-                }
+            .sweet-category-products-section .btn-add-cart:hover {
+                background: linear-gradient(135deg, #e6a800, #e68a00) !important;
             }
         </style>
-    @endpush
-
-    @push('scripts-bottom')
-        <script>
-            var sweetScrollAmount = 300;
-
-            function setupSweetsNavigation() {
-                const prevBtn = document.getElementById('sweets-prev');
-                const nextBtn = document.getElementById('sweets-next');
-                const container = document.getElementById('sweets-scroll-container');
-
-                if (!prevBtn || !nextBtn || !container) return;
-
-                prevBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    container.scrollBy({
-                        left: -sweetScrollAmount,
-                        behavior: 'smooth'
-                    });
-                });
-
-                nextBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    if (container.scrollLeft + container.clientWidth >= container.scrollWidth - 10) {
-                        container.scrollTo({
-                            left: 0,
-                            behavior: 'smooth'
-                        });
-                    } else {
-                        container.scrollBy({
-                            left: sweetScrollAmount,
-                            behavior: 'smooth'
-                        });
-                    }
-                });
-            }
-
-            document.addEventListener('DOMContentLoaded', setupSweetsNavigation);
-        </script>
     @endpush
 
     <!-------------------------------- End Sweet Category Products Section --->
@@ -2468,7 +2191,7 @@
     <!-------------------------------- End Chocolate Section --->
 
 
-    <!-------------------------------- Chocolate Category Products (Server-Side) ----------------->
+    <!-------------------------------- Chocolate Category Products (Grid Layout) ----------------->
     <section class="py-5 chocolate-category-products-section">
         <div class="container-lg">
             <div class="text-center mb-5">
@@ -2479,19 +2202,10 @@
                 </div>
                 <p class="text-muted mb-0">Discover our exquisite collection of premium chocolates</p>
             </div>
-            <div class="d-flex justify-content-center align-items-center gap-3 mb-4">
-                <button id="chocolate-prev" class="btn btn-outline-danger chocolate-nav-btn" type="button">
-                    <i class="fas fa-arrow-left"></i>
-                </button>
-                <button id="chocolate-next" class="btn btn-outline-danger chocolate-nav-btn" type="button">
-                    <i class="fas fa-arrow-right"></i>
-                </button>
-            </div>
 
             <div id="chocolate-carousel">
                 @if (!empty($chocolateProducts))
-                    <div class="d-flex gap-4" id="chocolate-scroll-container"
-                        style="overflow-x: auto; scroll-behavior: smooth; scrollbar-width: thin; -webkit-overflow-scrolling: touch; padding-bottom: 10px;">
+                    <div class="row g-4">
                         @foreach ($chocolateProducts as $product)
                             @php
                                 $isSaleable = $product['is_saleable'] ?? true;
@@ -2501,37 +2215,39 @@
                                 $productImage =
                                     $product['base_image']['medium_image_url'] ?? '/images/default-product.png';
                             @endphp
-                            <div class="product-card flex-shrink-0" style="width: 270px; min-width: 270px;">
-                                <div class="product-image-container">
-                                    @if ($isOnSale)
-                                        <span class="badge-sale">Sale</span>
-                                    @endif
-                                    @if ($isNew && !$isOnSale)
-                                        <span class="badge-new">New</span>
-                                    @endif
-                                    <a href="{{ $productUrl }}" class="text-decoration-none">
-                                        <img src="{{ $productImage }}" alt="{{ $product['name'] ?? 'Product' }}"
-                                            class="product-image" loading="lazy">
-                                    </a>
-                                    <div class="action-icons">
-                                        <button class="action-icon"
-                                            onclick="addToWishlist('{{ $product['id'] }}', this)"
-                                            title="Add to Wishlist">♡</button>
-                                        <button class="action-icon" onclick="addToCompare('{{ $product['id'] }}')"
-                                            title="Add to Compare">⤢</button>
+                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
+                                <div class="product-card h-100">
+                                    <div class="product-image-container">
+                                        @if ($isOnSale)
+                                            <span class="badge-sale">Sale</span>
+                                        @endif
+                                        @if ($isNew && !$isOnSale)
+                                            <span class="badge-new">New</span>
+                                        @endif
+                                        <a href="{{ $productUrl }}" class="text-decoration-none">
+                                            <img src="{{ $productImage }}" alt="{{ $product['name'] ?? 'Product' }}"
+                                                class="product-image" loading="lazy">
+                                        </a>
+                                        <div class="action-icons">
+                                            <button class="action-icon"
+                                                onclick="addToWishlist('{{ $product['id'] }}', this)"
+                                                title="Add to Wishlist">♡</button>
+                                            <button class="action-icon" onclick="addToCompare('{{ $product['id'] }}')"
+                                                title="Add to Compare">⤢</button>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="p-3" style="position: relative; z-index: 1;">
-                                    <a href="{{ $productUrl }}" class="text-decoration-none">
-                                        <h5 class="product-name mb-2">{{ $product['name'] ?? 'Product' }}</h5>
-                                    </a>
-                                    <div class="product-price mb-2">
-                                        {!! $product['price_html'] ?? '৳0.00' !!}
+                                    <div class="p-3" style="position: relative; z-index: 1;">
+                                        <a href="{{ $productUrl }}" class="text-decoration-none">
+                                            <h5 class="product-name mb-2">{{ $product['name'] ?? 'Product' }}</h5>
+                                        </a>
+                                        <div class="product-price mb-2">
+                                            {!! $product['price_html'] ?? '৳0.00' !!}
+                                        </div>
+                                        <button class="btn btn-add-cart w-100" @if (!$isSaleable) disabled @endif
+                                            onclick="addToCart('{{ $product['id'] }}', this)">
+                                            Add To Cart
+                                        </button>
                                     </div>
-                                    <button class="btn btn-add-cart" @if (!$isSaleable) disabled @endif
-                                        onclick="addToCart('{{ $product['id'] }}', this)">
-                                        Add To Cart
-                                    </button>
                                 </div>
                             </div>
                         @endforeach
@@ -2541,7 +2257,7 @@
                 @endif
             </div>
 
-            <div class="text-center mt-4 d-none d-lg-block">
+            <div class="text-center mt-4">
                 <a href="{{ route('shop.search.index') }}" class="btn btn-danger btn-lg px-5 text-white">
                     View All Chocolates
                 </a>
@@ -2603,109 +2319,20 @@
                 background-clip: text;
             }
 
-            .chocolate-nav-btn {
-                width: 45px;
-                height: 45px;
-                padding: 0;
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                transition: all 0.3s ease;
+            .chocolate-category-products-section .btn-add-cart {
+                background: linear-gradient(135deg, #8B4513, #D2691E) !important;
             }
 
-            .chocolate-nav-btn:hover {
-                background: #8B4513 !important;
-                color: white !important;
-                transform: scale(1.1);
-            }
-
-            #chocolate-scroll-container {
-                justify-content: flex-start;
-            }
-
-            #chocolate-scroll-container::-webkit-scrollbar {
-                height: 8px;
-            }
-
-            #chocolate-scroll-container::-webkit-scrollbar-track {
-                background: #f1f1f1;
-                border-radius: 10px;
-            }
-
-            #chocolate-scroll-container::-webkit-scrollbar-thumb {
-                background: #8B4513;
-                border-radius: 10px;
-            }
-
-            #chocolate-scroll-container::-webkit-scrollbar-thumb:hover {
-                background: #D2691E;
-            }
-
-            @media (min-width: 769px) {
-                #chocolate-scroll-container {
-                    justify-content: center;
-                }
-            }
-
-            @media (max-width: 768px) {
-                .chocolate-nav-btn {
-                    width: 38px;
-                    height: 38px;
-                }
-
-                #chocolate-scroll-container {
-                    justify-content: flex-start !important;
-                    padding-left: 0;
-                    padding-right: 0;
-                }
+            .chocolate-category-products-section .btn-add-cart:hover {
+                background: linear-gradient(135deg, #7a3d10, #c25e1a) !important;
             }
         </style>
-    @endpush
-
-    @push('scripts-bottom')
-        <script>
-            var chocolateScrollAmount = 300;
-
-            function setupChocolateNavigation() {
-                const prevBtn = document.getElementById('chocolate-prev');
-                const nextBtn = document.getElementById('chocolate-next');
-                const container = document.getElementById('chocolate-scroll-container');
-
-                if (!prevBtn || !nextBtn || !container) return;
-
-                prevBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    container.scrollBy({
-                        left: -chocolateScrollAmount,
-                        behavior: 'smooth'
-                    });
-                });
-
-                nextBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    if (container.scrollLeft + container.clientWidth >= container.scrollWidth - 10) {
-                        container.scrollTo({
-                            left: 0,
-                            behavior: 'smooth'
-                        });
-                    } else {
-                        container.scrollBy({
-                            left: chocolateScrollAmount,
-                            behavior: 'smooth'
-                        });
-                    }
-                });
-            }
-
-            document.addEventListener('DOMContentLoaded', setupChocolateNavigation);
-        </script>
     @endpush
 
     <!-------------------------------- End Chocolate Category Products Section --->
 
 
-    <!-------------------------------- Best Selling Products (Server-Side) ----------------->
+    <!-------------------------------- Best Selling Products (Grid Layout) ----------------->
     <section class="py-5 best-selling-section">
         <div class="container-lg">
             <div class="text-center mb-5">
@@ -2716,19 +2343,10 @@
                 </div>
                 <p class="text-muted mb-0">Top products our customers love the most</p>
             </div>
-            <div class="d-flex justify-content-center align-items-center gap-3 mb-4">
-                <button id="best-selling-prev" class="btn btn-outline-success best-selling-nav-btn" type="button">
-                    <i class="fas fa-arrow-left"></i>
-                </button>
-                <button id="best-selling-next" class="btn btn-outline-success best-selling-nav-btn" type="button">
-                    <i class="fas fa-arrow-right"></i>
-                </button>
-            </div>
 
             <div id="best-selling-carousel">
                 @if (!empty($bestSellingProducts))
-                    <div class="d-flex gap-4" id="best-selling-scroll-container"
-                        style="overflow-x: auto; scroll-behavior: smooth; scrollbar-width: thin; -webkit-overflow-scrolling: touch; padding-bottom: 10px;">
+                    <div class="row g-4">
                         @foreach ($bestSellingProducts as $product)
                             @php
                                 $isSaleable = $product['is_saleable'] ?? true;
@@ -2738,37 +2356,39 @@
                                 $productImage =
                                     $product['base_image']['medium_image_url'] ?? '/images/default-product.png';
                             @endphp
-                            <div class="product-card flex-shrink-0" style="width: 270px; min-width: 270px;">
-                                <div class="product-image-container">
-                                    @if ($isOnSale)
-                                        <span class="badge-sale">Sale</span>
-                                    @endif
-                                    @if ($isNew && !$isOnSale)
-                                        <span class="badge-new">New</span>
-                                    @endif
-                                    <a href="{{ $productUrl }}" class="text-decoration-none">
-                                        <img src="{{ $productImage }}" alt="{{ $product['name'] ?? 'Product' }}"
-                                            class="product-image" loading="lazy">
-                                    </a>
-                                    <div class="action-icons">
-                                        <button class="action-icon"
-                                            onclick="addToWishlist('{{ $product['id'] }}', this)"
-                                            title="Add to Wishlist">♡</button>
-                                        <button class="action-icon" onclick="addToCompare('{{ $product['id'] }}')"
-                                            title="Add to Compare">⤢</button>
+                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
+                                <div class="product-card h-100">
+                                    <div class="product-image-container">
+                                        @if ($isOnSale)
+                                            <span class="badge-sale">Sale</span>
+                                        @endif
+                                        @if ($isNew && !$isOnSale)
+                                            <span class="badge-new">New</span>
+                                        @endif
+                                        <a href="{{ $productUrl }}" class="text-decoration-none">
+                                            <img src="{{ $productImage }}" alt="{{ $product['name'] ?? 'Product' }}"
+                                                class="product-image" loading="lazy">
+                                        </a>
+                                        <div class="action-icons">
+                                            <button class="action-icon"
+                                                onclick="addToWishlist('{{ $product['id'] }}', this)"
+                                                title="Add to Wishlist">♡</button>
+                                            <button class="action-icon" onclick="addToCompare('{{ $product['id'] }}')"
+                                                title="Add to Compare">⤢</button>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="p-3" style="position: relative; z-index: 1;">
-                                    <a href="{{ $productUrl }}" class="text-decoration-none">
-                                        <h5 class="product-name mb-2">{{ $product['name'] ?? 'Product' }}</h5>
-                                    </a>
-                                    <div class="product-price mb-2">
-                                        {!! $product['price_html'] ?? '৳0.00' !!}
+                                    <div class="p-3" style="position: relative; z-index: 1;">
+                                        <a href="{{ $productUrl }}" class="text-decoration-none">
+                                            <h5 class="product-name mb-2">{{ $product['name'] ?? 'Product' }}</h5>
+                                        </a>
+                                        <div class="product-price mb-2">
+                                            {!! $product['price_html'] ?? '৳0.00' !!}
+                                        </div>
+                                        <button class="btn btn-add-cart w-100" @if (!$isSaleable) disabled @endif
+                                            onclick="addToCart('{{ $product['id'] }}', this)">
+                                            Add To Cart
+                                        </button>
                                     </div>
-                                    <button class="btn btn-add-cart" @if (!$isSaleable) disabled @endif
-                                        onclick="addToCart('{{ $product['id'] }}', this)">
-                                        Add To Cart
-                                    </button>
                                 </div>
                             </div>
                         @endforeach
@@ -2778,7 +2398,7 @@
                 @endif
             </div>
 
-            <div class="text-center mt-4 d-none d-lg-block">
+            <div class="text-center mt-4">
                 <a href="{{ route('shop.search.index') }}" class="btn btn-success btn-lg px-5 text-white">
                     View All Products
                 </a>
@@ -2840,110 +2460,13 @@
                 -webkit-text-fill-color: transparent;
                 background-clip: text;
             }
-
-            .best-selling-nav-btn {
-                width: 45px;
-                height: 45px;
-                padding: 0;
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                transition: all 0.3s ease;
-            }
-
-            .best-selling-nav-btn:hover {
-                background: #28a745 !important;
-                color: white !important;
-                transform: scale(1.1);
-            }
-
-            #best-selling-scroll-container {
-                justify-content: flex-start;
-            }
-
-            #best-selling-scroll-container::-webkit-scrollbar {
-                height: 8px;
-            }
-
-            #best-selling-scroll-container::-webkit-scrollbar-track {
-                background: #f1f1f1;
-                border-radius: 10px;
-            }
-
-            #best-selling-scroll-container::-webkit-scrollbar-thumb {
-                background: #28a745;
-                border-radius: 10px;
-            }
-
-            #best-selling-scroll-container::-webkit-scrollbar-thumb:hover {
-                background: #20c997;
-            }
-
-            @media (min-width: 769px) {
-                #best-selling-scroll-container {
-                    justify-content: center;
-                }
-            }
-
-            @media (max-width: 768px) {
-                .best-selling-nav-btn {
-                    width: 38px;
-                    height: 38px;
-                }
-
-                #best-selling-scroll-container {
-                    justify-content: flex-start !important;
-                    padding-left: 0;
-                    padding-right: 0;
-                }
-            }
         </style>
-    @endpush
-
-    @push('scripts-bottom')
-        <script>
-            var bestSellingScrollAmount = 300;
-
-            function setupBestSellingNavigation() {
-                const prevBtn = document.getElementById('best-selling-prev');
-                const nextBtn = document.getElementById('best-selling-next');
-                const container = document.getElementById('best-selling-scroll-container');
-
-                if (!prevBtn || !nextBtn || !container) return;
-
-                prevBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    container.scrollBy({
-                        left: -bestSellingScrollAmount,
-                        behavior: 'smooth'
-                    });
-                });
-
-                nextBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    if (container.scrollLeft + container.clientWidth >= container.scrollWidth - 10) {
-                        container.scrollTo({
-                            left: 0,
-                            behavior: 'smooth'
-                        });
-                    } else {
-                        container.scrollBy({
-                            left: bestSellingScrollAmount,
-                            behavior: 'smooth'
-                        });
-                    }
-                });
-            }
-
-            document.addEventListener('DOMContentLoaded', setupBestSellingNavigation);
-        </script>
     @endpush
 
     <!-------------------------------- End Best Selling Products Section --->
 
 
-    <!-------------------------------- Popular Products (Server-Side) ----------------->
+    <!-------------------------------- Popular Products (Grid Layout) ----------------->
     <section class="py-5 popular-products-section">
         <div class="container-lg">
             <div class="text-center mb-5">
@@ -2954,19 +2477,10 @@
                 </div>
                 <p class="text-muted mb-0">Most viewed and loved products</p>
             </div>
-            <div class="d-flex justify-content-center align-items-center gap-3 mb-4">
-                <button id="popular-prev" class="btn btn-outline-danger popular-nav-btn" type="button">
-                    <i class="fas fa-arrow-left"></i>
-                </button>
-                <button id="popular-next" class="btn btn-outline-danger popular-nav-btn" type="button">
-                    <i class="fas fa-arrow-right"></i>
-                </button>
-            </div>
 
             <div id="popular-carousel">
                 @if (!empty($popularProducts))
-                    <div class="d-flex gap-4" id="popular-scroll-container"
-                        style="overflow-x: auto; scroll-behavior: smooth; scrollbar-width: thin; -webkit-overflow-scrolling: touch; padding-bottom: 10px;">
+                    <div class="row g-4">
                         @foreach ($popularProducts as $product)
                             @php
                                 $isSaleable = $product['is_saleable'] ?? true;
@@ -2976,37 +2490,39 @@
                                 $productImage =
                                     $product['base_image']['medium_image_url'] ?? '/images/default-product.png';
                             @endphp
-                            <div class="product-card flex-shrink-0" style="width: 270px; min-width: 270px;">
-                                <div class="product-image-container">
-                                    @if ($isOnSale)
-                                        <span class="badge-sale">Sale</span>
-                                    @endif
-                                    @if ($isNew && !$isOnSale)
-                                        <span class="badge-new">New</span>
-                                    @endif
-                                    <a href="{{ $productUrl }}" class="text-decoration-none">
-                                        <img src="{{ $productImage }}" alt="{{ $product['name'] ?? 'Product' }}"
-                                            class="product-image" loading="lazy">
-                                    </a>
-                                    <div class="action-icons">
-                                        <button class="action-icon"
-                                            onclick="addToWishlist('{{ $product['id'] }}', this)"
-                                            title="Add to Wishlist">♡</button>
-                                        <button class="action-icon" onclick="addToCompare('{{ $product['id'] }}')"
-                                            title="Add to Compare">⤢</button>
+                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
+                                <div class="product-card h-100">
+                                    <div class="product-image-container">
+                                        @if ($isOnSale)
+                                            <span class="badge-sale">Sale</span>
+                                        @endif
+                                        @if ($isNew && !$isOnSale)
+                                            <span class="badge-new">New</span>
+                                        @endif
+                                        <a href="{{ $productUrl }}" class="text-decoration-none">
+                                            <img src="{{ $productImage }}" alt="{{ $product['name'] ?? 'Product' }}"
+                                                class="product-image" loading="lazy">
+                                        </a>
+                                        <div class="action-icons">
+                                            <button class="action-icon"
+                                                onclick="addToWishlist('{{ $product['id'] }}', this)"
+                                                title="Add to Wishlist">♡</button>
+                                            <button class="action-icon" onclick="addToCompare('{{ $product['id'] }}')"
+                                                title="Add to Compare">⤢</button>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="p-3" style="position: relative; z-index: 1;">
-                                    <a href="{{ $productUrl }}" class="text-decoration-none">
-                                        <h5 class="product-name mb-2">{{ $product['name'] ?? 'Product' }}</h5>
-                                    </a>
-                                    <div class="product-price mb-2">
-                                        {!! $product['price_html'] ?? '৳0.00' !!}
+                                    <div class="p-3" style="position: relative; z-index: 1;">
+                                        <a href="{{ $productUrl }}" class="text-decoration-none">
+                                            <h5 class="product-name mb-2">{{ $product['name'] ?? 'Product' }}</h5>
+                                        </a>
+                                        <div class="product-price mb-2">
+                                            {!! $product['price_html'] ?? '৳0.00' !!}
+                                        </div>
+                                        <button class="btn btn-add-cart w-100" @if (!$isSaleable) disabled @endif
+                                            onclick="addToCart('{{ $product['id'] }}', this)">
+                                            Add To Cart
+                                        </button>
                                     </div>
-                                    <button class="btn btn-add-cart" @if (!$isSaleable) disabled @endif
-                                        onclick="addToCart('{{ $product['id'] }}', this)">
-                                        Add To Cart
-                                    </button>
                                 </div>
                             </div>
                         @endforeach
@@ -3016,7 +2532,7 @@
                 @endif
             </div>
 
-            <div class="text-center mt-4 d-none d-lg-block">
+            <div class="text-center mt-4">
                 <a href="{{ route('shop.search.index') }}" class="btn btn-danger btn-lg px-5 text-white">
                     View All Products
                 </a>
@@ -3079,103 +2595,14 @@
                 background-clip: text;
             }
 
-            .popular-nav-btn {
-                width: 45px;
-                height: 45px;
-                padding: 0;
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                transition: all 0.3s ease;
+            .popular-products-section .btn-add-cart {
+                background: linear-gradient(135deg, #dc3545, #e74c3c) !important;
             }
 
-            .popular-nav-btn:hover {
-                background: #dc3545 !important;
-                color: white !important;
-                transform: scale(1.1);
-            }
-
-            #popular-scroll-container {
-                justify-content: flex-start;
-            }
-
-            #popular-scroll-container::-webkit-scrollbar {
-                height: 8px;
-            }
-
-            #popular-scroll-container::-webkit-scrollbar-track {
-                background: #f1f1f1;
-                border-radius: 10px;
-            }
-
-            #popular-scroll-container::-webkit-scrollbar-thumb {
-                background: #dc3545;
-                border-radius: 10px;
-            }
-
-            #popular-scroll-container::-webkit-scrollbar-thumb:hover {
-                background: #e74c3c;
-            }
-
-            @media (min-width: 769px) {
-                #popular-scroll-container {
-                    justify-content: center;
-                }
-            }
-
-            @media (max-width: 768px) {
-                .popular-nav-btn {
-                    width: 38px;
-                    height: 38px;
-                }
-
-                #popular-scroll-container {
-                    justify-content: flex-start !important;
-                    padding-left: 0;
-                    padding-right: 0;
-                }
+            .popular-products-section .btn-add-cart:hover {
+                background: linear-gradient(135deg, #c82333, #d63e49) !important;
             }
         </style>
-    @endpush
-
-    @push('scripts-bottom')
-        <script>
-            var popularScrollAmount = 300;
-
-            function setupPopularNavigation() {
-                const prevBtn = document.getElementById('popular-prev');
-                const nextBtn = document.getElementById('popular-next');
-                const container = document.getElementById('popular-scroll-container');
-
-                if (!prevBtn || !nextBtn || !container) return;
-
-                prevBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    container.scrollBy({
-                        left: -popularScrollAmount,
-                        behavior: 'smooth'
-                    });
-                });
-
-                nextBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    if (container.scrollLeft + container.clientWidth >= container.scrollWidth - 10) {
-                        container.scrollTo({
-                            left: 0,
-                            behavior: 'smooth'
-                        });
-                    } else {
-                        container.scrollBy({
-                            left: popularScrollAmount,
-                            behavior: 'smooth'
-                        });
-                    }
-                });
-            }
-
-            document.addEventListener('DOMContentLoaded', setupPopularNavigation);
-        </script>
     @endpush
 
     <!-------------------------------- End Popular Products Section --->
