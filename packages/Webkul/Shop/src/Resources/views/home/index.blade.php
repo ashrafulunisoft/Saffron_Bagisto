@@ -799,47 +799,45 @@
                     <p class="text-muted mb-0">Browse our wide range of product categories</p>
                 </div>
 
-                <div id="category-carousel" class="row gx-3 gy-4">
-                    <div class="d-flex gap-4" id="categories-scroll-container"
-                        style="overflow-x: auto; scroll-behavior: smooth; scrollbar-width: thin; -webkit-overflow-scrolling: touch; padding-bottom: 10px;">
-
-                        @php
-                            $subCategories = [];
-                            $categoriesArray = $categories->collection->toArray();
-                            foreach ($categoriesArray as $category) {
-                                if (!empty($category['children'])) {
-                                    $children = $category['children'];
-                                    if (is_array($children)) {
-                                        $subCategories = array_merge($subCategories, $children);
-                                    } elseif (is_object($children) && method_exists($children, 'toArray')) {
-                                        $subCategories = array_merge($subCategories, $children->toArray());
-                                    }
-                                }
+                @php
+                    $subCategories = [];
+                    $categoriesArray = $categories->collection->toArray();
+                    foreach ($categoriesArray as $category) {
+                        if (!empty($category['children'])) {
+                            $children = $category['children'];
+                            if (is_array($children)) {
+                                $subCategories = array_merge($subCategories, $children);
+                            } elseif (is_object($children) && method_exists($children, 'toArray')) {
+                                $subCategories = array_merge($subCategories, $children->toArray());
                             }
-                            $subCategories = collect($subCategories)->take(12);
-                        @endphp
+                        }
+                    }
+                    $subCategories = collect($subCategories)->take(12);
+                @endphp
 
-                        @if (!empty($subCategories))
-                            @foreach ($subCategories as $subCat)
-                                @php
-                                    $catName = $subCat['name'] ?? 'Category';
-                                    $catSlug = $subCat['slug'] ?? '#';
-                                    $catImage =
-                                        $subCat['logo_url'] ??
-                                        ($subCat['image_url'] ?? ($subCat['logo'] ?? ($subCat['image'] ?? null)));
-                                @endphp
+                @if (!empty($subCategories))
+                    <div class="row g-4">
+                        @foreach ($subCategories as $subCat)
+                            @php
+                                $catName = $subCat['name'] ?? 'Category';
+                                $catSlug = $subCat['slug'] ?? '#';
+                                $catImage =
+                                    $subCat['logo_url'] ??
+                                    ($subCat['image_url'] ?? ($subCat['logo'] ?? ($subCat['image'] ?? null)));
+                            @endphp
 
-                                <div class="category-card flex-shrink-0" style="width: 200px; min-width: 200px;">
+                            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+                                <div class="category-card h-100">
                                     <a href="{{ url('products/' . $catSlug) }}"
-                                        class="nav-link text-center text-decoration-none text-dark">
-                                        <div class="category-card-inner d-flex flex-column align-items-center">
+                                        class="nav-link text-center text-decoration-none text-dark h-100 d-flex flex-column">
+                                        <div class="category-card-inner d-flex flex-column align-items-center flex-grow-1 p-3">
                                             @if ($catImage)
                                                 <img src="{{ $catImage }}" alt="{{ $catName }}"
                                                     class="rounded-circle mb-3 img-fluid category-image"
-                                                    style="width: 140px; height: 140px; object-fit: cover; border: 3px solid #dee2e6; transition: transform 0.3s ease, box-shadow 0.3s ease;">
+                                                    style="width: 120px; height: 120px; object-fit: cover; border: 3px solid #dee2e6; transition: transform 0.3s ease, box-shadow 0.3s ease;">
                                             @else
                                                 <div class="rounded-circle mb-3 d-flex align-items-center justify-content-center bg-light"
-                                                    style="width: 140px; height: 140px; border: 3px solid #dee2e6; margin: 0 auto;">
+                                                    style="width: 120px; height: 120px; border: 3px solid #dee2e6; margin: 0 auto;">
                                                     <span class="fw-bold text-secondary"
                                                         style="font-size: 2rem;">{{ substr($catName, 0, 2) }}</span>
                                                 </div>
@@ -849,15 +847,14 @@
                                         </div>
                                     </a>
                                 </div>
-                            @endforeach
-                        @else
-                            <div class="col-12 text-center text-muted py-4 w-100">
-                                <p>No sub-categories available</p>
                             </div>
-                        @endif
-
+                        @endforeach
                     </div>
-                </div>
+                @else
+                    <div class="col-12 text-center text-muted py-4">
+                        <p>No sub-categories available</p>
+                    </div>
+                @endif
             </div>
         </section>
     @endif
@@ -981,30 +978,6 @@
             .category-card:hover .category-title {
                 color: #28a745 !important;
                 transform: translateX(3px);
-            }
-
-            #categories-scroll-container {
-                justify-content: flex-start;
-                padding-left: 0;
-                padding-right: 0;
-            }
-
-            #categories-scroll-container::-webkit-scrollbar {
-                height: 8px;
-            }
-
-            #categories-scroll-container::-webkit-scrollbar-track {
-                background: #f1f1f1;
-                border-radius: 10px;
-            }
-
-            #categories-scroll-container::-webkit-scrollbar-thumb {
-                background: #28a745;
-                border-radius: 10px;
-            }
-
-            #categories-scroll-container::-webkit-scrollbar-thumb:hover {
-                background: #20c997;
             }
 
             @media (max-width: 768px) {
