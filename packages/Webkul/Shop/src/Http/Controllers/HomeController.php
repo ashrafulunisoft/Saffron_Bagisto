@@ -4,8 +4,10 @@ namespace Webkul\Shop\Http\Controllers;
 
 use Illuminate\Support\Facades\Mail;
 use Webkul\Category\Repositories\CategoryRepository;
+use Webkul\Product\Repositories\ProductRepository;
 use Webkul\Shop\Http\Requests\ContactRequest;
 use Webkul\Shop\Http\Resources\CategoryTreeResource;
+use Webkul\Shop\Http\Resources\ProductResource;
 use Webkul\Shop\Mail\ContactUs;
 use Webkul\Theme\Repositories\ThemeCustomizationRepository;
 
@@ -21,7 +23,11 @@ class HomeController extends Controller
      *
      * @return void
      */
-    public function __construct(protected ThemeCustomizationRepository $themeCustomizationRepository, protected CategoryRepository $categoryRepository) {}
+    public function __construct(
+        protected ThemeCustomizationRepository $themeCustomizationRepository,
+        protected CategoryRepository $categoryRepository,
+        protected ProductRepository $productRepository
+    ) {}
 
     /**
      * Loads the home page for the storefront.
@@ -39,12 +45,85 @@ class HomeController extends Controller
         ]);
 
         $categories = $this->categoryRepository->getVisibleCategoryTree(core()->getCurrentChannel()->root_category_id);
-
         $categories = CategoryTreeResource::collection($categories);
 
-        // dd("Hello"); 
+        // Fetch all products server-side for better performance (avoid 6 separate API calls)
+        $featuredProducts = $this->getFeaturedProducts();
+        $sweetProducts = $this->getProductsByCategory(12); // Sweet category
+        $chocolateProducts = $this->getProductsByCategory(19); // Chocolate category
+        $bestSellingProducts = $this->getBestSellingProducts();
+        $popularProducts = $this->getPopularProducts();
 
-        return view('shop::home.index', compact('customizations', 'categories'));
+        return view('shop::home.index', compact(
+            'customizations',
+            'categories',
+            'featuredProducts',
+            'sweetProducts',
+            'chocolateProducts',
+            'bestSellingProducts',
+            'popularProducts'
+        ));
+    }
+
+    /**
+     * Get featured products.
+     */
+    protected function getFeaturedProducts(): array
+    {
+        $params = [
+            'featured' => 1,
+            'sort' => 'created_at',
+            'limit' => 8,
+        ];
+
+        $products = $this->productRepository->getAll($params);
+
+        return ProductResource::collection($products)->resolve();
+    }
+
+    /**
+     * Get products by category.
+     */
+    protected function getProductsByCategory(int $categoryId): array
+    {
+        $params = [
+            'category_id' => $categoryId,
+            'limit' => 8,
+        ];
+
+        $products = $this->productRepository->getAll($params);
+
+        return ProductResource::collection($products)->resolve();
+    }
+
+    /**
+     * Get best selling products.
+     */
+    protected function getBestSellingProducts(): array
+    {
+        $params = [
+            'sort' => 'orders',
+            'limit' => 8,
+        ];
+
+        $products = $this->productRepository->getAll($params);
+
+        return ProductResource::collection($products)->resolve();
+    }
+
+    /**
+     * Get popular products.
+     */
+    protected function getPopularProducts(): array
+    {
+        $params = [
+            'sort' => 'views',
+            'limit' => 8,
+        ];
+
+        $products = $this->productRepository->getAll($params);
+
+        return ProductResource::collection($products)->resolve();
     }
 
     /**
