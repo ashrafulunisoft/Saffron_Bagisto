@@ -776,15 +776,260 @@
                     item.style.transform = `translate(${x}px, ${y}px)`;
                 });
             });
+
+            // Category Navigation Script
+            document.addEventListener('DOMContentLoaded', function() {
+                const scrollContainer = document.getElementById('category-scroll-container');
+                const prevBtn = document.getElementById('category-prev');
+                const nextBtn = document.getElementById('category-next');
+
+                if (scrollContainer && prevBtn && nextBtn) {
+                    const scrollAmount = 280;
+
+                    function updateButtonStates() {
+                        const maxScroll = scrollContainer.scrollWidth - scrollContainer.clientWidth;
+                        const currentScroll = scrollContainer.scrollLeft;
+                        prevBtn.disabled = currentScroll <= 5;
+                        nextBtn.disabled = currentScroll >= maxScroll - 5;
+                    }
+
+                    prevBtn.addEventListener('click', function() {
+                        scrollContainer.scrollBy({
+                            left: -scrollAmount,
+                            behavior: 'smooth'
+                        });
+                    });
+
+                    nextBtn.addEventListener('click', function() {
+                        scrollContainer.scrollBy({
+                            left: scrollAmount,
+                            behavior: 'smooth'
+                        });
+                    });
+
+                    scrollContainer.addEventListener('scroll', updateButtonStates);
+                    updateButtonStates();
+
+                    const maxScroll = scrollContainer.scrollWidth - scrollContainer.clientWidth;
+                    if (maxScroll <= 10) {
+                        prevBtn.style.display = 'none';
+                        nextBtn.style.display = 'none';
+                    }
+                }
+            });
+
+            // Add to Cart Function
+            function addToCart(productId, button) {
+                if (!productId) return;
+
+                const originalText = button.innerHTML;
+                button.disabled = true;
+                button.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Adding...';
+
+                const url = "{{ route('shop.api.checkout.cart.store') }}";
+                const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') ||
+                    document.querySelector('input[name="_token"]')?.value;
+
+                const resetButton = () => {
+                    button.disabled = false;
+                    button.innerHTML = originalText;
+                };
+
+                fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                            'X-CSRF-TOKEN': csrfToken
+                        },
+                        body: new URLSearchParams({
+                            product_id: productId,
+                            quantity: 1
+                        })
+                    })
+                    .then(response => {
+                        if (!response.ok) throw new Error('HTTP ' + response.status);
+                        return response.json();
+                    })
+                    .then(data => {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Added to Cart',
+                            text: data.message || 'Product added to cart successfully!',
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true
+                        });
+
+                        if (window.app && window.app.$emitter) {
+                            window.app.$emitter.emit('update-mini-cart', data.data || data);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error adding to cart:', error);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Failed to add product to cart. Please try again.',
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true
+                        });
+                    })
+                    .finally(resetButton);
+            }
+
+            // Add to Wishlist Function
+            function addToWishlist(productId, button) {
+                if (!productId) return;
+
+                const isLoggedIn = "{{ auth()->guard('customer')->check() }}" === "1";
+
+                if (!isLoggedIn) {
+                    window.location.href = "{{ route('shop.customer.session.index') }}";
+                    return;
+                }
+
+                const url = "{{ route('shop.api.customers.account.wishlist.store') }}";
+                const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') ||
+                    document.querySelector('input[name="_token"]')?.value;
+
+                const formData = new FormData();
+                formData.append('product_id', productId);
+
+                fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'Accept': 'application/json',
+                            'X-CSRF-TOKEN': csrfToken
+                        },
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (button.classList.contains('active')) {
+                            button.classList.remove('active');
+                            button.innerHTML = '♡';
+                        } else {
+                            button.classList.add('active');
+                            button.innerHTML = '♥';
+                        }
+
+                        Swal.fire({
+                            icon: 'success',
+                            title: button.classList.contains('active') ? 'Added to Wishlist' : 'Removed from Wishlist',
+                            text: data.data?.message || 'Wishlist updated successfully!',
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error updating wishlist:', error);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Wishlist Error',
+                            text: 'Failed to update wishlist. Please try again.',
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true
+                        });
+                    });
+            }
+
+            // Add to Compare Function
+            function addToCompare(productId) {
+                if (!productId) return;
+
+                const isLoggedIn = "{{ auth()->guard('customer')->check() }}" === "1";
+
+                if (isLoggedIn) {
+                    const url = "{{ route('shop.api.compare.store') }}";
+                    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') ||
+                        document.querySelector('input[name="_token"]')?.value;
+
+                    const formData = new FormData();
+                    formData.append('product_id', productId);
+
+                    fetch(url, {
+                            method: 'POST',
+                            headers: {
+                                'X-Requested-With': 'XMLHttpRequest',
+                                'Accept': 'application/json',
+                                'X-CSRF-TOKEN': csrfToken
+                            },
+                            body: formData
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Added to Compare',
+                                text: data.data?.message || 'Product added to compare list successfully!',
+                                toast: true,
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                timerProgressBar: true
+                            });
+                        })
+                        .catch(error => {
+                            console.error('Error adding to compare:', error);
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Compare Error',
+                                text: 'Failed to add to compare. Please try again.',
+                                toast: true,
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                timerProgressBar: true
+                            });
+                        });
+                } else {
+                    let items = JSON.parse(localStorage.getItem('compare_items') || '[]');
+
+                    if (!items.includes(productId)) {
+                        items.push(productId);
+                        localStorage.setItem('compare_items', JSON.stringify(items));
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Added to Compare',
+                            text: 'Product added to compare list successfully!',
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'info',
+                            title: 'Already in Compare',
+                            text: 'Product already in compare list!',
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true
+                        });
+                    }
+                }
+            }
         </script>
     @endpush
 
     <!-------------------------------- End Spectacular Hero Banner --->
-
-
-    <!-- ----------------------------------------------- Static content : only Bootstrap ------------------------------------------------------------------------ -->
-
-    <!-------------------------------- End Slider  ---------------------------------------------------------------->
 
     <!-------------------------------- Category Carousel ----------------->
     @if ($categories && $categories->count() > 0)
@@ -812,11 +1057,24 @@
                             }
                         }
                     }
+                    $totalCategories = count($subCategories);
                     $subCategories = collect($subCategories)->take(12);
                 @endphp
 
+                @if ($totalCategories > 6)
+                    <div class="category-nav-buttons mb-4">
+                        <button class="category-nav-btn prev-btn" id="category-prev">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                        </button>
+                        <button class="category-nav-btn next-btn" id="category-next">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        </button>
+                    </div>
+                @endif
+
                 @if (!empty($subCategories))
-                    <div class="row g-4">
+                    <div class="category-scroll-wrapper" id="category-scroll-wrapper">
+                        <div class="row g-4 flex-nowrap category-scroll-container" id="category-scroll-container">
                         @foreach ($subCategories as $subCat)
                             @php
                                 $catName = $subCat['name'] ?? 'Category';
@@ -849,6 +1107,7 @@
                                 </div>
                             </div>
                         @endforeach
+                        </div>
                     </div>
                 @else
                     <div class="col-12 text-center text-muted py-4">
@@ -856,12 +1115,85 @@
                     </div>
                 @endif
             </div>
-        </section>
+        </div>
+    </section>
     @endif
 
     <!-------------------------------- Category Carousel Styles ----------------->
     @push('styles')
         <style>
+            /* Category Navigation Buttons */
+            .category-nav-buttons {
+                display: flex;
+                justify-content: flex-end;
+                gap: 10px;
+                margin-bottom: 1.5rem;
+                padding-right: 10px;
+            }
+
+            .category-nav-btn {
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                border: 2px solid #28a745;
+                background: rgba(255, 255, 255, 0.9);
+                color: #28a745;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                box-shadow: 0 4px 15px rgba(40, 167, 69, 0.2);
+                z-index: 10;
+                position: relative;
+            }
+
+            .category-nav-btn:hover:not(:disabled),
+            .category-nav-btn:focus:not(:disabled) {
+                background: linear-gradient(135deg, #28a745, #20c997);
+                color: white;
+                transform: scale(1.1);
+                box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+            }
+
+            .category-nav-btn:disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
+            }
+
+            .category-scroll-wrapper {
+                position: relative;
+                overflow: hidden;
+            }
+
+            .category-scroll-container {
+                overflow-x: auto;
+                overflow-y: hidden;
+                scroll-behavior: smooth;
+                scrollbar-width: thin;
+                scrollbar-color: #28a745 #f1f1f1;
+                padding-bottom: 10px;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .category-scroll-container::-webkit-scrollbar {
+                height: 8px;
+            }
+
+            .category-scroll-container::-webkit-scrollbar-track {
+                background: #f1f1f1;
+                border-radius: 10px;
+            }
+
+            .category-scroll-container::-webkit-scrollbar-thumb {
+                background: #28a745;
+                border-radius: 10px;
+            }
+
+            .category-scroll-container::-webkit-scrollbar-thumb:hover {
+                background: #20c997;
+            }
+
             .category-section {
                 background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 30%, #ffffff 70%, #f0fdf4 100%);
                 position: relative;
@@ -981,6 +1313,10 @@
             }
 
             @media (max-width: 768px) {
+                .category-nav-buttons {
+                    display: none;
+                }
+
                 .category-image {
                     width: 100px !important;
                     height: 100px !important;
@@ -996,12 +1332,10 @@
 
     <!-------------------------------- End Category Carousel ----------------->
 
-
     <!-------------------------------- About Saffron Sweets & Bakery Section ----------------->
     <section class="py-5 about-section">
         <div class="container-lg">
             <div class="row align-items-center g-5">
-                <!-- Image Column -->
                 <div class="col-lg-6 col-md-12 mb-4 mb-lg-0">
                     <div class="about-image-wrapper position-relative rounded-4 overflow-hidden shadow-lg">
                         <img src="https://images.unsplash.com/photo-1486427944299-d1955d23e34d?w=800&h=600&fit=crop"
@@ -1010,8 +1344,6 @@
                         <div class="overlay position-absolute top-0 start-0 w-100 h-100"
                             style="background: linear-gradient(135deg, rgba(255, 215, 0, 0.3) 0%, rgba(139, 69, 19, 0.2) 100%);">
                         </div>
-
-                        <!-- Decorative Elements -->
                         <div class="position-absolute top-4 end-4 bg-white rounded-circle d-flex align-items-center justify-content-center shadow"
                             style="width: 80px; height: 80px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
                             <span class="fw-bold" style="color: #d4af37; font-size: 1.5rem;">25+</span>
@@ -1022,12 +1354,10 @@
                     </div>
                 </div>
 
-                <!-- Content Column -->
                 <div class="col-lg-6 col-md-12">
                     <div class="about-content h-100 d-flex flex-column justify-content-center">
                         <div class="section-badge d-inline-block mb-3">
-                            <span class="badge bg-warning text-dark px-3 py-2 rounded-pill fw-bold">WHO WE
-                                ARE</span>
+                            <span class="badge bg-warning text-dark px-3 py-2 rounded-pill fw-bold">WHO WE ARE</span>
                         </div>
 
                         <h2 class="display-4 fw-bold mb-4 text-dark" style="font-family: 'Playfair Display', serif;">
@@ -1036,18 +1366,14 @@
 
                         <p class="lead text-secondary mb-4">
                             Welcome to Saffron, where tradition meets excellence. We bring you to finest collection
-                            of authentic Bengali sweets and premium bakery items, crafted with love and the purest
-                            saffron.
+                            of authentic Bengali sweets and premium bakery items, crafted with love and the purest saffron.
                         </p>
 
                         <p class="text-muted mb-4">
                             Our skilled artisans use time-honored recipes passed down through generations to create
-                            mouth-watering treats that will transport you to the streets of Bangladesh. From
-                            roshogolla to sandesh, from freshly baked cakes to artisan cookies – every bite is a
-                            celebration of flavor.
+                            mouth-watering treats that will transport you to the streets of Bangladesh.
                         </p>
 
-                        <!-- Features Grid -->
                         <div class="row g-3 mb-5">
                             <div class="col-6">
                                 <div class="feature-card bg-light rounded-3 p-3 d-flex align-items-center gap-3">
@@ -1099,7 +1425,6 @@
                             </div>
                         </div>
 
-                        <!-- CTA Buttons -->
                         <div class="d-flex flex-wrap gap-3">
                             <a href="{{ route('shop.search.index') }}"
                                 class="btn btn-dark btn-lg rounded-3 px-5 text-white">
@@ -1187,18 +1512,13 @@
                 .display-4 {
                     font-size: 2rem !important;
                 }
-
-                .feature-card {
-                    padding: 1.5rem !important;
-                }
             }
         </style>
     @endpush
 
     <!-------------------------------- End About Section ----------------->
 
-
-    <!-------------------------------- Featured Products (Grid Layout) ----------------->
+    <!-------------------------------- Featured Products ----------------->
     <section class="py-5 featured-products-section">
         <div class="container-lg">
             <div class="text-center mb-5">
@@ -1219,8 +1539,7 @@
                                 $isOnSale = $product['on_sale'] ?? false;
                                 $isNew = $product['is_new'] ?? false;
                                 $productUrl = route('shop.product_or_category.index', $product['url_key'] ?? '#');
-                                $productImage =
-                                    $product['base_image']['medium_image_url'] ?? '/images/default-product.png';
+                                $productImage = $product['base_image']['medium_image_url'] ?? '/images/default-product.png';
                             @endphp
                             <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
                                 <div class="product-card h-100">
@@ -1265,9 +1584,7 @@
             </div>
 
             <div class="text-center mt-4">
-                <a href="{{ route('shop.search.index') }}" class="btn btn-success btn-lg px-5">
-                    View All Products
-                </a>
+                <a href="{{ route('shop.search.index') }}" class="btn btn-success btn-lg px-5">View All Products</a>
             </div>
         </div>
     </section>
@@ -1279,17 +1596,6 @@
                 background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 30%, #ffffff 70%, #f0fdf4 100%);
                 position: relative;
                 overflow: hidden;
-            }
-
-            .featured-products-section::before {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                height: 100%;
-                background: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2328a745' fill-opacity='0.05'%3E%3Cpath d='M40 35c-2.8 0-5 2.2-5 5s2.2 5 5 5-2.2 5-5-2.2-5-5-5zm0 10c-2.8 0-5 2.2-5 5s2.2 5 5 5-2.2 5-5-2.2-5-5-5zM20 30c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 10c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zM60 30c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 10c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-                pointer-events: none;
             }
 
             .featured-header {
@@ -1305,17 +1611,8 @@
             }
 
             @keyframes sparkle {
-
-                0%,
-                100% {
-                    transform: scale(1) rotate(0deg);
-                    opacity: 1;
-                }
-
-                50% {
-                    transform: scale(1.2) rotate(10deg);
-                    opacity: 0.8;
-                }
+                0%, 100% { transform: scale(1) rotate(0deg); opacity: 1; }
+                50% { transform: scale(1.2) rotate(10deg); opacity: 0.8; }
             }
 
             .section-title {
@@ -1378,115 +1675,58 @@
                 z-index: 1;
             }
 
-            .product-image-container::after {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 0;
+            .product-image {
+                transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
                 width: 100%;
                 height: 100%;
-                background: linear-gradient(to bottom, transparent 70%, rgba(40, 167, 69, 0.05) 100%);
-                pointer-events: none;
-                z-index: 1;
+                object-fit: cover;
             }
 
             .product-card:hover .product-image {
                 transform: scale(1.1);
             }
 
-            .product-image {
-                transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-                position: relative;
-                z-index: 1;
-            }
-
             .product-name {
                 font-size: 0.95rem;
                 font-weight: 600;
-                transition: all 0.3s ease;
                 color: #2d3748;
                 display: -webkit-box;
                 -webkit-line-clamp: 2;
                 -webkit-box-orient: vertical;
                 overflow: hidden;
-                height: 2.5rem;
-                line-height: 1.25;
-                margin-bottom: 0.5rem;
             }
 
             .product-card:hover .product-name {
                 color: #28a745 !important;
-                transform: translateX(3px);
             }
 
-            .product-price {
-                display: flex;
-                align-items: baseline;
-                gap: 8px;
-                margin-bottom: 0.5rem;
-            }
-
-            .price-current {
-                font-size: 1.15rem;
-                font-weight: 700;
-                color: #28a745;
-                line-height: 1;
-            }
-
-            .price-original {
-                font-size: 0.85rem;
-                color: #9ca3af;
-                text-decoration: line-through;
-                font-weight: 400;
+            .badge-sale, .badge-new {
+                position: absolute;
+                top: 12px;
+                left: 12px;
+                padding: 8px 18px;
+                border-radius: 25px;
+                font-size: 0.8rem;
+                font-weight: 800;
+                z-index: 2;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                animation: pulse-badge 2s ease-in-out infinite;
             }
 
             .badge-sale {
-                position: absolute;
-                top: 12px;
-                left: 12px;
                 background: linear-gradient(135deg, #ff4757 0%, #dc3545 100%);
                 color: white;
-                padding: 8px 18px;
-                border-radius: 25px;
-                font-size: 0.8rem;
-                font-weight: 800;
-                z-index: 2;
-                box-shadow: 0 5px 15px rgba(220, 53, 69, 0.5);
-                text-transform: uppercase;
-                letter-spacing: 1px;
-                animation: pulse-badge 2s ease-in-out infinite;
-            }
-
-            @keyframes pulse-badge {
-
-                0%,
-                100% {
-                    transform: scale(1);
-                }
-
-                50% {
-                    transform: scale(1.05);
-                }
             }
 
             .badge-new {
-                position: absolute;
-                top: 12px;
-                left: 12px;
                 background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
                 color: white;
-                padding: 8px 18px;
-                border-radius: 25px;
-                font-size: 0.8rem;
-                font-weight: 800;
-                z-index: 2;
-                box-shadow: 0 5px 15px rgba(40, 167, 69, 0.5);
-                text-transform: uppercase;
-                letter-spacing: 1px;
-                animation: pulse-badge 2s ease-in-out infinite;
+            }
+
+            @keyframes pulse-badge {
+                0%, 100% { transform: scale(1); }
+                50% { transform: scale(1.05); }
             }
 
             .action-icons {
@@ -1512,7 +1752,6 @@
                 height: 38px;
                 border-radius: 50%;
                 background: rgba(255, 255, 255, 0.95);
-                backdrop-filter: blur(10px);
                 border: 2px solid rgba(40, 167, 69, 0.2);
                 display: flex;
                 align-items: center;
@@ -1520,8 +1759,6 @@
                 cursor: pointer;
                 transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
                 color: #4a5568;
-                font-size: 1.1rem;
-                box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
             }
 
             .action-icon:hover {
@@ -1529,13 +1766,6 @@
                 color: white;
                 border-color: transparent;
                 transform: scale(1.1);
-                box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4);
-            }
-
-            .action-icon.active {
-                color: #dc3545;
-                border-color: #dc3545;
-                background: rgba(255, 255, 255, 0.95);
             }
 
             .btn-add-cart {
@@ -1545,45 +1775,16 @@
                 border: none;
                 border-radius: 8px;
                 font-weight: 600;
-                transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
                 padding: 12px 16px;
                 font-size: 0.9rem;
                 text-transform: uppercase;
                 letter-spacing: 0.5px;
-                box-shadow: 0 3px 10px rgba(40, 167, 69, 0.3);
-                position: relative;
-                overflow: hidden;
-                z-index: 1;
                 cursor: pointer;
-            }
-
-            .btn-add-cart::before {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: -100%;
-                width: 100%;
-                height: 100%;
-                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-                transition: left 0.5s ease;
-            }
-
-            .btn-add-cart:hover::before {
-                left: 100%;
             }
 
             .btn-add-cart:hover {
                 background: linear-gradient(135deg, #218838 0%, #1e7e34 100%) !important;
-                color: white !important;
                 transform: translateY(-2px);
-                box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
-            }
-
-            .btn-add-cart:disabled {
-                background: #a0aec0 !important;
-                cursor: not-allowed;
-                transform: none !important;
-                box-shadow: none !important;
             }
 
             @media (max-width: 768px) {
@@ -1591,25 +1792,9 @@
                     height: 160px;
                 }
 
-                .product-name {
-                    font-size: 0.85rem;
-                    height: 2.3rem;
-                }
-
                 .action-icons {
                     opacity: 1;
                     transform: translateX(0);
-                }
-
-                .action-icon {
-                    width: 35px;
-                    height: 35px;
-                    font-size: 1rem;
-                }
-
-                .btn-add-cart {
-                    padding: 10px 14px;
-                    font-size: 0.85rem;
                 }
             }
         </style>
@@ -1621,967 +1806,7 @@
 
     <!-------------------------------- End Featured Products --->
 
-
-    <!-------------------------------- Traditional Bengali Sweets Section ----------------->
-    <section class="py-5 sweets-section">
-        <div class="container-lg">
-            <div class="row align-items-center g-5">
-                <!-- Content Column -->
-                <div class="col-lg-6 col-md-12">
-                    <div class="sweets-content h-100 d-flex flex-column justify-content-center">
-                        <div class="section-badge d-inline-block mb-3">
-                            <span class="badge bg-warning text-dark px-3 py-2 rounded-pill fw-bold">OUR
-                                SPECIALTY</span>
-                        </div>
-
-                        <h2 class="display-4 fw-bold mb-4 text-dark" style="font-family: 'Playfair Display', serif;">
-                            Authentic Bengali Sweets Collection
-                        </h2>
-
-                        <p class="lead text-secondary mb-4">
-                            Indulge in the rich heritage of Bengal with our exquisite collection of traditional sweets,
-                            crafted with love and the finest ingredients.
-                        </p>
-
-                        <p class="text-muted mb-4">
-                            From the melt-in-your-mouth roshogolla to the delicate sandesh, our sweets are made using
-                            recipes passed down through generations. Each sweet is a celebration of authentic Bengali
-                            tradition.
-                        </p>
-
-                        <!-- Sweet Types Grid -->
-                        <div class="row g-3 mb-5">
-                            <div class="col-6">
-                                <div class="sweet-card bg-light rounded-3 p-3 d-flex align-items-center gap-3">
-                                    <div class="sweet-icon bg-warning rounded-circle d-flex align-items-center justify-content-center"
-                                        style="width: 50px; height: 50px;">
-                                        <span style="font-size: 1.5rem;">🍯</span>
-                                    </div>
-                                    <div>
-                                        <h6 class="fw-bold mb-0">Roshogolla</h6>
-                                        <small class="text-muted">Classic Sweet</small>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="sweet-card bg-light rounded-3 p-3 d-flex align-items-center gap-3">
-                                    <div class="sweet-icon bg-warning rounded-circle d-flex align-items-center justify-content-center"
-                                        style="width: 50px; height: 50px;">
-                                        <span style="font-size: 1.5rem;">🧀</span>
-                                    </div>
-                                    <div>
-                                        <h6 class="fw-bold mb-0">Sandesh</h6>
-                                        <small class="text-muted">Traditional</small>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="sweet-card bg-light rounded-3 p-3 d-flex align-items-center gap-3">
-                                    <div class="sweet-icon bg-warning rounded-circle d-flex align-items-center justify-content-center"
-                                        style="width: 50px; height: 50px;">
-                                        <span style="font-size: 1.5rem;">🥧</span>
-                                    </div>
-                                    <div>
-                                        <h6 class="fw-bold mb-0">Ras Malai</h6>
-                                        <small class="text-muted">Creamy Delight</small>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="sweet-card bg-light rounded-3 p-3 d-flex align-items-center gap-3">
-                                    <div class="sweet-icon bg-warning rounded-circle d-flex align-items-center justify-content-center"
-                                        style="width: 50px; height: 50px;">
-                                        <span style="font-size: 1.5rem;">🍰</span>
-                                    </div>
-                                    <div>
-                                        <h6 class="fw-bold mb-0">Mishti Doi</h6>
-                                        <small class="text-muted">Sweet Yogurt</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- CTA Buttons -->
-                        <div class="d-flex flex-wrap gap-3">
-                            <a href="{{ route('shop.search.index') }}"
-                                class="btn btn-dark btn-lg rounded-3 px-5 text-white">
-                                <i class="bi bi-basket me-2"></i>Order Sweets
-                            </a>
-                            <a href="#" class="btn btn-outline-dark btn-lg rounded-3 px-5">
-                                View Menu
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Image Column -->
-                <div class="col-lg-6 col-md-12 mb-4 mb-lg-0">
-                    <div class="sweets-image-wrapper position-relative rounded-4 overflow-hidden shadow-lg">
-                        <img src="https://images.unsplash.com/photo-1607330289024-1535c6b4e1c1?w=800&h=600&fit=crop"
-                            alt="Bengali Sweets" class="img-fluid w-100" style="height: 500px; object-fit: cover;"
-                            loading="lazy">
-                        <div class="overlay position-absolute top-0 start-0 w-100 h-100"
-                            style="background: linear-gradient(135deg, rgba(255, 215, 0, 0.25) 0%, rgba(255, 140, 0, 0.15) 100%);">
-                        </div>
-
-                        <!-- Decorative Elements -->
-                        <div class="position-absolute top-4 start-4 bg-white rounded-circle d-flex align-items-center justify-content-center shadow"
-                            style="width: 80px; height: 80px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
-                            <span class="fw-bold" style="color: #d4af37; font-size: 1.5rem;">50+</span>
-                        </div>
-                        <div class="position-absolute bottom-4 end-4 bg-dark text-white rounded-3 px-4 py-2 shadow">
-                            <p class="mb-0 fw-bold fs-5">Fresh Daily</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    @push('styles')
-        <style>
-            .sweets-section {
-                background: linear-gradient(135deg, #fff5e6 0%, #ffffff 100%);
-                position: relative;
-                overflow: hidden;
-            }
-
-            .sweets-section::before {
-                content: '';
-                position: absolute;
-                bottom: -50px;
-                left: -50px;
-                width: 200px;
-                height: 200px;
-                background: rgba(255, 140, 0, 0.1);
-                border-radius: 50%;
-            }
-
-            .sweets-image-wrapper {
-                transition: transform 0.5s ease, box-shadow 0.5s ease;
-                cursor: pointer;
-            }
-
-            .sweets-image-wrapper:hover {
-                transform: translateY(-10px) scale(1.02);
-                box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2) !important;
-            }
-
-            .sweets-image-wrapper img {
-                transition: transform 0.5s ease;
-            }
-
-            .sweets-image-wrapper:hover img {
-                transform: scale(1.1);
-            }
-
-            .sweet-card {
-                transition: all 0.3s ease;
-                border: 1px solid rgba(255, 255, 255, 0.3);
-                background: rgba(255, 255, 255, 0.7);
-                backdrop-filter: blur(15px) saturate(150%);
-                box-shadow: 0 4px 20px rgba(255, 140, 0, 0.08);
-            }
-
-            .sweet-card:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 10px 40px rgba(255, 140, 0, 0.25) !important;
-                border-color: rgba(255, 140, 0, 0.5);
-                background: rgba(255, 255, 255, 0.85);
-            }
-
-            .sweet-icon {
-                transition: transform 0.3s ease;
-            }
-
-            .sweet-card:hover .sweet-icon {
-                transform: rotate(360deg) scale(1.1);
-            }
-
-            @media (max-width: 768px) {
-                .sweets-section {
-                    padding: 3rem 0 !important;
-                }
-
-                .sweets-image-wrapper img {
-                    height: 300px !important;
-                }
-
-                .display-4 {
-                    font-size: 2rem !important;
-                }
-
-                .sweet-card {
-                    padding: 1.5rem !important;
-                }
-            }
-        </style>
-    @endpush
-
-    <!-------------------------------- End Traditional Bengali Sweets Section --->
-
-
-    <!-------------------------------- Sweet Category Products (Grid Layout) ----------------->
-    <section class="py-5 sweet-category-products-section">
-        <div class="container-lg">
-            <div class="text-center mb-5">
-                <div class="sweet-header mb-3">
-                    <span class="sweet-icon">🍬</span>
-                    <h2 class="section-title">Sweet Category Products</h2>
-                    <span class="sweet-icon">🍬</span>
-                </div>
-                <p class="text-muted mb-0">Discover our delicious collection of sweets</p>
-            </div>
-
-            <div id="sweets-carousel">
-                @if (!empty($sweetProducts))
-                    <div class="row g-4">
-                        @foreach ($sweetProducts as $product)
-                            @php
-                                $isSaleable = $product['is_saleable'] ?? true;
-                                $isOnSale = $product['on_sale'] ?? false;
-                                $isNew = $product['is_new'] ?? false;
-                                $productUrl = route('shop.product_or_category.index', $product['url_key'] ?? '#');
-                                $productImage =
-                                    $product['base_image']['medium_image_url'] ?? '/images/default-product.png';
-                            @endphp
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
-                                <div class="product-card h-100">
-                                    <div class="product-image-container">
-                                        @if ($isOnSale)
-                                            <span class="badge-sale">Sale</span>
-                                        @endif
-                                        @if ($isNew && !$isOnSale)
-                                            <span class="badge-new">New</span>
-                                        @endif
-                                        <a href="{{ $productUrl }}" class="text-decoration-none">
-                                            <img src="{{ $productImage }}" alt="{{ $product['name'] ?? 'Product' }}"
-                                                class="product-image" loading="lazy">
-                                        </a>
-                                        <div class="action-icons">
-                                            <button class="action-icon"
-                                                onclick="addToWishlist('{{ $product['id'] }}', this)"
-                                                title="Add to Wishlist">♡</button>
-                                            <button class="action-icon" onclick="addToCompare('{{ $product['id'] }}')"
-                                                title="Add to Compare">⤢</button>
-                                        </div>
-                                    </div>
-                                    <div class="p-3" style="position: relative; z-index: 1;">
-                                        <a href="{{ $productUrl }}" class="text-decoration-none">
-                                            <h5 class="product-name mb-2">{{ $product['name'] ?? 'Product' }}</h5>
-                                        </a>
-                                        <div class="product-price mb-2">
-                                            {!! $product['price_html'] ?? '৳0.00' !!}
-                                        </div>
-                                        <button class="btn btn-add-cart w-100" @if (!$isSaleable) disabled @endif
-                                            onclick="addToCart('{{ $product['id'] }}', this)">
-                                            Add To Cart
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                @else
-                    <div class="text-center text-muted">No sweet products available.</div>
-                @endif
-            </div>
-
-            <div class="text-center mt-4">
-                <a href="{{ route('shop.search.index') }}" class="btn btn-warning btn-lg px-5 text-white">
-                    View All Sweets
-                </a>
-            </div>
-        </div>
-    </section>
-
-    @push('styles')
-        <style>
-            .sweet-category-products-section {
-                background: linear-gradient(135deg, #fff9e6 0%, #fff3cd 30%, #ffffff 70%, #fff9e6 100%);
-                position: relative;
-                overflow: hidden;
-            }
-
-            .sweet-category-products-section::before {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                height: 100%;
-                background: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffc107' fill-opacity='0.05'%3E%3Cpath d='M40 35c-2.8 0-5 2.2-5 5s2.2 5 5 5-2.2 5-5-2.2-5-5-5zm0 10c-2.8 0-5 2.2-5 5s2.2 5 5 5-2.2 5-5-2.2-5-5-5zM20 30c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 10c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zM60 30c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 10c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-                pointer-events: none;
-            }
-
-            .sweet-header {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                gap: 1rem;
-            }
-
-            .sweet-icon {
-                font-size: 2rem;
-                animation: bounce-sweet 2s ease-in-out infinite;
-            }
-
-            @keyframes bounce-sweet {
-
-                0%,
-                100% {
-                    transform: translateY(0) rotate(0deg);
-                }
-
-                50% {
-                    transform: translateY(-10px) rotate(5deg);
-                }
-            }
-
-            .sweet-category-products-section .section-title {
-                font-size: 2rem;
-                font-weight: 700;
-                color: #1a1a1a;
-                margin: 0;
-                background: linear-gradient(135deg, #ffc107, #ff9800);
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-                background-clip: text;
-            }
-
-            .sweet-category-products-section .btn-add-cart {
-                background: linear-gradient(135deg, #ffc107, #ff9800) !important;
-            }
-
-            .sweet-category-products-section .btn-add-cart:hover {
-                background: linear-gradient(135deg, #e6a800, #e68a00) !important;
-            }
-        </style>
-    @endpush
-
-    <!-------------------------------- End Sweet Category Products Section --->
-
-    <!-------------------------------- Chocolate Section ----------------->
-    <section class="py-5 chocolate-section">
-        <div class="container-lg">
-            <div class="row align-items-center g-5">
-                <!-- Image Column -->
-                <div class="col-lg-6 col-md-12 mb-4 mb-lg-0">
-                    <div class="chocolate-image-wrapper position-relative rounded-4 overflow-hidden shadow-lg">
-                        <img src="https://images.unsplash.com/photo-1549007994-cb92caebd54b?w=800&h=600&fit=crop"
-                            alt="Premium Chocolate Collection" class="img-fluid w-100"
-                            style="height: 500px; object-fit: cover;" loading="lazy">
-                        <div class="overlay position-absolute top-0 start-0 w-100 h-100"
-                            style="background: linear-gradient(135deg, rgba(139, 69, 19, 0.3) 0%, rgba(210, 180, 140, 0.2) 100%);">
-                        </div>
-
-                        <!-- Decorative Elements -->
-                        <div class="position-absolute top-4 end-4 bg-white rounded-circle d-flex align-items-center justify-content-center shadow"
-                            style="width: 80px; height: 80px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
-                            <span class="fw-bold" style="color: #8B4513; font-size: 1.5rem;">30+</span>
-                        </div>
-                        <div class="position-absolute bottom-4 start-4 bg-dark text-white rounded-3 px-4 py-2 shadow">
-                            <p class="mb-0 fw-bold fs-5">Handcrafted</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Content Column -->
-                <div class="col-lg-6 col-md-12">
-                    <div class="chocolate-content h-100 d-flex flex-column justify-content-center">
-                        <div class="section-badge d-inline-block mb-3">
-                            <span class="badge bg-danger text-white px-3 py-2 rounded-pill fw-bold">CHOCOLATE
-                                PARADISE</span>
-                        </div>
-
-                        <h2 class="display-4 fw-bold mb-4 text-dark" style="font-family: 'Playfair Display', serif;">
-                            Premium Chocolate & Cocoa Delights
-                        </h2>
-
-                        <p class="lead text-secondary mb-4">
-                            Experience the ultimate indulgence with our exquisite collection of handcrafted chocolates,
-                            made from the finest cocoa beans sourced from around the world.
-                        </p>
-
-                        <p class="text-muted mb-4">
-                            From silky smooth dark chocolate to creamy milk chocolate truffles, our master chocolatiers
-                            create artisanal pieces that will delight your senses. Each chocolate is carefully crafted
-                            to deliver an unforgettable taste experience.
-                        </p>
-
-                        <!-- Features Grid -->
-                        <div class="row g-3 mb-5">
-                            <div class="col-6">
-                                <div
-                                    class="chocolate-feature-card bg-light rounded-3 p-3 d-flex align-items-center gap-3">
-                                    <div class="chocolate-feature-icon bg-danger rounded-circle d-flex align-items-center justify-content-center"
-                                        style="width: 50px; height: 50px;">
-                                        <span style="font-size: 1.5rem;">🍫</span>
-                                    </div>
-                                    <div>
-                                        <h6 class="fw-bold mb-0">Premium Cocoa</h6>
-                                        <small class="text-muted">Finest Quality</small>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div
-                                    class="chocolate-feature-card bg-light rounded-3 p-3 d-flex align-items-center gap-3">
-                                    <div class="chocolate-feature-icon bg-danger rounded-circle d-flex align-items-center justify-content-center"
-                                        style="width: 50px; height: 50px;">
-                                        <span style="font-size: 1.5rem;">👨‍🍳</span>
-                                    </div>
-                                    <div>
-                                        <h6 class="fw-bold mb-0">Expert Makers</h6>
-                                        <small class="text-muted">Master Chocolatiers</small>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div
-                                    class="chocolate-feature-card bg-light rounded-3 p-3 d-flex align-items-center gap-3">
-                                    <div class="chocolate-feature-icon bg-danger rounded-circle d-flex align-items-center justify-content-center"
-                                        style="width: 50px; height: 50px;">
-                                        <span style="font-size: 1.5rem;">🎁</span>
-                                    </div>
-                                    <div>
-                                        <h6 class="fw-bold mb-0">Gift Ready</h6>
-                                        <small class="text-muted">Beautiful Packaging</small>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div
-                                    class="chocolate-feature-card bg-light rounded-3 p-3 d-flex align-items-center gap-3">
-                                    <div class="chocolate-feature-icon bg-danger rounded-circle d-flex align-items-center justify-content-center"
-                                        style="width: 50px; height: 50px;">
-                                        <span style="font-size: 1.5rem;">💝</span>
-                                    </div>
-                                    <div>
-                                        <h6 class="fw-bold mb-0">Made with Love</h6>
-                                        <small class="text-muted">Artisan Crafted</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- CTA Buttons -->
-                        <div class="d-flex flex-wrap gap-3">
-                            <a href="{{ route('shop.search.index') }}"
-                                class="btn btn-danger btn-lg rounded-3 px-5 text-white">
-                                <i class="bi bi-cart me-2"></i>Chocolates
-                            </a>
-                            <a href="#" class="btn btn-outline-danger btn-lg rounded-3 px-5">
-                                Explore Collection
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    @push('styles')
-        <style>
-            .chocolate-section {
-                background: linear-gradient(135deg, #fff5f0 0%, #ffffff 100%);
-                position: relative;
-                overflow: hidden;
-            }
-
-            .chocolate-section::before {
-                content: '';
-                position: absolute;
-                top: -50px;
-                right: -50px;
-                width: 200px;
-                height: 200px;
-                background: rgba(139, 69, 19, 0.1);
-                border-radius: 50%;
-            }
-
-            .chocolate-image-wrapper {
-                transition: transform 0.5s ease, box-shadow 0.5s ease;
-                cursor: pointer;
-            }
-
-            .chocolate-image-wrapper:hover {
-                transform: translateY(-10px) scale(1.02);
-                box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2) !important;
-            }
-
-            .chocolate-image-wrapper img {
-                transition: transform 0.5s ease;
-            }
-
-            .chocolate-image-wrapper:hover img {
-                transform: scale(1.1);
-            }
-
-            .chocolate-feature-card {
-                transition: all 0.3s ease;
-                border: 1px solid rgba(255, 255, 255, 0.3);
-                background: rgba(255, 255, 255, 0.7);
-                backdrop-filter: blur(15px) saturate(150%);
-                box-shadow: 0 4px 20px rgba(139, 69, 19, 0.08);
-            }
-
-            .chocolate-feature-card:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 10px 40px rgba(139, 69, 19, 0.25) !important;
-                border-color: rgba(139, 69, 19, 0.5);
-                background: rgba(255, 255, 255, 0.85);
-            }
-
-            .chocolate-feature-icon {
-                transition: transform 0.3s ease;
-            }
-
-            .chocolate-feature-card:hover .chocolate-feature-icon {
-                transform: rotate(360deg) scale(1.1);
-            }
-
-            @media (max-width: 768px) {
-                .chocolate-section {
-                    padding: 3rem 0 !important;
-                }
-
-                .chocolate-image-wrapper img {
-                    height: 300px !important;
-                }
-
-                .display-4 {
-                    font-size: 2rem !important;
-                }
-
-                .chocolate-feature-card {
-                    padding: 1.5rem !important;
-                }
-            }
-        </style>
-    @endpush
-
-    <!-------------------------------- End Chocolate Section --->
-
-
-    <!-------------------------------- Chocolate Category Products (Grid Layout) ----------------->
-    <section class="py-5 chocolate-category-products-section">
-        <div class="container-lg">
-            <div class="text-center mb-5">
-                <div class="chocolate-header mb-3">
-                    <span class="chocolate-icon">🍫</span>
-                    <h2 class="section-title">Chocolate Category Products</h2>
-                    <span class="chocolate-icon">🍫</span>
-                </div>
-                <p class="text-muted mb-0">Discover our exquisite collection of premium chocolates</p>
-            </div>
-
-            <div id="chocolate-carousel">
-                @if (!empty($chocolateProducts))
-                    <div class="row g-4">
-                        @foreach ($chocolateProducts as $product)
-                            @php
-                                $isSaleable = $product['is_saleable'] ?? true;
-                                $isOnSale = $product['on_sale'] ?? false;
-                                $isNew = $product['is_new'] ?? false;
-                                $productUrl = route('shop.product_or_category.index', $product['url_key'] ?? '#');
-                                $productImage =
-                                    $product['base_image']['medium_image_url'] ?? '/images/default-product.png';
-                            @endphp
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
-                                <div class="product-card h-100">
-                                    <div class="product-image-container">
-                                        @if ($isOnSale)
-                                            <span class="badge-sale">Sale</span>
-                                        @endif
-                                        @if ($isNew && !$isOnSale)
-                                            <span class="badge-new">New</span>
-                                        @endif
-                                        <a href="{{ $productUrl }}" class="text-decoration-none">
-                                            <img src="{{ $productImage }}" alt="{{ $product['name'] ?? 'Product' }}"
-                                                class="product-image" loading="lazy">
-                                        </a>
-                                        <div class="action-icons">
-                                            <button class="action-icon"
-                                                onclick="addToWishlist('{{ $product['id'] }}', this)"
-                                                title="Add to Wishlist">♡</button>
-                                            <button class="action-icon" onclick="addToCompare('{{ $product['id'] }}')"
-                                                title="Add to Compare">⤢</button>
-                                        </div>
-                                    </div>
-                                    <div class="p-3" style="position: relative; z-index: 1;">
-                                        <a href="{{ $productUrl }}" class="text-decoration-none">
-                                            <h5 class="product-name mb-2">{{ $product['name'] ?? 'Product' }}</h5>
-                                        </a>
-                                        <div class="product-price mb-2">
-                                            {!! $product['price_html'] ?? '৳0.00' !!}
-                                        </div>
-                                        <button class="btn btn-add-cart w-100" @if (!$isSaleable) disabled @endif
-                                            onclick="addToCart('{{ $product['id'] }}', this)">
-                                            Add To Cart
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                @else
-                    <div class="text-center text-muted">No chocolate products available.</div>
-                @endif
-            </div>
-
-            <div class="text-center mt-4">
-                <a href="{{ route('shop.search.index') }}" class="btn btn-danger btn-lg px-5 text-white">
-                    View All Chocolates
-                </a>
-            </div>
-        </div>
-    </section>
-
-    @push('styles')
-        <style>
-            .chocolate-category-products-section {
-                background: linear-gradient(135deg, #fff5f0 0%, #ffe4e1 30%, #ffffff 70%, #fff5f0 100%);
-                position: relative;
-                overflow: hidden;
-            }
-
-            .chocolate-category-products-section::before {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                height: 100%;
-                background: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%238B4513' fill-opacity='0.05'%3E%3Cpath d='M40 35c-2.8 0-5 2.2-5 5s2.2 5 5 5-2.2 5-5-2.2-5-5-5zm0 10c-2.8 0-5 2.2-5 5s2.2 5 5 5-2.2 5-5-2.2-5-5-5zM20 30c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 10c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zM60 30c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 10c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-                pointer-events: none;
-            }
-
-            .chocolate-header {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                gap: 1rem;
-            }
-
-            .chocolate-icon {
-                font-size: 2rem;
-                animation: bounce-chocolate 2s ease-in-out infinite;
-            }
-
-            @keyframes bounce-chocolate {
-
-                0%,
-                100% {
-                    transform: translateY(0) rotate(0deg);
-                }
-
-                50% {
-                    transform: translateY(-10px) rotate(5deg);
-                }
-            }
-
-            .chocolate-category-products-section .section-title {
-                font-size: 2rem;
-                font-weight: 700;
-                color: #1a1a1a;
-                margin: 0;
-                background: linear-gradient(135deg, #8B4513, #D2691E);
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-                background-clip: text;
-            }
-
-            .chocolate-category-products-section .btn-add-cart {
-                background: linear-gradient(135deg, #8B4513, #D2691E) !important;
-            }
-
-            .chocolate-category-products-section .btn-add-cart:hover {
-                background: linear-gradient(135deg, #7a3d10, #c25e1a) !important;
-            }
-        </style>
-    @endpush
-
-    <!-------------------------------- End Chocolate Category Products Section --->
-
-
-    <!-------------------------------- Best Selling Products (Grid Layout) ----------------->
-    <section class="py-5 best-selling-section">
-        <div class="container-lg">
-            <div class="text-center mb-5">
-                <div class="best-selling-header mb-3">
-                    <span class="best-selling-icon">🏆</span>
-                    <h2 class="section-title">Best Selling Products</h2>
-                    <span class="best-selling-icon">🏆</span>
-                </div>
-                <p class="text-muted mb-0">Top products our customers love the most</p>
-            </div>
-
-            <div id="best-selling-carousel">
-                @if (!empty($bestSellingProducts))
-                    <div class="row g-4">
-                        @foreach ($bestSellingProducts as $product)
-                            @php
-                                $isSaleable = $product['is_saleable'] ?? true;
-                                $isOnSale = $product['on_sale'] ?? false;
-                                $isNew = $product['is_new'] ?? false;
-                                $productUrl = route('shop.product_or_category.index', $product['url_key'] ?? '#');
-                                $productImage =
-                                    $product['base_image']['medium_image_url'] ?? '/images/default-product.png';
-                            @endphp
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
-                                <div class="product-card h-100">
-                                    <div class="product-image-container">
-                                        @if ($isOnSale)
-                                            <span class="badge-sale">Sale</span>
-                                        @endif
-                                        @if ($isNew && !$isOnSale)
-                                            <span class="badge-new">New</span>
-                                        @endif
-                                        <a href="{{ $productUrl }}" class="text-decoration-none">
-                                            <img src="{{ $productImage }}" alt="{{ $product['name'] ?? 'Product' }}"
-                                                class="product-image" loading="lazy">
-                                        </a>
-                                        <div class="action-icons">
-                                            <button class="action-icon"
-                                                onclick="addToWishlist('{{ $product['id'] }}', this)"
-                                                title="Add to Wishlist">♡</button>
-                                            <button class="action-icon" onclick="addToCompare('{{ $product['id'] }}')"
-                                                title="Add to Compare">⤢</button>
-                                        </div>
-                                    </div>
-                                    <div class="p-3" style="position: relative; z-index: 1;">
-                                        <a href="{{ $productUrl }}" class="text-decoration-none">
-                                            <h5 class="product-name mb-2">{{ $product['name'] ?? 'Product' }}</h5>
-                                        </a>
-                                        <div class="product-price mb-2">
-                                            {!! $product['price_html'] ?? '৳0.00' !!}
-                                        </div>
-                                        <button class="btn btn-add-cart w-100" @if (!$isSaleable) disabled @endif
-                                            onclick="addToCart('{{ $product['id'] }}', this)">
-                                            Add To Cart
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                @else
-                    <div class="text-center text-muted">No best selling products available.</div>
-                @endif
-            </div>
-
-            <div class="text-center mt-4">
-                <a href="{{ route('shop.search.index') }}" class="btn btn-success btn-lg px-5 text-white">
-                    View All Products
-                </a>
-            </div>
-        </div>
-    </section>
-
-    @push('styles')
-        <style>
-            .best-selling-section {
-                background: linear-gradient(135deg, #e8f5e9 0%, #d4edda 30%, #ffffff 70%, #e8f5e9 100%);
-                position: relative;
-                overflow: hidden;
-            }
-
-            .best-selling-section::before {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                height: 100%;
-                background: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2328a745' fill-opacity='0.05'%3E%3Cpath d='M40 35c-2.8 0-5 2.2-5 5s2.2 5 5 5-2.2 5-5-2.2-5-5-5zm0 10c-2.8 0-5 2.2-5 5s2.2 5 5 5-2.2 5-5-2.2-5-5-5zM20 30c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 10c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zM60 30c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 10c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-                pointer-events: none;
-            }
-
-            .best-selling-header {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                gap: 1rem;
-            }
-
-            .best-selling-icon {
-                font-size: 2rem;
-                animation: trophy-glow 2s ease-in-out infinite;
-            }
-
-            @keyframes trophy-glow {
-
-                0%,
-                100% {
-                    transform: scale(1) rotate(0deg);
-                }
-
-                50% {
-                    transform: scale(1.2) rotate(10deg);
-                    opacity: 0.9;
-                }
-            }
-
-            .best-selling-section .section-title {
-                font-size: 2rem;
-                font-weight: 700;
-                color: #1a1a1a;
-                margin: 0;
-                background: linear-gradient(135deg, #28a745, #20c997);
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-                background-clip: text;
-            }
-        </style>
-    @endpush
-
-    <!-------------------------------- End Best Selling Products Section --->
-
-
-    <!-------------------------------- Popular Products (Grid Layout) ----------------->
-    <section class="py-5 popular-products-section">
-        <div class="container-lg">
-            <div class="text-center mb-5">
-                <div class="popular-header mb-3">
-                    <span class="popular-icon">🔥</span>
-                    <h2 class="section-title">Popular Products</h2>
-                    <span class="popular-icon">🔥</span>
-                </div>
-                <p class="text-muted mb-0">Most viewed and loved products</p>
-            </div>
-
-            <div id="popular-carousel">
-                @if (!empty($popularProducts))
-                    <div class="row g-4">
-                        @foreach ($popularProducts as $product)
-                            @php
-                                $isSaleable = $product['is_saleable'] ?? true;
-                                $isOnSale = $product['on_sale'] ?? false;
-                                $isNew = $product['is_new'] ?? false;
-                                $productUrl = route('shop.product_or_category.index', $product['url_key'] ?? '#');
-                                $productImage =
-                                    $product['base_image']['medium_image_url'] ?? '/images/default-product.png';
-                            @endphp
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
-                                <div class="product-card h-100">
-                                    <div class="product-image-container">
-                                        @if ($isOnSale)
-                                            <span class="badge-sale">Sale</span>
-                                        @endif
-                                        @if ($isNew && !$isOnSale)
-                                            <span class="badge-new">New</span>
-                                        @endif
-                                        <a href="{{ $productUrl }}" class="text-decoration-none">
-                                            <img src="{{ $productImage }}" alt="{{ $product['name'] ?? 'Product' }}"
-                                                class="product-image" loading="lazy">
-                                        </a>
-                                        <div class="action-icons">
-                                            <button class="action-icon"
-                                                onclick="addToWishlist('{{ $product['id'] }}', this)"
-                                                title="Add to Wishlist">♡</button>
-                                            <button class="action-icon" onclick="addToCompare('{{ $product['id'] }}')"
-                                                title="Add to Compare">⤢</button>
-                                        </div>
-                                    </div>
-                                    <div class="p-3" style="position: relative; z-index: 1;">
-                                        <a href="{{ $productUrl }}" class="text-decoration-none">
-                                            <h5 class="product-name mb-2">{{ $product['name'] ?? 'Product' }}</h5>
-                                        </a>
-                                        <div class="product-price mb-2">
-                                            {!! $product['price_html'] ?? '৳0.00' !!}
-                                        </div>
-                                        <button class="btn btn-add-cart w-100" @if (!$isSaleable) disabled @endif
-                                            onclick="addToCart('{{ $product['id'] }}', this)">
-                                            Add To Cart
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                @else
-                    <div class="text-center text-muted">No popular products available.</div>
-                @endif
-            </div>
-
-            <div class="text-center mt-4">
-                <a href="{{ route('shop.search.index') }}" class="btn btn-danger btn-lg px-5 text-white">
-                    View All Products
-                </a>
-            </div>
-        </div>
-    </section>
-
-    @push('styles')
-        <style>
-            .popular-products-section {
-                background: linear-gradient(135deg, #fff5f5 0%, #ffebee 30%, #ffffff 70%, #fff5f5 100%);
-                position: relative;
-                overflow: hidden;
-            }
-
-            .popular-products-section::before {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                height: 100%;
-                background: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23dc3545' fill-opacity='0.05'%3E%3Cpath d='M40 35c-2.8 0-5 2.2-5 5s2.2 5 5 5-2.2 5-5-2.2-5-5-5zm0 10c-2.8 0-5 2.2-5 5s2.2 5 5 5-2.2 5-5-2.2-5-5-5zM20 30c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 10c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zM60 30c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 10c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-                pointer-events: none;
-            }
-
-            .popular-header {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                gap: 1rem;
-            }
-
-            .popular-icon {
-                font-size: 2rem;
-                animation: fire-pulse 2s ease-in-out infinite;
-            }
-
-            @keyframes fire-pulse {
-
-                0%,
-                100% {
-                    transform: scale(1) rotate(0deg);
-                }
-
-                50% {
-                    transform: scale(1.2) rotate(10deg);
-                    opacity: 0.9;
-                }
-            }
-
-            .popular-products-section .section-title {
-                font-size: 2rem;
-                font-weight: 700;
-                color: #1a1a1a;
-                margin: 0;
-                background: linear-gradient(135deg, #dc3545, #e74c3c);
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-                background-clip: text;
-            }
-
-            .popular-products-section .btn-add-cart {
-                background: linear-gradient(135deg, #dc3545, #e74c3c) !important;
-            }
-
-            .popular-products-section .btn-add-cart:hover {
-                background: linear-gradient(135deg, #c82333, #d63e49) !important;
-            }
-        </style>
-    @endpush
-
-    <!-------------------------------- End Popular Products Section --->
-
-
-    <!-------------------------------- Blog Section (Server-Side with Fallback) ----------------->
+    <!-------------------------------- Blog Section ----------------->
     <section class="py-5 blog-section">
         <div class="container-lg">
             <div class="text-center mb-5">
@@ -2593,8 +1818,7 @@
                 <p class="text-muted mb-0">Stay updated with our latest news, recipes, and tips</p>
             </div>
 
-            <div id="blog-carousel" class="row gx-4 gy-4">
-                <!-- Static blog cards as fallback/placeholder -->
+            <div class="row gx-4 gy-4">
                 <div class="col-lg-4 col-md-6 col-sm-12">
                     <div class="blog-card">
                         <div class="blog-image-container">
@@ -2604,10 +1828,7 @@
                         <div class="blog-content">
                             <div class="blog-meta">
                                 <span class="blog-badge">Recipes</span>
-                                <div class="blog-meta-item">
-                                    <span>📅</span>
-                                    <span>Jan 15, 2026</span>
-                                </div>
+                                <span>📅 Jan 15, 2026</span>
                             </div>
                             <h3 class="blog-title">Traditional Bengali Sweets You Must Try</h3>
                             <p class="blog-excerpt">Discover the rich heritage of Bengali confectionery and learn about
@@ -2615,7 +1836,7 @@
                             <div class="blog-footer">
                                 <div class="blog-author">
                                     <div class="blog-author-avatar">S</div>
-                                    <span class="blog-author-name">Saffron Team</span>
+                                    <span>Saffron Team</span>
                                 </div>
                                 <a href="{{ url('blog') }}" class="btn btn-blog-detail">View Detail</a>
                             </div>
@@ -2632,10 +1853,7 @@
                         <div class="blog-content">
                             <div class="blog-meta">
                                 <span class="blog-badge">Chocolate</span>
-                                <div class="blog-meta-item">
-                                    <span>📅</span>
-                                    <span>Jan 10, 2026</span>
-                                </div>
+                                <span>📅 Jan 10, 2026</span>
                             </div>
                             <h3 class="blog-title">The Art of Handcrafted Chocolates</h3>
                             <p class="blog-excerpt">Explore the intricate process behind our premium handcrafted
@@ -2643,7 +1861,7 @@
                             <div class="blog-footer">
                                 <div class="blog-author">
                                     <div class="blog-author-avatar">S</div>
-                                    <span class="blog-author-name">Saffron Team</span>
+                                    <span>Saffron Team</span>
                                 </div>
                                 <a href="{{ url('blog') }}" class="btn btn-blog-detail">View Detail</a>
                             </div>
@@ -2660,10 +1878,7 @@
                         <div class="blog-content">
                             <div class="blog-meta">
                                 <span class="blog-badge">Bakery</span>
-                                <div class="blog-meta-item">
-                                    <span>📅</span>
-                                    <span>Jan 5, 2026</span>
-                                </div>
+                                <span>📅 Jan 5, 2026</span>
                             </div>
                             <h3 class="blog-title">Fresh Baked Goods Every Morning</h3>
                             <p class="blog-excerpt">Learn about our baking process and how we ensure every item is
@@ -2671,7 +1886,7 @@
                             <div class="blog-footer">
                                 <div class="blog-author">
                                     <div class="blog-author-avatar">S</div>
-                                    <span class="blog-author-name">Saffron Team</span>
+                                    <span>Saffron Team</span>
                                 </div>
                                 <a href="{{ url('blog') }}" class="btn btn-blog-detail">View Detail</a>
                             </div>
@@ -2681,9 +1896,7 @@
             </div>
 
             <div class="text-center mt-4">
-                <a href="{{ url('blog') }}" class="btn btn-primary btn-lg px-5">
-                    View All Blogs
-                </a>
+                <a href="{{ url('blog') }}" class="btn btn-primary btn-lg px-5">View All Blogs</a>
             </div>
         </div>
     </section>
@@ -2692,19 +1905,6 @@
         <style>
             .blog-section {
                 background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 30%, #ffffff 70%, #e3f2fd 100%);
-                position: relative;
-                overflow: hidden;
-            }
-
-            .blog-section::before {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                height: 100%;
-                background: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%230196f9' fill-opacity='0.05'%3E%3Cpath d='M40 35c-2.8 0-5 2.2-5 5s2.2 5 5 5-2.2 5-5-5-2.2-5-5-5zm0 10c-2.8 0-5 2.2-5 5s2.2 5 5 5-2.2 5-5-5-2.2-5-5-5zM20 30c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 10c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zM60 30c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 10c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-                pointer-events: none;
             }
 
             .blog-header {
@@ -2720,22 +1920,13 @@
             }
 
             @keyframes float-blog {
-
-                0%,
-                100% {
-                    transform: translateY(0) rotate(0deg);
-                }
-
-                50% {
-                    transform: translateY(-10px) rotate(5deg);
-                }
+                0%, 100% { transform: translateY(0); }
+                50% { transform: translateY(-10px); }
             }
 
             .blog-section .section-title {
                 font-size: 2rem;
                 font-weight: 700;
-                color: #1a1a1a;
-                margin: 0;
                 background: linear-gradient(135deg, #0288d1, #0277bd);
                 -webkit-background-clip: text;
                 -webkit-text-fill-color: transparent;
@@ -2747,42 +1938,13 @@
                 border-radius: 16px;
                 overflow: hidden;
                 transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
                 height: 100%;
-                display: flex;
-                flex-direction: column;
-                position: relative;
-                border: 1px solid rgba(255, 255, 255, 0.4);
-                backdrop-filter: blur(20px) saturate(180%);
-            }
-
-            .blog-card::before {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                border-radius: 14px;
-                padding: 3px;
-                background: linear-gradient(135deg, #0288d1, #0277bd, #01579b);
-                -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-                mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-                -webkit-mask-composite: xor;
-                mask-composite: exclude;
-                opacity: 0;
-                transition: opacity 0.4s ease;
-                z-index: 1;
-            }
-
-            .blog-card:hover::before {
-                opacity: 1;
             }
 
             .blog-card:hover {
                 transform: translateY(-10px);
                 box-shadow: 0 20px 50px rgba(2, 119, 189, 0.25);
-                border-color: #0288d1;
             }
 
             .blog-image-container {
@@ -2804,11 +1966,8 @@
 
             .blog-content {
                 padding: 1.5rem;
-                flex: 1;
                 display: flex;
                 flex-direction: column;
-                position: relative;
-                z-index: 2;
             }
 
             .blog-meta {
@@ -2820,12 +1979,6 @@
                 color: #757575;
             }
 
-            .blog-meta-item {
-                display: flex;
-                align-items: center;
-                gap: 0.3rem;
-            }
-
             .blog-badge {
                 background: linear-gradient(135deg, #0288d1, #0277bd);
                 color: white;
@@ -2834,7 +1987,6 @@
                 font-size: 0.75rem;
                 font-weight: 600;
                 text-transform: uppercase;
-                letter-spacing: 0.5px;
             }
 
             .blog-title {
@@ -2842,23 +1994,15 @@
                 font-weight: 700;
                 color: #212529;
                 margin-bottom: 0.75rem;
-                line-height: 1.4;
                 display: -webkit-box;
                 -webkit-line-clamp: 2;
                 -webkit-box-orient: vertical;
                 overflow: hidden;
-                transition: color 0.3s ease;
-            }
-
-            .blog-card:hover .blog-title {
-                color: #0288d1;
             }
 
             .blog-excerpt {
                 font-size: 0.95rem;
                 color: #6c757d;
-                line-height: 1.6;
-                margin-bottom: 1rem;
                 display: -webkit-box;
                 -webkit-line-clamp: 3;
                 -webkit-box-orient: vertical;
@@ -2870,7 +2014,7 @@
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
-                margin-top: auto;
+                margin-top: 1rem;
                 padding-top: 1rem;
                 border-top: 1px solid #e3f2fd;
             }
@@ -2894,12 +2038,6 @@
                 font-size: 0.85rem;
             }
 
-            .blog-author-name {
-                font-size: 0.85rem;
-                font-weight: 600;
-                color: #495057;
-            }
-
             .btn-blog-detail {
                 background: linear-gradient(135deg, #0288d1, #0277bd) !important;
                 color: white !important;
@@ -2908,37 +2046,19 @@
                 font-weight: 600;
                 font-size: 0.85rem;
                 padding: 0.5rem 1.25rem;
-                transition: all 0.3s ease;
-                text-transform: uppercase;
-                letter-spacing: 0.5px;
             }
 
             .btn-blog-detail:hover {
                 background: linear-gradient(135deg, #01579b, #01579b) !important;
-                color: white !important;
                 transform: translateY(-2px);
-                box-shadow: 0 4px 15px rgba(2, 119, 189, 0.4);
             }
 
             @media (max-width: 768px) {
-                .blog-section {
-                    padding: 3rem 0 !important;
-                }
-
                 .blog-image-container {
                     height: 180px;
                 }
 
                 .blog-title {
-                    font-size: 1rem;
-                }
-
-                .blog-content {
-                    padding: 1.25rem;
-                }
-
-                .btn-lg {
-                    padding: 0.75rem 2rem;
                     font-size: 1rem;
                 }
             }
@@ -2947,218 +2067,70 @@
 
     <!-------------------------------- End Blog Section --->
 
-    <!-------------------------------- Add to Cart / Wishlist / Compare JavaScript ----------------->
     @push('scripts-bottom')
         <script>
-            // Shared functions for cart, wishlist, and compare operations
+            // Category Navigation Script - Placed at the end to ensure DOM elements exist
+            document.addEventListener('DOMContentLoaded', function() {
+                // Wait for all content to load
+                window.addEventListener('load', function() {
+                    initCategoryNavigation();
+                });
+            });
 
-            function addToCart(productId, button) {
-                if (!productId) return;
+            function initCategoryNavigation() {
+                const scrollContainer = document.getElementById('category-scroll-container');
+                const prevBtn = document.getElementById('category-prev');
+                const nextBtn = document.getElementById('category-next');
 
-                const originalText = button.innerHTML;
-                button.disabled = true;
-                button.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Adding...';
+                console.log('Category Navigation Init:', {
+                    scrollContainer: !!scrollContainer,
+                    prevBtn: !!prevBtn,
+                    nextBtn: !!nextBtn
+                });
 
-                const url = "{{ route('shop.api.checkout.cart.store') }}";
-                const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') ||
-                    document.querySelector('input[name="_token"]')?.value;
+                if (scrollContainer && prevBtn && nextBtn) {
+                    const scrollAmount = 280;
 
-                const resetButton = () => {
-                    button.disabled = false;
-                    button.innerHTML = originalText;
-                };
+                    function updateButtonStates() {
+                        const maxScroll = scrollContainer.scrollWidth - scrollContainer.clientWidth;
+                        const currentScroll = scrollContainer.scrollLeft;
 
-                fetch(url, {
-                        method: 'POST',
-                        headers: {
-                            'X-Requested-With': 'XMLHttpRequest',
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/x-www-form-urlencoded',
-                            'X-CSRF-TOKEN': csrfToken
-                        },
-                        body: new URLSearchParams({
-                            product_id: productId,
-                            quantity: 1
-                        })
-                    })
-                    .then(response => {
-                        if (!response.ok) throw new Error('HTTP ' + response.status);
-                        return response.json();
-                    })
-                    .then(data => {
-                        // Show SweetAlert2 toast notification
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Added to Cart',
-                            text: data.message || 'Product added to cart successfully!',
-                            toast: true,
-                            position: 'top-end',
-                            showConfirmButton: false,
-                            timer: 3000,
-                            timerProgressBar: true
-                        });
+                        prevBtn.disabled = currentScroll <= 5;
+                        nextBtn.disabled = currentScroll >= maxScroll - 5;
+                    }
 
-                        // Emit update-mini-cart event
-                        if (window.app && window.app.$emitter) {
-                            window.app.$emitter.emit('update-mini-cart', data.data || data);
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error adding to cart:', error);
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: 'Failed to add product to cart. Please try again.',
-                            toast: true,
-                            position: 'top-end',
-                            showConfirmButton: false,
-                            timer: 3000,
-                            timerProgressBar: true
-                        });
-                    })
-                    .finally(resetButton);
-            }
-
-            function addToWishlist(productId, button) {
-                if (!productId) return;
-
-                const isLoggedIn = "{{ auth()->guard('customer')->check() }}" === "1";
-
-                if (!isLoggedIn) {
-                    window.location.href = "{{ route('shop.customer.session.index') }}";
-                    return;
-                }
-
-                const url = "{{ route('shop.api.customers.account.wishlist.store') }}";
-                const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') ||
-                    document.querySelector('input[name="_token"]')?.value;
-
-                const formData = new FormData();
-                formData.append('product_id', productId);
-
-                fetch(url, {
-                        method: 'POST',
-                        headers: {
-                            'X-Requested-With': 'XMLHttpRequest',
-                            'Accept': 'application/json',
-                            'X-CSRF-TOKEN': csrfToken
-                        },
-                        body: formData
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (button.classList.contains('active')) {
-                            button.classList.remove('active');
-                            button.innerHTML = '♡';
-                        } else {
-                            button.classList.add('active');
-                            button.innerHTML = '♥';
-                        }
-
-                        Swal.fire({
-                            icon: 'success',
-                            title: button.classList.contains('active') ? 'Added to Wishlist' :
-                                'Removed from Wishlist',
-                            text: data.data?.message || 'Wishlist updated successfully!',
-                            toast: true,
-                            position: 'top-end',
-                            showConfirmButton: false,
-                            timer: 3000,
-                            timerProgressBar: true
-                        });
-                    })
-                    .catch(error => {
-                        console.error('Error updating wishlist:', error);
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Wishlist Error',
-                            text: 'Failed to update wishlist. Please try again.',
-                            toast: true,
-                            position: 'top-end',
-                            showConfirmButton: false,
-                            timer: 3000,
-                            timerProgressBar: true
+                    prevBtn.addEventListener('click', function() {
+                        scrollContainer.scrollBy({
+                            left: -scrollAmount,
+                            behavior: 'smooth'
                         });
                     });
-            }
 
-            function addToCompare(productId) {
-                if (!productId) return;
-
-                const isLoggedIn = "{{ auth()->guard('customer')->check() }}" === "1";
-
-                if (isLoggedIn) {
-                    const url = "{{ route('shop.api.compare.store') }}";
-                    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') ||
-                        document.querySelector('input[name="_token"]')?.value;
-
-                    const formData = new FormData();
-                    formData.append('product_id', productId);
-
-                    fetch(url, {
-                            method: 'POST',
-                            headers: {
-                                'X-Requested-With': 'XMLHttpRequest',
-                                'Accept': 'application/json',
-                                'X-CSRF-TOKEN': csrfToken
-                            },
-                            body: formData
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Added to Compare',
-                                text: data.data?.message || 'Product added to compare list successfully!',
-                                toast: true,
-                                position: 'top-end',
-                                showConfirmButton: false,
-                                timer: 3000,
-                                timerProgressBar: true
-                            });
-                        })
-                        .catch(error => {
-                            console.error('Error adding to compare:', error);
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Compare Error',
-                                text: 'Failed to add to compare. Please try again.',
-                                toast: true,
-                                position: 'top-end',
-                                showConfirmButton: false,
-                                timer: 3000,
-                                timerProgressBar: true
-                            });
+                    nextBtn.addEventListener('click', function() {
+                        scrollContainer.scrollBy({
+                            left: scrollAmount,
+                            behavior: 'smooth'
                         });
-                } else {
-                    // Handle guest users
-                    let items = JSON.parse(localStorage.getItem('compare_items') || '[]');
+                    });
 
-                    if (!items.includes(productId)) {
-                        items.push(productId);
-                        localStorage.setItem('compare_items', JSON.stringify(items));
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Added to Compare',
-                            text: 'Product added to compare list successfully!',
-                            toast: true,
-                            position: 'top-end',
-                            showConfirmButton: false,
-                            timer: 3000,
-                            timerProgressBar: true
-                        });
+                    scrollContainer.addEventListener('scroll', updateButtonStates);
+
+                    // Initial update
+                    setTimeout(updateButtonStates, 100);
+
+                    // Hide buttons if no scroll needed
+                    const maxScroll = scrollContainer.scrollWidth - scrollContainer.clientWidth;
+                    if (maxScroll <= 10) {
+                        prevBtn.style.display = 'none';
+                        nextBtn.style.display = 'none';
                     } else {
-                        Swal.fire({
-                            icon: 'info',
-                            title: 'Already in Compare',
-                            text: 'Product already in compare list!',
-                            toast: true,
-                            position: 'top-end',
-                            showConfirmButton: false,
-                            timer: 3000,
-                            timerProgressBar: true
-                        });
+                        prevBtn.style.display = 'flex';
+                        nextBtn.style.display = 'flex';
                     }
+
+                    console.log('Category Navigation initialized successfully');
+                } else {
+                    console.log('Category navigation elements not found - checking if conditional rendering is active');
                 }
             }
         </script>
