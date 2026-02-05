@@ -5,21 +5,23 @@
 @php
     $channel = core()->getCurrentChannel();
     $customization = $themeCustomizationRepository->findOneWhere([
-        'type'       => 'footer_links',
-        'status'     => 1,
+        'type' => 'footer_links',
+        'status' => 1,
         'theme_code' => $channel->theme,
         'channel_id' => $channel->id,
     ]);
 @endphp
 
-<footer class="bg-dark text-dark pt-5 pb-3 mt-4 shadow-lg" style=" background-image: linear-gradient(to left,rgb(189, 200, 146),rgb(229, 228, 220));">
+<footer class="bg-dark text-dark pt-5 pb-3 mt-4 shadow-lg"
+    style=" background-image: linear-gradient(to left,rgb(189, 200, 146),rgb(229, 228, 220));">
     <div class="container">
         <div class="row g-4 mb-4">
 
             {{-- Brand --}}
             <div class="col-lg-3 col-md-6">
                 <div class="mb-3">
-                    <img src="/themes/admin/default/build/assets/Saffron__Logo_Removebg.png" alt="Saffron Logo" style="max-height: 100px; width: auto;">
+                    <img src="/themes/admin/default/build/assets/Saffron__Logo_Removebg.png" alt="Saffron Logo"
+                        style="max-height: 100px; width: auto;">
                 </div>
                 <p class="text-dark-70 small mb-3">
                     @lang('shop::app.components.layouts.footer.subscribe-stay-touch')
@@ -50,7 +52,9 @@
                                 <ul class="list-unstyled">
                                     @foreach ($footerLinkSection as $link)
                                         <li class="mb-2">
-                                            <a href="{{ $link['url'] }}" class="text-dark text-decoration-none small hover-light" style="color: rgba(255,255,255,0.7);">
+                                            <a href="{{ $link['url'] }}"
+                                                class="text-dark text-decoration-none small hover-light"
+                                                style="color: rgba(255,255,255,0.7);">
                                                 {{ $link['title'] }}
                                             </a>
                                         </li>
@@ -67,19 +71,22 @@
                 <h6 class="text-uppercase text-dark fw-bold small mb-3">Contact Us</h6>
                 <ul class="list-unstyled small">
                     <li class="mb-3 d-flex align-items-start gap-2">
-                        <i class="bi bi-geo-alt-fill text-warning" ></i>
-                        <span class="text-dark" style="color: rgba(255,255,255,0.7);">Jahir Smart Tower, 205/1 & 205/1/A, Begum Rokeya Sharani,<br>Taltola, Dhaka-1207</span>
+                        <i class="bi bi-geo-alt-fill text-warning"></i>
+                        <span class="text-dark" style="color: rgba(255,255,255,0.7);">Jahir Smart Tower, 205/1 &
+                            205/1/A, Begum Rokeya Sharani,<br>Taltola, Dhaka-1207</span>
                     </li>
                     <li class="mb-3 d-flex align-items-center gap-2">
-                        <i class="bi bi-telephone-fill text-warning" ></i>
-                        <a href="tel:+8801730702000" class="text-dark text-decoration-none" style="color: rgba(255,255,255,0.7);">+880 1730 702000</a>
+                        <i class="bi bi-telephone-fill text-warning"></i>
+                        <a href="tel:+8801730702000" class="text-dark text-decoration-none"
+                            style="color: rgba(255,255,255,0.7);">+880 1730 702000</a>
                     </li>
                     <li class="mb-3 d-flex align-items-center gap-2">
-                        <i class="bi bi-envelope-fill text-warning" ></i>
-                        <a href="mailto:info@saffronsweets.com.bd" class="text-dark text-decoration-none" style="color: rgba(255,255,255,0.7);">info@saffronsweets.com.bd</a>
+                        <i class="bi bi-envelope-fill text-warning"></i>
+                        <a href="mailto:info@saffronsweets.com.bd" class="text-dark text-decoration-none"
+                            style="color: rgba(255,255,255,0.7);">info@saffronsweets.com.bd</a>
                     </li>
                     <li class="d-flex align-items-center gap-2">
-                        <i class="bi bi-clock-fill text-warning" ></i>
+                        <i class="bi bi-clock-fill text-warning"></i>
                         <span class="text-dark" style="color: rgba(255,255,255,0.7);">Mon - Fri: 9AM - 6PM</span>
                     </li>
                 </ul>
@@ -93,7 +100,8 @@
                         <h6 class="fw-bold mb-1">@lang('shop::app.components.layouts.footer.newsletter-text')</h6>
                         <p class="text-white small mb-3" style="color: rgba(255,255,255,0.7);">@lang('shop::app.components.layouts.footer.subscribe-stay-touch')</p>
                         <x-shop::form action="{{ route('shop.subscription.store') }}" class="d-flex gap-2">
-                            <input type="email" name="email" class="form-control form-control-sm" placeholder="Enter your email" required>
+                            <input type="email" name="email" class="form-control form-control-sm"
+                                placeholder="Enter your email" required>
                             <button type="submit" class="btn btn-warning btn-sm">@lang('shop::app.components.layouts.footer.subscribe')</button>
                         </x-shop::form>
                     </div>
@@ -104,16 +112,17 @@
         </div>
 
         {{-- Mobile Accordion --}}
-        <div class="d-lg-none mb-4">
+        <div class="d-none">
             <div class="accordion accordion-flush" id="footerAccordion">
                 <div class="accordion-item bg-dark">
                     <h2 class="accordion-header">
-                        <button class="accordion-button collapsed bg-dark text-white" type="button" data-bs-toggle="collapse" data-bs-target="#footerLinks">
-                            @lang('shop::app.components.layouts.footer.footer-content')
+                        <button class="accordion-button collapsed bg-dark text-white" type="button"
+                            data-bs-toggle="collapse" data-bs-target="#footerLinks">
+                            Pages
                         </button>
                     </h2>
-                    <div id="footerLinks" class="accordion-collapse collapse" data-bs-parent="#footerAccordion">
-                        <div class="accordion-body">
+                    <div id="footerLinks" class="accordion-collapse collapse bg-dark" data-bs-parent="#footerAccordion">
+                        <div class="accordion-body bg-white text-white">
                             @if ($customization?->options)
                                 @foreach ($customization->options as $footerLinkSection)
                                     @php
@@ -124,7 +133,8 @@
                                     <ul class="list-unstyled mb-0">
                                         @foreach ($footerLinkSection as $link)
                                             <li class="mb-2">
-                                                <a href="{{ $link['url'] }}" class="text-white text-decoration-none small" style="color: rgba(255,255,255,0.7);">{{ $link['title'] }}</a>
+                                                <a href="{{ $link['url'] }}"
+                                                    class="text-white text-decoration-none">{{ $link['title'] }}</a>
                                             </li>
                                         @endforeach
                                     </ul>
@@ -148,8 +158,8 @@
                 </p>
                 {!! view_render_event('bagisto.shop.layout.footer.footer_text.after') !!} --}}
                 <div class="d-flex gap-3">
-                    <a href="#" class="text-dark text-decoration-none small" >Privacy Policy</a>
-                    <a href="#" class="text-dark text-decoration-none small" >Terms of Service</a>
+                    <a href="#" class="text-dark text-decoration-none small">Privacy Policy</a>
+                    <a href="#" class="text-dark text-decoration-none small">Terms of Service</a>
                 </div>
             </div>
         </div>

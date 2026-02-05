@@ -10,9 +10,9 @@
     <div class="d-flex align-items-center gap-3">
         {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.logo.before') !!}
 
-        <a href="{{ route('shop.home.index') }}" aria-label="@lang('shop::app.components.layouts.header.desktop.bottom.bagisto')">
-            <img src="/themes/admin/default/build/assets/Saffron__Logo_Removebg.png" width="150"
-                height="50" alt="{{ config('app.name') }}" style="object-fit: contain;">
+        <a href="{{ route('shop.home.index') }}" aria-label="@lang('shop::app.components.layouts.header.desktop.bottom.bagisto')" class="d-sm-none">
+            <img src="/themes/admin/default/build/assets/Saffron__Logo_Removebg.png" width="150" height="50"
+                alt="{{ config('app.name') }}" style="object-fit: contain;">
         </a>
 
         {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.logo.after') !!}
@@ -30,14 +30,21 @@
         </v-desktop-category>
 
         <!-- Additional Menu Links -->
-        <div class="d-flex align-items-center gap-4 border-bottom-4 border-transparent hover:border-navyBlue" style="height: 70px;">
-            <a href="/blog" class="d-inline-block px-4 text-uppercase text-decoration-none transition-colors duration-200 font-bold" style="font-size: 0.875rem;">
+        <div class="d-flex align-items-center gap-4 border-bottom-4 border-transparent hover:border-navyBlue"
+            style="height: 70px;">
+            <a href="/blog"
+                class="d-inline-block px-4 text-uppercase text-decoration-none transition-colors duration-200 font-bold"
+                style="font-size: 0.875rem;">
                 Blog
             </a>
-            <a href="/page/about-us" class="d-inline-block px-4 text-uppercase text-decoration-none transition-colors duration-200 font-bold" style="font-size: 0.875rem;">
+            <a href="/page/about-us"
+                class="d-inline-block px-4 text-uppercase text-decoration-none transition-colors duration-200 font-bold"
+                style="font-size: 0.875rem;">
                 About
             </a>
-            <a href="/contact-us" class="d-inline-block px-4 text-uppercase text-decoration-none transition-colors duration-200 font-bold" style="font-size: 0.875rem;">
+            <a href="/contact-us"
+                class="d-inline-block px-4 text-uppercase text-decoration-none transition-colors duration-200 font-bold"
+                style="font-size: 0.875rem;">
                 Contact
             </a>
         </div>

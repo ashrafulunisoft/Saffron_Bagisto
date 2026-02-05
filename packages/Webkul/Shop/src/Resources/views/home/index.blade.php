@@ -2716,7 +2716,7 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
 
         /* Center products in sweet carousel */
         #sweets-scroll-container {
-            justify-content: center;
+            justify-content: flex-start;
         }
 
         #sweets-scroll-container::-webkit-scrollbar {
@@ -2737,10 +2737,23 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
             background: #ff9800;
         }
 
+        @media (min-width: 769px) {
+            #sweets-scroll-container {
+                justify-content: center;
+            }
+        }
+
         @media (max-width: 768px) {
             .sweet-nav-btn {
                 width: 38px;
                 height: 38px;
+            }
+
+            /* Ensure products start from left on mobile */
+            #sweets-scroll-container {
+                justify-content: flex-start !important;
+                padding-left: 0;
+                padding-right: 0;
             }
         }
         </style>
@@ -3293,7 +3306,7 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
 
         /* Center products in chocolate carousel */
         #chocolates-scroll-container {
-            justify-content: center;
+            justify-content: flex-start;
         }
 
         #chocolates-scroll-container::-webkit-scrollbar {
@@ -3314,10 +3327,23 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
             background: #D2691E;
         }
 
+        @media (min-width: 769px) {
+            #chocolates-scroll-container {
+                justify-content: center;
+            }
+        }
+
         @media (max-width: 768px) {
             .chocolate-nav-btn {
                 width: 38px;
                 height: 38px;
+            }
+
+            /* Ensure products start from left on mobile */
+            #chocolates-scroll-container {
+                justify-content: flex-start !important;
+                padding-left: 0;
+                padding-right: 0;
             }
         }
         </style>
@@ -3652,7 +3678,7 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
 
         /* Center products in best selling carousel */
         #best-selling-scroll-container {
-            justify-content: center;
+            justify-content: flex-start;
         }
 
         #best-selling-scroll-container::-webkit-scrollbar {
@@ -3673,10 +3699,23 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
             background: #20c997;
         }
 
+        @media (min-width: 769px) {
+            #best-selling-scroll-container {
+                justify-content: center;
+            }
+        }
+
         @media (max-width: 768px) {
             .best-selling-nav-btn {
                 width: 38px;
                 height: 38px;
+            }
+
+            /* Ensure products start from left on mobile */
+            #best-selling-scroll-container {
+                justify-content: flex-start !important;
+                padding-left: 0;
+                padding-right: 0;
             }
         }
         </style>
@@ -4008,7 +4047,7 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
 
         /* Center products in popular carousel */
         #popular-scroll-container {
-            justify-content: center;
+            justify-content: flex-start;
         }
 
         #popular-scroll-container::-webkit-scrollbar {
@@ -4029,10 +4068,23 @@ localStorage.setItem('categories', JSON.stringify(@json($categories)));
             background: #e74c3c;
         }
 
+        @media (min-width: 769px) {
+            #popular-scroll-container {
+                justify-content: center;
+            }
+        }
+
         @media (max-width: 768px) {
             .popular-nav-btn {
                 width: 38px;
                 height: 38px;
+            }
+
+            /* Ensure products start from left on mobile */
+            #popular-scroll-container {
+                justify-content: flex-start !important;
+                padding-left: 0;
+                padding-right: 0;
             }
         }
         </style>
