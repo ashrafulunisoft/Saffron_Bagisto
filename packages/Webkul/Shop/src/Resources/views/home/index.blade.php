@@ -1061,7 +1061,7 @@
                     $subCategories = collect($subCategories)->take(12);
                 @endphp
 
-                @if ($totalCategories > 6)
+                @if ($totalCategories > 0)
                     <div class="category-nav-buttons mb-4">
                         <button class="category-nav-btn prev-btn" id="category-prev">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
@@ -1314,7 +1314,15 @@
 
             @media (max-width: 768px) {
                 .category-nav-buttons {
-                    display: none;
+                    display: flex !important;
+                    justify-content: space-between;
+                    width: 100%;
+                    padding: 0 10px;
+                }
+
+                .category-nav-btn {
+                    width: 40px;
+                    height: 40px;
                 }
 
                 .category-image {
@@ -1323,8 +1331,26 @@
                 }
 
                 .category-card {
-                    width: 160px !important;
-                    min-width: 160px !important;
+                    width: 50% !important;
+                    min-width: 140px !important;
+                    max-width: 160px !important;
+                    flex: 0 0 50% !important;
+                }
+
+                .category-scroll-container {
+                    display: flex !important;
+                    flex-wrap: nowrap !important;
+                }
+
+                .category-scroll-container > .col-xl-2,
+                .category-scroll-container > .col-lg-3,
+                .category-scroll-container > .col-md-4,
+                .category-scroll-container > .col-sm-6 {
+                    width: 50% !important;
+                    flex: 0 0 50% !important;
+                    max-width: 50% !important;
+                    padding-right: 8px !important;
+                    padding-left: 8px !important;
                 }
             }
         </style>
