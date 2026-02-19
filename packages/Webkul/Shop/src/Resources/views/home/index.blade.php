@@ -1318,6 +1318,8 @@
                     justify-content: space-between;
                     width: 100%;
                     padding: 0 10px;
+                    position: relative;
+                    z-index: 1;
                 }
 
                 .category-nav-btn {
@@ -1340,6 +1342,8 @@
                 .category-scroll-container {
                     display: flex !important;
                     flex-wrap: nowrap !important;
+                    position: relative;
+                    z-index: 1;
                 }
 
                 .category-scroll-container > .col-xl-2,
@@ -1351,6 +1355,18 @@
                     max-width: 50% !important;
                     padding-right: 8px !important;
                     padding-left: 8px !important;
+                }
+
+                /* Fix mobile menu overlap */
+                .category-section {
+                    position: relative;
+                    z-index: 1;
+                }
+
+                .category-scroll-wrapper {
+                    position: relative;
+                    z-index: 1;
+                    background: transparent;
                 }
             }
         </style>
