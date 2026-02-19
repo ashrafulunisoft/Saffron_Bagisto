@@ -1574,7 +1574,10 @@
 
             <div id="products-carousel">
                 @if (!empty($featuredProducts))
-                    <div class="row g-4">
+                    @php
+                        $featuredProducts = array_slice($featuredProducts, 0, 4);
+                    @endphp
+                    <div class="row g-4 justify-content-center">
                         @foreach ($featuredProducts as $product)
                             @php
                                 $isSaleable = $product['is_saleable'] ?? true;
