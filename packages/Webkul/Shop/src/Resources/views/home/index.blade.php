@@ -1634,6 +1634,80 @@
         </div>
     </section>
 
+    <!-------------------------------- Best Selling Products ----------------->
+    <section class="py-5 best-selling-section">
+        <div class="container-lg">
+            <div class="text-center mb-5">
+                <div class="best-selling-header mb-3">
+                    <span class="best-selling-icon">🔥</span>
+                    <h2 class="best-selling-title">Best Selling Products</h2>
+                    <span class="best-selling-icon">🔥</span>
+                </div>
+                <p class="text-muted mb-0">Our customers' top picks - Don't miss out!</p>
+            </div>
+
+            <div id="best-selling-carousel">
+                @if (!empty($bestSellingProducts))
+                    @php
+                        $bestSellingProducts = array_slice($bestSellingProducts, 0, 4);
+                    @endphp
+                    <div class="row g-4 justify-content-center">
+                        @foreach ($bestSellingProducts as $product)
+                            @php
+                                $isSaleable = $product['is_saleable'] ?? true;
+                                $isOnSale = $product['on_sale'] ?? false;
+                                $isNew = $product['is_new'] ?? false;
+                                $productUrl = route('shop.product_or_category.index', $product['url_key'] ?? '#');
+                                $productImage = $product['base_image']['medium_image_url'] ?? '/images/default-product.png';
+                            @endphp
+                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
+                                <div class="best-selling-card h-100">
+                                    <div class="best-selling-image-container">
+                                        @if ($isOnSale)
+                                            <span class="badge-sale">Sale</span>
+                                        @endif
+                                        @if ($isNew && !$isOnSale)
+                                            <span class="badge-new">New</span>
+                                        @endif
+                                        <a href="{{ $productUrl }}" class="text-decoration-none">
+                                            <img src="{{ $productImage }}" alt="{{ $product['name'] ?? 'Product' }}"
+                                                class="best-selling-image" loading="lazy">
+                                        </a>
+                                        <div class="action-icons">
+                                            <button class="action-icon"
+                                                onclick="addToWishlist('{{ $product['id'] }}', this)"
+                                                title="Add to Wishlist">♡</button>
+                                            <button class="action-icon" onclick="addToCompare('{{ $product['id'] }}')"
+                                                title="Add to Compare">⤢</button>
+                                        </div>
+                                    </div>
+                                    <div class="p-3" style="position: relative; z-index: 1;">
+                                        <a href="{{ $productUrl }}" class="text-decoration-none">
+                                            <h5 class="best-selling-name mb-2">{{ $product['name'] ?? 'Product' }}</h5>
+                                        </a>
+                                        <div class="best-selling-price mb-2">
+                                            {!! $product['price_html'] ?? '৳0.00' !!}
+                                        </div>
+                                        <button class="btn btn-best-selling w-100" @if (!$isSaleable) disabled @endif
+                                            onclick="addToCart('{{ $product['id'] }}', this)">
+                                            Add To Cart
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                @else
+                    <div class="text-center text-muted">No best selling products available.</div>
+                @endif
+            </div>
+
+            <div class="text-center mt-4">
+                <a href="{{ route('shop.search.index') }}" class="btn btn-warning btn-lg px-5">View All Products</a>
+            </div>
+        </div>
+    </section>
+
     @push('styles')
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
         <style>
@@ -1849,7 +1923,149 @@
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @endpush
 
-    <!-------------------------------- End Featured Products --->
+    <!-------------------------------- Best Selling Products Styles ----------------->
+    <style>
+        .best-selling-section {
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 30%, #ffffff 70%, #fff3e0 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .best-selling-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .best-selling-icon {
+            font-size: 2rem;
+            animation: fire-pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes fire-pulse {
+            0%, 100% { transform: scale(1) rotate(-10deg); opacity: 1; }
+            50% { transform: scale(1.2) rotate(10deg); opacity: 0.8; }
+        }
+
+        .best-selling-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin: 0;
+            background: linear-gradient(135deg, #ff6f00, #ff8f00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .best-selling-card {
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px) saturate(180%);
+            height: 100%;
+            box-shadow: 0 8px 32px rgba(255, 111, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+            position: relative;
+        }
+
+        .best-selling-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 14px;
+            padding: 3px;
+            background: linear-gradient(135deg, #ff6f00, #ff8f00, #ff9800);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 1;
+        }
+
+        .best-selling-card:hover::before {
+            opacity: 1;
+        }
+
+        .best-selling-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 20px 50px rgba(255, 111, 0, 0.25);
+            border-color: #ff6f00;
+        }
+
+        .best-selling-image-container {
+            position: relative;
+            overflow: hidden;
+            height: 200px;
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+            z-index: 1;
+        }
+
+        .best-selling-image {
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .best-selling-card:hover .best-selling-image {
+            transform: scale(1.1);
+        }
+
+        .best-selling-name {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #2d3748;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .best-selling-card:hover .best-selling-name {
+            color: #ff6f00 !important;
+        }
+
+        .best-selling-price {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #ff6f00;
+        }
+
+        .btn-best-selling {
+            width: 100%;
+            background: linear-gradient(135deg, #ff6f00 0%, #ff8f00 100%) !important;
+            color: white !important;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            padding: 12px 16px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+        }
+
+        .btn-best-selling:hover {
+            background: linear-gradient(135deg, #e65100 0%, #ff6f00 100%) !important;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .best-selling-image-container {
+                height: 160px;
+            }
+        }
+    </style>
+
+    <!-------------------------------- End Best Selling Products --->
 
     <!-------------------------------- Blog Section ----------------->
     <section class="py-5 blog-section">
