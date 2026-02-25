@@ -31,7 +31,8 @@ class HomeController extends Controller
         protected ThemeCustomizationRepository $themeCustomizationRepository,
         protected CategoryRepository $categoryRepository,
         protected ProductRepository $productRepository
-    ) {}
+    ) {
+    }
 
     /**
      * Loads the home page for the storefront.
@@ -43,7 +44,7 @@ class HomeController extends Controller
         visitor()->visit();
 
         $customizations = $this->themeCustomizationRepository->orderBy('sort_order')->findWhere([
-            'status'     => self::STATUS,
+            'status' => self::STATUS,
             'channel_id' => core()->getCurrentChannel()->id,
             'theme_code' => core()->getCurrentChannel()->theme,
         ]);
@@ -55,8 +56,8 @@ class HomeController extends Controller
         $featuredProducts = $this->getFeaturedProducts();
         $sweetProducts = $this->getProductsByCategory(12); // Sweet category
         $chocolateProducts = $this->getProductsByCategory(19); // Chocolate category
-        $bestSellingProducts = $this->getBestSellingProducts($featuredProducts);
-        $popularProducts = $this->getPopularProducts($featuredProducts, $bestSellingProducts);
+        $bestSellingProducts = $this->getBestSellingProducts();
+        $popularProducts = $this->getPopularProducts();
 
 
 
@@ -83,13 +84,13 @@ class HomeController extends Controller
         //     'limit' => 12,
         // ];
 
-         $params = [
-        'featured' => 1,
-        'status'   => self::STATUS,
-        'sort'     => 'created_at',
-        'order'    => 'desc',
-        'limit'    => 12,
-    ];
+        $params = [
+            'featured' => 1,
+            'status' => self::STATUS,
+            'sort' => 'created_at',
+            'order' => 'desc',
+            'limit' => 12,
+        ];
 
         $products = $this->productRepository->getAll($params);
 
@@ -114,67 +115,137 @@ class HomeController extends Controller
     }
 
     /**
-     * Get best selling products - exclude featured products to show different products
+     * Get best selling products based on actual order data
+     *
+     * @param  int  $limit
+     * @return array
      */
-    protected function getBestSellingProducts(array $featuredProducts): array
+    protected function getBestSellingProducts(int $limit = 12): array
     {
-        // Get featured product IDs to exclude
-        $featuredIds = array_map(function($p) { return $p['id']; }, $featuredProducts);
+        // Get product IDs ordered by total quantity sold
+        $productIds = DB::table('order_items')
+            ->select('product_id')
+            ->selectRaw('SUM(qty_ordered) as total_sold')
+            ->where('product_type', 'Webkul\Product\Models\Product')
+            ->whereNotNull('product_id')
+            ->groupBy('product_id')
+            ->orderBy('total_sold', 'desc')
+            ->limit($limit)
+            ->pluck('product_id')
+            ->toArray();
 
-        // First try: get products sorted randomly but exclude featured
-        $params = [
-            'sort' => 'rand',
-            'limit' => 12,
-        ];
+        // If no sales data, fall back to recent products
+        if (empty($productIds)) {
+            $params = [
+                'status' => self::STATUS,
+                'sort' => 'created_at',
+                'order' => 'desc',
+                'limit' => $limit,
+            ];
 
-        $products = $this->productRepository->getAll($params);
-        $productCollection = ProductResource::collection($products)->resolve();
-
-        // Filter out featured products
-        $filtered = array_filter($productCollection, function($p) use ($featuredIds) {
-            return !in_array($p['id'], $featuredIds);
-        });
-
-        // If we have enough non-featured products, return them
-        if (count($filtered) >= 4) {
-            return array_values(array_slice($filtered, 0, 12));
+            $products = $this->productRepository->getAll($params);
+            return ProductResource::collection($products)->resolve();
         }
 
-        // Otherwise return all non-featured
-        return array_values($filtered);
+        // Fetch products with proper relationships using table-qualified column
+        $products = \Webkul\Product\Models\Product::whereIn('products.id', $productIds)->get();
 
+        // Sort by the order from the query (preserve best-selling order)
+        $sortedProducts = collect($productIds)->map(function ($id) use ($products) {
+            return $products->firstWhere('id', $id);
+        })->filter();
 
-
+        return ProductResource::collection($sortedProducts)->resolve();
     }
 
-
-
-
     /**
-     * Get popular products - exclude featured and best selling products
+     * Get popular products based on wishlist, orders, and reviews
+     *
+     * @param  int  $limit
+     * @return array
      */
-    protected function getPopularProducts(array $featuredProducts, array $bestSellingProducts): array
+    protected function getPopularProducts(int $limit = 8): array
     {
-        // Get IDs to exclude
-        $excludeIds = array_merge(
-            array_map(function($p) { return $p['id']; }, $featuredProducts),
-            array_map(function($p) { return $p['id']; }, $bestSellingProducts)
-        );
+        $popularityScores = [];
+        $allProductIds = collect();
 
-        $params = [
-            'sort' => 'rand',
-            'limit' => 8,
-        ];
+        // Factor 1: Wishlist items (weight: 2x)
+        $wishlistProductIds = DB::table('wishlist_items')
+            ->select('product_id')
+            ->selectRaw('COUNT(*) as wishlist_count')
+            ->groupBy('product_id')
+            ->orderBy('wishlist_count', 'desc')
+            ->limit($limit * 2)
+            ->get();
 
-        $products = $this->productRepository->getAll($params);
-        $productCollection = ProductResource::collection($products)->resolve();
+        foreach ($wishlistProductIds as $index => $item) {
+            $score = ($wishlistProductIds->count() - $index) * 2;
+            $popularityScores[$item->product_id] = ($popularityScores[$item->product_id] ?? 0) + $score;
+            $allProductIds->push($item->product_id);
+        }
 
-        // Filter out excluded products
-        $filtered = array_filter($productCollection, function($p) use ($excludeIds) {
-            return !in_array($p['id'], $excludeIds);
-        });
+        // Factor 2: Order frequency (weight: 1.5x)
+        $orderProductIds = DB::table('order_items')
+            ->select('product_id')
+            ->selectRaw('COUNT(*) as order_count')
+            ->where('product_type', 'Webkul\Product\Models\Product')
+            ->whereNotNull('product_id')
+            ->groupBy('product_id')
+            ->orderBy('order_count', 'desc')
+            ->limit($limit * 2)
+            ->get();
 
-        return array_values(array_slice($filtered, 0, 8));
+        foreach ($orderProductIds as $index => $item) {
+            $score = ($orderProductIds->count() - $index) * 1.5;
+            $popularityScores[$item->product_id] = ($popularityScores[$item->product_id] ?? 0) + $score;
+            $allProductIds->push($item->product_id);
+        }
+
+        // Factor 3: Reviews (weight: 1x)
+        $reviewProductIds = DB::table('product_reviews')
+            ->select('product_id')
+            ->selectRaw('COUNT(*) as review_count')
+            ->where('status', 'approved')
+            ->groupBy('product_id')
+            ->orderBy('review_count', 'desc')
+            ->limit($limit * 2)
+            ->get();
+
+        foreach ($reviewProductIds as $index => $item) {
+            $score = ($reviewProductIds->count() - $index);
+            $popularityScores[$item->product_id] = ($popularityScores[$item->product_id] ?? 0) + $score;
+            $allProductIds->push($item->product_id);
+        }
+
+        // Sort by combined popularity score
+        $sortedProductIds = $allProductIds->unique()
+            ->sort(fn($a, $b) => ($popularityScores[$b] ?? 0) <=> ($popularityScores[$a] ?? 0))
+            ->take($limit)
+            ->values()
+            ->toArray();
+
+        // If no popularity data, fall back to recent products
+        if (empty($sortedProductIds)) {
+            $params = [
+                'status' => self::STATUS,
+                'sort' => 'created_at',
+                'order' => 'desc',
+                'limit' => $limit,
+            ];
+
+            $products = $this->productRepository->getAll($params);
+            return ProductResource::collection($products)->resolve();
+        }
+
+        // Fetch products using table-qualified column to avoid ambiguity
+        $products = \Webkul\Product\Models\Product::whereIn('products.id', $sortedProductIds)->get();
+
+        // Sort by popularity score order
+        $sortedProducts = collect($sortedProductIds)->map(function ($id) use ($products) {
+            return $products->firstWhere('id', $id);
+        })->filter();
+
+        return ProductResource::collection($sortedProducts)->resolve();
     }
 
     /**
