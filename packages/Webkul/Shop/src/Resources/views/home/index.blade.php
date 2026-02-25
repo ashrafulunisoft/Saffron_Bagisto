@@ -1648,6 +1648,84 @@
         </div>
     </section>
 
+    <!-------------------------------- Sweet Products ----------------->
+    <section class="py-5 sweet-products-section">
+        <div class="container-lg">
+            <div class="text-center mb-5">
+                <div class="sweet-products-header mb-3">
+                    <span class="sweet-products-icon">🍬</span>
+                    <h2 class="sweet-products-title">Sweet Products</h2>
+                    <span class="sweet-products-icon">🍰</span>
+                </div>
+                <p class="text-muted mb-0">Indulge in our delightful collection of traditional & modern sweets!</p>
+            </div>
+
+            <div id="sweet-products-carousel">
+                @if (!empty($sweetProducts))
+                    @php
+                        $sweetProducts = array_slice($sweetProducts, 0, 4);
+                    @endphp
+                    <div class="row g-4 justify-content-center">
+                        @foreach ($sweetProducts as $product)
+                            @php
+                                $isSaleable = $product['is_saleable'] ?? true;
+                                $isOnSale = $product['on_sale'] ?? false;
+                                $isNew = $product['is_new'] ?? false;
+                                $productUrl = route('shop.product_or_category.index', $product['url_key'] ?? '#');
+                                $productImage =
+                                    $product['base_image']['medium_image_url'] ?? '/images/default-product.png';
+                            @endphp
+                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
+                                <div class="sweet-products-card h-100">
+                                    <div class="sweet-products-image-container">
+                                        @if ($isOnSale)
+                                            <span class="badge-sale">Sale</span>
+                                        @endif
+                                        @if ($isNew && !$isOnSale)
+                                            <span class="badge-new">New</span>
+                                        @endif
+                                        <a href="{{ $productUrl }}" class="text-decoration-none">
+                                            <img src="{{ $productImage }}" alt="{{ $product['name'] ?? 'Product' }}"
+                                                class="sweet-products-image" loading="lazy">
+                                        </a>
+                                        <div class="action-icons">
+                                            <button class="action-icon"
+                                                onclick="addToWishlist('{{ $product['id'] }}', this)"
+                                                title="Add to Wishlist">♡</button>
+                                            <button class="action-icon"
+                                                onclick="addToCompare('{{ $product['id'] }}')"
+                                                title="Add to Compare">⤢</button>
+                                        </div>
+                                    </div>
+                                    <div class="p-3" style="position: relative; z-index: 1;">
+                                        <a href="{{ $productUrl }}" class="text-decoration-none">
+                                            <h5 class="sweet-products-name mb-2">{{ $product['name'] ?? 'Product' }}
+                                            </h5>
+                                        </a>
+                                        <div class="sweet-products-price mb-2">
+                                            {!! $product['price_html'] ?? '৳0.00' !!}
+                                        </div>
+                                        <button class="btn btn-sweet-products w-100"
+                                            @if (!$isSaleable) disabled @endif
+                                            onclick="addToCart('{{ $product['id'] }}', this)">
+                                            Add To Cart
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                @else
+                    <div class="text-center text-muted">No sweet products available.</div>
+                @endif
+            </div>
+
+            <div class="text-center mt-4">
+                <a href="{{ route('shop.search.index') }}" class="btn btn-sweet-view btn-lg px-5">View All Sweets</a>
+            </div>
+        </div>
+    </section>
+
     <!-------------------------------- Best Selling Products ----------------->
     <section class="py-5 best-selling-section">
         <div class="container-lg">
@@ -2035,6 +2113,187 @@
     @push('scripts')
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @endpush
+
+    <!-------------------------------- Sweet Products Styles ----------------->
+    <style>
+        .sweet-products-section {
+            background: linear-gradient(135deg, #fdf2f8 0%, #fbcfe8 30%, #ffffff 70%, #fdf2f8 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sweet-products-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .sweet-products-icon {
+            font-size: 2rem;
+            animation: candy-bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes candy-bounce {
+
+            0%,
+            100% {
+                transform: scale(1) rotate(-5deg);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.3) rotate(5deg);
+                opacity: 0.9;
+            }
+        }
+
+        .sweet-products-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin: 0;
+            background: linear-gradient(135deg, #ec4899, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .sweet-products-card {
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px) saturate(180%);
+            height: 100%;
+            box-shadow: 0 8px 32px rgba(236, 72, 153, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+            position: relative;
+        }
+
+        .sweet-products-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 14px;
+            padding: 3px;
+            background: linear-gradient(135deg, #ec4899, #a855f7, #f472b6);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 1;
+        }
+
+        .sweet-products-card:hover::before {
+            opacity: 1;
+        }
+
+        .sweet-products-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 20px 50px rgba(236, 72, 153, 0.25);
+            border-color: #ec4899;
+        }
+
+        .sweet-products-image-container {
+            position: relative;
+            overflow: hidden;
+            height: 200px;
+            background: linear-gradient(135deg, #fdf2f8 0%, #fbcfe8 100%);
+            z-index: 1;
+        }
+
+        .sweet-products-image {
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .sweet-products-card:hover .sweet-products-image {
+            transform: scale(1.1);
+        }
+
+        .sweet-products-name {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #2d3748;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .sweet-products-card:hover .sweet-products-name {
+            color: #ec4899 !important;
+        }
+
+        .sweet-products-price {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #a855f7;
+        }
+
+        .btn-sweet-products {
+            width: 100%;
+            background: linear-gradient(135deg, #ec4899 0%, #a855f7 100%) !important;
+            color: white !important;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            padding: 12px 16px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+        }
+
+        .btn-sweet-products:hover {
+            background: linear-gradient(135deg, #db2777 0%, #9333ea 100%) !important;
+            transform: translateY(-2px);
+        }
+
+        .btn-sweet-view {
+            background: linear-gradient(135deg, #ec4899 0%, #a855f7 100%) !important;
+            color: white !important;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            padding: 14px 32px;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-sweet-view:hover {
+            background: linear-gradient(135deg, #db2777 0%, #9333ea 100%) !important;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(236, 72, 153, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .sweet-products-image-container {
+                height: 160px;
+            }
+
+            .sweet-products-title {
+                font-size: 1.5rem;
+            }
+
+            .sweet-products-icon {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+
+    <!-------------------------------- End Sweet Products Styles ----------------->
 
     <!-------------------------------- Best Selling Products Styles ----------------->
     <style>
