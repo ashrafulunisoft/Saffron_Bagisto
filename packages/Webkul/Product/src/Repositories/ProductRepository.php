@@ -38,7 +38,7 @@ class ProductRepository extends Repository
     }
 
     /**
-     * Specify model class name.
+     * Specify model class name.p
      */
     public function model(): string
     {
