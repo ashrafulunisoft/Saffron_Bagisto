@@ -55,6 +55,7 @@ class HomeController extends Controller
         // Fetch all products server-side for better performance
         $featuredProducts = $this->getFeaturedProducts();
         $sweetProducts = $this->getProductsByCategory(12); // Sweet category
+        $cakeProducts = $this->getProductsByCategory(20); // Cake category
         $chocolateProducts = $this->getProductsByCategory(19); // Chocolate category
         $bestSellingProducts = $this->getBestSellingProducts();
         $popularProducts = $this->getPopularProducts();
@@ -66,6 +67,7 @@ class HomeController extends Controller
             'categories',
             'featuredProducts',
             'sweetProducts',
+            'cakeProducts',
             'chocolateProducts',
             'bestSellingProducts',
             'popularProducts'
