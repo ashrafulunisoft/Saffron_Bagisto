@@ -923,7 +923,8 @@
 
                         Swal.fire({
                             icon: 'success',
-                            title: button.classList.contains('active') ? 'Added to Wishlist' : 'Removed from Wishlist',
+                            title: button.classList.contains('active') ? 'Added to Wishlist' :
+                                'Removed from Wishlist',
                             text: data.data?.message || 'Wishlist updated successfully!',
                             toast: true,
                             position: 'top-end',
@@ -1064,10 +1065,18 @@
                 @if ($totalCategories > 0)
                     <div class="category-nav-buttons mb-4">
                         <button class="category-nav-btn prev-btn" id="category-prev">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <polyline points="15 18 9 12 15 6"></polyline>
+                            </svg>
                         </button>
                         <button class="category-nav-btn next-btn" id="category-next">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <polyline points="9 18 15 12 9 6"></polyline>
+                            </svg>
                         </button>
                     </div>
                 @endif
@@ -1075,38 +1084,39 @@
                 @if (!empty($subCategories))
                     <div class="category-scroll-wrapper" id="category-scroll-wrapper">
                         <div class="row g-4 flex-nowrap category-scroll-container" id="category-scroll-container">
-                        @foreach ($subCategories as $subCat)
-                            @php
-                                $catName = $subCat['name'] ?? 'Category';
-                                $catSlug = $subCat['slug'] ?? '#';
-                                $catImage =
-                                    $subCat['logo_url'] ??
-                                    ($subCat['image_url'] ?? ($subCat['logo'] ?? ($subCat['image'] ?? null)));
-                            @endphp
+                            @foreach ($subCategories as $subCat)
+                                @php
+                                    $catName = $subCat['name'] ?? 'Category';
+                                    $catSlug = $subCat['slug'] ?? '#';
+                                    $catImage =
+                                        $subCat['logo_url'] ??
+                                        ($subCat['image_url'] ?? ($subCat['logo'] ?? ($subCat['image'] ?? null)));
+                                @endphp
 
-                            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
-                                <div class="category-card h-100">
-                                    <a href="{{ url('products/' . $catSlug) }}"
-                                        class="nav-link text-center text-decoration-none text-dark h-100 d-flex flex-column">
-                                        <div class="category-card-inner d-flex flex-column align-items-center flex-grow-1 p-3">
-                                            @if ($catImage)
-                                                <img src="{{ $catImage }}" alt="{{ $catName }}"
-                                                    class="rounded-circle mb-3 img-fluid category-image"
-                                                    style="width: 120px; height: 120px; object-fit: cover; border: 3px solid #dee2e6; transition: transform 0.3s ease, box-shadow 0.3s ease;">
-                                            @else
-                                                <div class="rounded-circle mb-3 d-flex align-items-center justify-content-center bg-light"
-                                                    style="width: 120px; height: 120px; border: 3px solid #dee2e6; margin: 0 auto;">
-                                                    <span class="fw-bold text-secondary"
-                                                        style="font-size: 2rem;">{{ substr($catName, 0, 2) }}</span>
-                                                </div>
-                                            @endif
-                                            <h4 class="fs-6 mt-3 fw-normal category-title text-dark text-center">
-                                                {{ $catName }}</h4>
-                                        </div>
-                                    </a>
+                                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+                                    <div class="category-card h-100">
+                                        <a href="{{ url('products/' . $catSlug) }}"
+                                            class="nav-link text-center text-decoration-none text-dark h-100 d-flex flex-column">
+                                            <div
+                                                class="category-card-inner d-flex flex-column align-items-center flex-grow-1 p-3">
+                                                @if ($catImage)
+                                                    <img src="{{ $catImage }}" alt="{{ $catName }}"
+                                                        class="rounded-circle mb-3 img-fluid category-image"
+                                                        style="width: 120px; height: 120px; object-fit: cover; border: 3px solid #dee2e6; transition: transform 0.3s ease, box-shadow 0.3s ease;">
+                                                @else
+                                                    <div class="rounded-circle mb-3 d-flex align-items-center justify-content-center bg-light"
+                                                        style="width: 120px; height: 120px; border: 3px solid #dee2e6; margin: 0 auto;">
+                                                        <span class="fw-bold text-secondary"
+                                                            style="font-size: 2rem;">{{ substr($catName, 0, 2) }}</span>
+                                                    </div>
+                                                @endif
+                                                <h4 class="fs-6 mt-3 fw-normal category-title text-dark text-center">
+                                                    {{ $catName }}</h4>
+                                            </div>
+                                        </a>
+                                    </div>
                                 </div>
-                            </div>
-                        @endforeach
+                            @endforeach
                         </div>
                     </div>
                 @else
@@ -1115,8 +1125,8 @@
                     </div>
                 @endif
             </div>
-        </div>
-    </section>
+            </div>
+        </section>
     @endif
 
     <!-------------------------------- Category Carousel Styles ----------------->
@@ -1346,10 +1356,10 @@
                     z-index: 1;
                 }
 
-                .category-scroll-container > .col-xl-2,
-                .category-scroll-container > .col-lg-3,
-                .category-scroll-container > .col-md-4,
-                .category-scroll-container > .col-sm-6 {
+                .category-scroll-container>.col-xl-2,
+                .category-scroll-container>.col-lg-3,
+                .category-scroll-container>.col-md-4,
+                .category-scroll-container>.col-sm-6 {
                     width: 50% !important;
                     flex: 0 0 50% !important;
                     max-width: 50% !important;
@@ -1408,7 +1418,8 @@
 
                         <p class="lead text-secondary mb-4">
                             Welcome to Saffron, where tradition meets excellence. We bring you to finest collection
-                            of authentic Bengali sweets and premium bakery items, crafted with love and the purest saffron.
+                            of authentic Bengali sweets and premium bakery items, crafted with love and the purest
+                            saffron.
                         </p>
 
                         <p class="text-muted mb-4">
@@ -1584,7 +1595,8 @@
                                 $isOnSale = $product['on_sale'] ?? false;
                                 $isNew = $product['is_new'] ?? false;
                                 $productUrl = route('shop.product_or_category.index', $product['url_key'] ?? '#');
-                                $productImage = $product['base_image']['medium_image_url'] ?? '/images/default-product.png';
+                                $productImage =
+                                    $product['base_image']['medium_image_url'] ?? '/images/default-product.png';
                             @endphp
                             <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
                                 <div class="product-card h-100">
@@ -1603,7 +1615,8 @@
                                             <button class="action-icon"
                                                 onclick="addToWishlist('{{ $product['id'] }}', this)"
                                                 title="Add to Wishlist">♡</button>
-                                            <button class="action-icon" onclick="addToCompare('{{ $product['id'] }}')"
+                                            <button class="action-icon"
+                                                onclick="addToCompare('{{ $product['id'] }}')"
                                                 title="Add to Compare">⤢</button>
                                         </div>
                                     </div>
@@ -1614,7 +1627,8 @@
                                         <div class="product-price mb-2">
                                             {!! $product['price_html'] ?? '৳0.00' !!}
                                         </div>
-                                        <button class="btn btn-add-cart w-100" @if (!$isSaleable) disabled @endif
+                                        <button class="btn btn-add-cart w-100"
+                                            @if (!$isSaleable) disabled @endif
                                             onclick="addToCart('{{ $product['id'] }}', this)">
                                             Add To Cart
                                         </button>
@@ -1658,7 +1672,8 @@
                                 $isOnSale = $product['on_sale'] ?? false;
                                 $isNew = $product['is_new'] ?? false;
                                 $productUrl = route('shop.product_or_category.index', $product['url_key'] ?? '#');
-                                $productImage = $product['base_image']['medium_image_url'] ?? '/images/default-product.png';
+                                $productImage =
+                                    $product['base_image']['medium_image_url'] ?? '/images/default-product.png';
                             @endphp
                             <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
                                 <div class="best-selling-card h-100">
@@ -1677,18 +1692,21 @@
                                             <button class="action-icon"
                                                 onclick="addToWishlist('{{ $product['id'] }}', this)"
                                                 title="Add to Wishlist">♡</button>
-                                            <button class="action-icon" onclick="addToCompare('{{ $product['id'] }}')"
+                                            <button class="action-icon"
+                                                onclick="addToCompare('{{ $product['id'] }}')"
                                                 title="Add to Compare">⤢</button>
                                         </div>
                                     </div>
                                     <div class="p-3" style="position: relative; z-index: 1;">
                                         <a href="{{ $productUrl }}" class="text-decoration-none">
-                                            <h5 class="best-selling-name mb-2">{{ $product['name'] ?? 'Product' }}</h5>
+                                            <h5 class="best-selling-name mb-2">{{ $product['name'] ?? 'Product' }}
+                                            </h5>
                                         </a>
                                         <div class="best-selling-price mb-2">
                                             {!! $product['price_html'] ?? '৳0.00' !!}
                                         </div>
-                                        <button class="btn btn-best-selling w-100" @if (!$isSaleable) disabled @endif
+                                        <button class="btn btn-best-selling w-100"
+                                            @if (!$isSaleable) disabled @endif
                                             onclick="addToCart('{{ $product['id'] }}', this)">
                                             Add To Cart
                                         </button>
@@ -1704,6 +1722,84 @@
 
             <div class="text-center mt-4">
                 <a href="{{ route('shop.search.index') }}" class="btn btn-warning btn-lg px-5">View All Products</a>
+            </div>
+        </div>
+    </section>
+
+    <!-------------------------------- Popular Products ----------------->
+    <section class="py-5 popular-products-section">
+        <div class="container-lg">
+            <div class="text-center mb-5">
+                <div class="popular-products-header mb-3">
+                    <span class="popular-products-icon">⭐</span>
+                    <h2 class="popular-products-title">Popular Products</h2>
+                    <span class="popular-products-icon">⭐</span>
+                </div>
+                <p class="text-muted mb-0">Trending favorites loved by our customers!</p>
+            </div>
+
+            <div id="popular-products-carousel">
+                @if (!empty($popularProducts))
+                    @php
+                        $popularProducts = array_slice($popularProducts, 0, 4);
+                    @endphp
+                    <div class="row g-4 justify-content-center">
+                        @foreach ($popularProducts as $product)
+                            @php
+                                $isSaleable = $product['is_saleable'] ?? true;
+                                $isOnSale = $product['on_sale'] ?? false;
+                                $isNew = $product['is_new'] ?? false;
+                                $productUrl = route('shop.product_or_category.index', $product['url_key'] ?? '#');
+                                $productImage =
+                                    $product['base_image']['medium_image_url'] ?? '/images/default-product.png';
+                            @endphp
+                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
+                                <div class="popular-products-card h-100">
+                                    <div class="popular-products-image-container">
+                                        @if ($isOnSale)
+                                            <span class="badge-sale">Sale</span>
+                                        @endif
+                                        @if ($isNew && !$isOnSale)
+                                            <span class="badge-new">New</span>
+                                        @endif
+                                        <a href="{{ $productUrl }}" class="text-decoration-none">
+                                            <img src="{{ $productImage }}" alt="{{ $product['name'] ?? 'Product' }}"
+                                                class="popular-products-image" loading="lazy">
+                                        </a>
+                                        <div class="action-icons">
+                                            <button class="action-icon"
+                                                onclick="addToWishlist('{{ $product['id'] }}', this)"
+                                                title="Add to Wishlist">♡</button>
+                                            <button class="action-icon"
+                                                onclick="addToCompare('{{ $product['id'] }}')"
+                                                title="Add to Compare">⤢</button>
+                                        </div>
+                                    </div>
+                                    <div class="p-3" style="position: relative; z-index: 1;">
+                                        <a href="{{ $productUrl }}" class="text-decoration-none">
+                                            <h5 class="popular-products-name mb-2">{{ $product['name'] ?? 'Product' }}
+                                            </h5>
+                                        </a>
+                                        <div class="popular-products-price mb-2">
+                                            {!! $product['price_html'] ?? '৳0.00' !!}
+                                        </div>
+                                        <button class="btn btn-popular-products w-100"
+                                            @if (!$isSaleable) disabled @endif
+                                            onclick="addToCart('{{ $product['id'] }}', this)">
+                                            Add To Cart
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                @else
+                    <div class="text-center text-muted">No popular products available.</div>
+                @endif
+            </div>
+
+            <div class="text-center mt-4">
+                <a href="{{ route('shop.search.index') }}" class="btn btn-info btn-lg px-5">View All Products</a>
             </div>
         </div>
     </section>
@@ -1730,8 +1826,17 @@
             }
 
             @keyframes sparkle {
-                0%, 100% { transform: scale(1) rotate(0deg); opacity: 1; }
-                50% { transform: scale(1.2) rotate(10deg); opacity: 0.8; }
+
+                0%,
+                100% {
+                    transform: scale(1) rotate(0deg);
+                    opacity: 1;
+                }
+
+                50% {
+                    transform: scale(1.2) rotate(10deg);
+                    opacity: 0.8;
+                }
             }
 
             .section-title {
@@ -1819,7 +1924,8 @@
                 color: #28a745 !important;
             }
 
-            .badge-sale, .badge-new {
+            .badge-sale,
+            .badge-new {
                 position: absolute;
                 top: 12px;
                 left: 12px;
@@ -1844,8 +1950,15 @@
             }
 
             @keyframes pulse-badge {
-                0%, 100% { transform: scale(1); }
-                50% { transform: scale(1.05); }
+
+                0%,
+                100% {
+                    transform: scale(1);
+                }
+
+                50% {
+                    transform: scale(1.05);
+                }
             }
 
             .action-icons {
@@ -1944,8 +2057,17 @@
         }
 
         @keyframes fire-pulse {
-            0%, 100% { transform: scale(1) rotate(-10deg); opacity: 1; }
-            50% { transform: scale(1.2) rotate(10deg); opacity: 0.8; }
+
+            0%,
+            100% {
+                transform: scale(1) rotate(-10deg);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.2) rotate(10deg);
+                opacity: 0.8;
+            }
         }
 
         .best-selling-title {
@@ -2067,6 +2189,159 @@
 
     <!-------------------------------- End Best Selling Products --->
 
+    <!-------------------------------- Popular Products Styles ----------------->
+    <style>
+        .popular-products-section {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 30%, #ffffff 70%, #e8f5e9 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .popular-products-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .popular-products-icon {
+            font-size: 2rem;
+            animation: star-pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes star-pulse {
+
+            0%,
+            100% {
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.2) rotate(15deg);
+                opacity: 0.8;
+            }
+        }
+
+        .popular-products-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin: 0;
+            background: linear-gradient(135deg, #2196f3, #00bcd4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .popular-products-card {
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px) saturate(180%);
+            height: 100%;
+            box-shadow: 0 8px 32px rgba(33, 150, 243, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+            position: relative;
+        }
+
+        .popular-products-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 14px;
+            padding: 3px;
+            background: linear-gradient(135deg, #2196f3, #00bcd4, #009688);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 1;
+        }
+
+        .popular-products-card:hover::before {
+            opacity: 1;
+        }
+
+        .popular-products-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 20px 50px rgba(33, 150, 243, 0.25);
+            border-color: #2196f3;
+        }
+
+        .popular-products-image-container {
+            position: relative;
+            overflow: hidden;
+            height: 200px;
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            z-index: 1;
+        }
+
+        .popular-products-image {
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .popular-products-card:hover .popular-products-image {
+            transform: scale(1.1);
+        }
+
+        .popular-products-name {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #2d3748;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .popular-products-card:hover .popular-products-name {
+            color: #2196f3 !important;
+        }
+
+        .popular-products-price {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #2196f3;
+        }
+
+        .btn-popular-products {
+            width: 100%;
+            background: linear-gradient(135deg, #2196f3 0%, #00bcd4 100%) !important;
+            color: white !important;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            padding: 12px 16px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+        }
+
+        .btn-popular-products:hover {
+            background: linear-gradient(135deg, #1976d2 0%, #0097a7 100%) !important;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .popular-products-image-container {
+                height: 160px;
+            }
+        }
+    </style>
+
+    <!-------------------------------- End Popular Products --->
+
     <!-------------------------------- Blog Section ----------------->
     <section class="py-5 blog-section">
         <div class="container-lg">
@@ -2181,8 +2456,15 @@
             }
 
             @keyframes float-blog {
-                0%, 100% { transform: translateY(0); }
-                50% { transform: translateY(-10px); }
+
+                0%,
+                100% {
+                    transform: translateY(0);
+                }
+
+                50% {
+                    transform: translateY(-10px);
+                }
             }
 
             .blog-section .section-title {
