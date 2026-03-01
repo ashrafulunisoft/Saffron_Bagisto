@@ -57,6 +57,7 @@ class HomeController extends Controller
         $sweetProducts = $this->getProductsByCategory(12); // Sweet category
         $cakeProducts = $this->getProductsByCategory(20); // Cake category
         $chocolateProducts = $this->getProductsByCategory(19); // Chocolate category
+        $breadProducts = $this->getProductsByCategory(17); // Bread category
         $bestSellingProducts = $this->getBestSellingProducts();
         $popularProducts = $this->getPopularProducts();
 
@@ -69,6 +70,7 @@ class HomeController extends Controller
             'sweetProducts',
             'cakeProducts',
             'chocolateProducts',
+            'breadProducts',
             'bestSellingProducts',
             'popularProducts'
         ));

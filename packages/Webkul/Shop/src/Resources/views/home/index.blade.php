@@ -1726,6 +1726,85 @@
         </div>
     </section>
 
+    <!-------------------------------- Best Selling Products ----------------->
+    <section class="py-5 best-selling-section">
+        <div class="container-lg">
+            <div class="text-center mb-5">
+                <div class="best-selling-header mb-3">
+                    <span class="best-selling-icon">🔥</span>
+                    <h2 class="best-selling-title">Best Selling Products</h2>
+                    <span class="best-selling-icon">🔥</span>
+                </div>
+                <p class="text-muted mb-0">Our customers' top picks - Don't miss out!</p>
+            </div>
+
+            <div id="best-selling-carousel">
+                @if (!empty($bestSellingProducts))
+                    @php
+                        $bestSellingProducts = array_slice($bestSellingProducts, 0, 4);
+                    @endphp
+                    <div class="row g-4 justify-content-center">
+                        @foreach ($bestSellingProducts as $product)
+                            @php
+                                $isSaleable = $product['is_saleable'] ?? true;
+                                $isOnSale = $product['on_sale'] ?? false;
+                                $isNew = $product['is_new'] ?? false;
+                                $productUrl = route('shop.product_or_category.index', $product['url_key'] ?? '#');
+                                $productImage =
+                                    $product['base_image']['medium_image_url'] ?? '/images/default-product.png';
+                            @endphp
+                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
+                                <div class="best-selling-card h-100">
+                                    <div class="best-selling-image-container">
+                                        @if ($isOnSale)
+                                            <span class="badge-sale">Sale</span>
+                                        @endif
+                                        @if ($isNew && !$isOnSale)
+                                            <span class="badge-new">New</span>
+                                        @endif
+                                        <a href="{{ $productUrl }}" class="text-decoration-none">
+                                            <img src="{{ $productImage }}" alt="{{ $product['name'] ?? 'Product' }}"
+                                                class="best-selling-image" loading="lazy">
+                                        </a>
+                                        <div class="action-icons">
+                                            <button class="action-icon"
+                                                onclick="addToWishlist('{{ $product['id'] }}', this)"
+                                                title="Add to Wishlist">♡</button>
+                                            <button class="action-icon"
+                                                onclick="addToCompare('{{ $product['id'] }}')"
+                                                title="Add to Compare">⤢</button>
+                                        </div>
+                                    </div>
+                                    <div class="p-3" style="position: relative; z-index: 1;">
+                                        <a href="{{ $productUrl }}" class="text-decoration-none">
+                                            <h5 class="best-selling-name mb-2">{{ $product['name'] ?? 'Product' }}
+                                            </h5>
+                                        </a>
+                                        <div class="best-selling-price mb-2">
+                                            {!! $product['price_html'] ?? '৳0.00' !!}
+                                        </div>
+                                        <button class="btn btn-best-selling w-100"
+                                            @if (!$isSaleable) disabled @endif
+                                            onclick="addToCart('{{ $product['id'] }}', this)">
+                                            Add To Cart
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                @else
+                    <div class="text-center text-muted">No best selling products available.</div>
+                @endif
+            </div>
+
+            <div class="text-center mt-4">
+                <a href="{{ route('shop.search.index') }}" class="btn btn-warning btn-lg px-5">View All Products</a>
+            </div>
+        </div>
+    </section>
+
+
     <!-------------------------------- Cake Products ----------------->
     <section class="py-5 cake-products-section">
         <div class="container-lg">
@@ -1804,25 +1883,25 @@
         </div>
     </section>
 
-    <!-------------------------------- Best Selling Products ----------------->
-    <section class="py-5 best-selling-section">
+    <!-------------------------------- Chocolate Products ----------------->
+    <section class="py-5 chocolate-products-section">
         <div class="container-lg">
             <div class="text-center mb-5">
-                <div class="best-selling-header mb-3">
-                    <span class="best-selling-icon">🔥</span>
-                    <h2 class="best-selling-title">Best Selling Products</h2>
-                    <span class="best-selling-icon">🔥</span>
+                <div class="chocolate-products-header mb-3">
+                    <span class="chocolate-products-icon">🍫</span>
+                    <h2 class="chocolate-products-title">Chocolate Products</h2>
+                    <span class="chocolate-products-icon">🍩</span>
                 </div>
-                <p class="text-muted mb-0">Our customers' top picks - Don't miss out!</p>
+                <p class="text-muted mb-0">Indulge in our premium handcrafted chocolates!</p>
             </div>
 
-            <div id="best-selling-carousel">
-                @if (!empty($bestSellingProducts))
+            <div id="chocolate-products-carousel">
+                @if (!empty($chocolateProducts))
                     @php
-                        $bestSellingProducts = array_slice($bestSellingProducts, 0, 4);
+                        $chocolateProducts = array_slice($chocolateProducts, 0, 4);
                     @endphp
                     <div class="row g-4 justify-content-center">
-                        @foreach ($bestSellingProducts as $product)
+                        @foreach ($chocolateProducts as $product)
                             @php
                                 $isSaleable = $product['is_saleable'] ?? true;
                                 $isOnSale = $product['on_sale'] ?? false;
@@ -1832,8 +1911,8 @@
                                     $product['base_image']['medium_image_url'] ?? '/images/default-product.png';
                             @endphp
                             <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
-                                <div class="best-selling-card h-100">
-                                    <div class="best-selling-image-container">
+                                <div class="chocolate-products-card h-100">
+                                    <div class="chocolate-products-image-container">
                                         @if ($isOnSale)
                                             <span class="badge-sale">Sale</span>
                                         @endif
@@ -1842,7 +1921,7 @@
                                         @endif
                                         <a href="{{ $productUrl }}" class="text-decoration-none">
                                             <img src="{{ $productImage }}" alt="{{ $product['name'] ?? 'Product' }}"
-                                                class="best-selling-image" loading="lazy">
+                                                class="chocolate-products-image" loading="lazy">
                                         </a>
                                         <div class="action-icons">
                                             <button class="action-icon"
@@ -1855,13 +1934,13 @@
                                     </div>
                                     <div class="p-3" style="position: relative; z-index: 1;">
                                         <a href="{{ $productUrl }}" class="text-decoration-none">
-                                            <h5 class="best-selling-name mb-2">{{ $product['name'] ?? 'Product' }}
+                                            <h5 class="chocolate-products-name mb-2">{{ $product['name'] ?? 'Product' }}
                                             </h5>
                                         </a>
-                                        <div class="best-selling-price mb-2">
+                                        <div class="chocolate-products-price mb-2">
                                             {!! $product['price_html'] ?? '৳0.00' !!}
                                         </div>
-                                        <button class="btn btn-best-selling w-100"
+                                        <button class="btn btn-chocolate-products w-100"
                                             @if (!$isSaleable) disabled @endif
                                             onclick="addToCart('{{ $product['id'] }}', this)">
                                             Add To Cart
@@ -1872,15 +1951,94 @@
                         @endforeach
                     </div>
                 @else
-                    <div class="text-center text-muted">No best selling products available.</div>
+                    <div class="text-center text-muted">No chocolate products available.</div>
                 @endif
             </div>
 
             <div class="text-center mt-4">
-                <a href="{{ route('shop.search.index') }}" class="btn btn-warning btn-lg px-5">View All Products</a>
+                <a href="{{ route('shop.search.index') }}" class="btn btn-chocolate-view btn-lg px-5">View All Chocolates</a>
             </div>
         </div>
     </section>
+
+    <!-------------------------------- Bread Products ----------------->
+    <section class="py-5 bread-products-section">
+        <div class="container-lg">
+            <div class="text-center mb-5">
+                <div class="bread-products-header mb-3">
+                    <span class="bread-products-icon">🍞</span>
+                    <h2 class="bread-products-title">Bread Products</h2>
+                    <span class="bread-products-icon">🥐</span>
+                </div>
+                <p class="text-muted mb-0">Freshly baked breads and buns daily!</p>
+            </div>
+
+            <div id="bread-products-carousel">
+                @if (!empty($breadProducts))
+                    @php
+                        $breadProducts = array_slice($breadProducts, 0, 4);
+                    @endphp
+                    <div class="row g-4 justify-content-center">
+                        @foreach ($breadProducts as $product)
+                            @php
+                                $isSaleable = $product['is_saleable'] ?? true;
+                                $isOnSale = $product['on_sale'] ?? false;
+                                $isNew = $product['is_new'] ?? false;
+                                $productUrl = route('shop.product_or_category.index', $product['url_key'] ?? '#');
+                                $productImage =
+                                    $product['base_image']['medium_image_url'] ?? '/images/default-product.png';
+                            @endphp
+                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
+                                <div class="bread-products-card h-100">
+                                    <div class="bread-products-image-container">
+                                        @if ($isOnSale)
+                                            <span class="badge-sale">Sale</span>
+                                        @endif
+                                        @if ($isNew && !$isOnSale)
+                                            <span class="badge-new">New</span>
+                                        @endif
+                                        <a href="{{ $productUrl }}" class="text-decoration-none">
+                                            <img src="{{ $productImage }}" alt="{{ $product['name'] ?? 'Product' }}"
+                                                class="bread-products-image" loading="lazy">
+                                        </a>
+                                        <div class="action-icons">
+                                            <button class="action-icon"
+                                                onclick="addToWishlist('{{ $product['id'] }}', this)"
+                                                title="Add to Wishlist">♡</button>
+                                            <button class="action-icon"
+                                                onclick="addToCompare('{{ $product['id'] }}')"
+                                                title="Add to Compare">⤢</button>
+                                        </div>
+                                    </div>
+                                    <div class="p-3" style="position: relative; z-index: 1;">
+                                        <a href="{{ $productUrl }}" class="text-decoration-none">
+                                            <h5 class="bread-products-name mb-2">{{ $product['name'] ?? 'Product' }}
+                                            </h5>
+                                        </a>
+                                        <div class="bread-products-price mb-2">
+                                            {!! $product['price_html'] ?? '৳0.00' !!}
+                                        </div>
+                                        <button class="btn btn-bread-products w-100"
+                                            @if (!$isSaleable) disabled @endif
+                                            onclick="addToCart('{{ $product['id'] }}', this)">
+                                            Add To Cart
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                @else
+                    <div class="text-center text-muted">No bread products available.</div>
+                @endif
+            </div>
+
+            <div class="text-center mt-4">
+                <a href="{{ route('shop.search.index') }}" class="btn btn-bread-view btn-lg px-5">View All Breads</a>
+            </div>
+        </div>
+    </section>
+
 
     <!-------------------------------- Popular Products ----------------->
     <section class="py-5 popular-products-section">
@@ -2554,7 +2712,368 @@
 
     <!-------------------------------- End Cake Products Styles ----------------->
 
-    <!-------------------------------- Best Selling Products Styles ----------------->
+    <!-------------------------------- Chocolate Products Styles ----------------->
+    <style>
+        .chocolate-products-section {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 30%, #ffffff 70%, #fef3c7 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chocolate-products-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .chocolate-products-icon {
+            font-size: 2rem;
+            animation: chocolate-bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes chocolate-bounce {
+
+            0%,
+            100% {
+                transform: scale(1) rotate(-5deg);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.3) rotate(5deg);
+                opacity: 0.9;
+            }
+        }
+
+        .chocolate-products-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin: 0;
+            background: linear-gradient(135deg, #92400e, #b45309);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .chocolate-products-card {
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px) saturate(180%);
+            height: 100%;
+            box-shadow: 0 8px 32px rgba(146, 64, 14, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+            position: relative;
+        }
+
+        .chocolate-products-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 14px;
+            padding: 3px;
+            background: linear-gradient(135deg, #92400e, #b45309, #d97706);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 1;
+        }
+
+        .chocolate-products-card:hover::before {
+            opacity: 1;
+        }
+
+        .chocolate-products-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 20px 50px rgba(146, 64, 14, 0.25);
+            border-color: #92400e;
+        }
+
+        .chocolate-products-image-container {
+            position: relative;
+            overflow: hidden;
+            height: 200px;
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            z-index: 1;
+        }
+
+        .chocolate-products-image {
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .chocolate-products-card:hover .chocolate-products-image {
+            transform: scale(1.1);
+        }
+
+        .chocolate-products-name {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #2d3748;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .chocolate-products-card:hover .chocolate-products-name {
+            color: #92400e !important;
+        }
+
+        .chocolate-products-price {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #b45309;
+        }
+
+        .btn-chocolate-products {
+            width: 100%;
+            background: linear-gradient(135deg, #92400e 0%, #b45309 100%) !important;
+            color: white !important;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            padding: 12px 16px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+        }
+
+        .btn-chocolate-products:hover {
+            background: linear-gradient(135deg, #78350f 0%, #92400e 100%) !important;
+            transform: translateY(-2px);
+        }
+
+        .btn-chocolate-view {
+            background: linear-gradient(135deg, #92400e 0%, #b45309 100%) !important;
+            color: white !important;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            padding: 14px 32px;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-chocolate-view:hover {
+            background: linear-gradient(135deg, #78350f 0%, #92400e 100%) !important;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(146, 64, 14, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .chocolate-products-image-container {
+                height: 160px;
+            }
+
+            .chocolate-products-title {
+                font-size: 1.5rem;
+            }
+
+            .chocolate-products-icon {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+
+    <!-------------------------------- End Chocolate Products Styles ----------------->
+
+    <!-------------------------------- Bread Products Styles ----------------->
+    <style>
+        .bread-products-section {
+            background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 30%, #ffffff 70%, #fff7ed 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bread-products-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .bread-products-icon {
+            font-size: 2rem;
+            animation: bread-bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bread-bounce {
+
+            0%,
+            100% {
+                transform: scale(1) rotate(-5deg);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.3) rotate(5deg);
+                opacity: 0.9;
+            }
+        }
+
+        .bread-products-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin: 0;
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .bread-products-card {
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px) saturate(180%);
+            height: 100%;
+            box-shadow: 0 8px 32px rgba(245, 158, 11, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+            position: relative;
+        }
+
+        .bread-products-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 14px;
+            padding: 3px;
+            background: linear-gradient(135deg, #f59e0b, #d97706, #b45309);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 1;
+        }
+
+        .bread-products-card:hover::before {
+            opacity: 1;
+        }
+
+        .bread-products-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 20px 50px rgba(245, 158, 11, 0.25);
+            border-color: #f59e0b;
+        }
+
+        .bread-products-image-container {
+            position: relative;
+            overflow: hidden;
+            height: 200px;
+            background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+            z-index: 1;
+        }
+
+        .bread-products-image {
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .bread-products-card:hover .bread-products-image {
+            transform: scale(1.1);
+        }
+
+        .bread-products-name {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #2d3748;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .bread-products-card:hover .bread-products-name {
+            color: #f59e0b !important;
+        }
+
+        .bread-products-price {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #d97706;
+        }
+
+        .btn-bread-products {
+            width: 100%;
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
+            color: white !important;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            padding: 12px 16px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+        }
+
+        .btn-bread-products:hover {
+            background: linear-gradient(135deg, #d97706 0%, #b45309 100%) !important;
+            transform: translateY(-2px);
+        }
+
+        .btn-bread-view {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
+            color: white !important;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            padding: 14px 32px;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-bread-view:hover {
+            background: linear-gradient(135deg, #d97706 0%, #b45309 100%) !important;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(245, 158, 11, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .bread-products-image-container {
+                height: 160px;
+            }
+
+            .bread-products-title {
+                font-size: 1.5rem;
+            }
+
+            .bread-products-icon {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+
+    <!-------------------------------- End Bread Products Styles ----------------->
+     <!-------------------------------- Best Selling Products Styles ----------------->
     <style>
         .best-selling-section {
             background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 30%, #ffffff 70%, #fff3e0 100%);
@@ -2706,6 +3225,7 @@
     </style>
 
     <!-------------------------------- End Best Selling Products --->
+
 
     <!-------------------------------- Popular Products Styles ----------------->
     <style>
