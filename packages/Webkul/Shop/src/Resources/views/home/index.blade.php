@@ -1655,7 +1655,8 @@
                 <div class="sweet-products-header mb-3">
                     <span class="sweet-products-icon">🍬</span>
                     <h2 class="sweet-products-title">Sweet Products</h2>
-                    <span class="sweet-products-icon">🍰</span>
+                    {{-- <span class="sweet-products-icon">🍰</span> --}}
+                    <span class="sweet-products-icon">🍬</span>
                 </div>
                 <p class="text-muted mb-0">Indulge in our delightful collection of traditional & modern sweets!</p>
             </div>
@@ -1721,7 +1722,7 @@
             </div>
 
             <div class="text-center mt-4">
-                <a href="{{ route('shop.search.index') }}" class="btn btn-sweet-view btn-lg px-5">View All Sweets</a>
+                <a href="{{ url('products/sweet') }}" class="btn btn-sweet-view btn-lg px-5">View All Sweets</a>
             </div>
         </div>
     </section>
@@ -1812,7 +1813,8 @@
                 <div class="cake-products-header mb-3">
                     <span class="cake-products-icon">🎂</span>
                     <h2 class="cake-products-title">Cake Products</h2>
-                    <span class="cake-products-icon">🧁</span>
+                    {{-- <span class="cake-products-icon">🧁</span> --}}
+                    <span class="cake-products-icon">🎂</span>
                 </div>
                 <p class="text-muted mb-0">Celebrate special moments with our delicious freshly baked cakes!</p>
             </div>
@@ -1878,7 +1880,7 @@
             </div>
 
             <div class="text-center mt-4">
-                <a href="{{ route('shop.search.index') }}" class="btn btn-cake-view btn-lg px-5">View All Cakes</a>
+                <a href="{{ url('products/cake') }}" class="btn btn-cake-view btn-lg px-5">View All Cakes</a>
             </div>
         </div>
     </section>
@@ -1890,7 +1892,7 @@
                 <div class="chocolate-products-header mb-3">
                     <span class="chocolate-products-icon">🍫</span>
                     <h2 class="chocolate-products-title">Chocolate Products</h2>
-                    <span class="chocolate-products-icon">🍩</span>
+                    <span class="chocolate-products-icon">🍫</span>
                 </div>
                 <p class="text-muted mb-0">Indulge in our premium handcrafted chocolates!</p>
             </div>
@@ -1934,7 +1936,8 @@
                                     </div>
                                     <div class="p-3" style="position: relative; z-index: 1;">
                                         <a href="{{ $productUrl }}" class="text-decoration-none">
-                                            <h5 class="chocolate-products-name mb-2">{{ $product['name'] ?? 'Product' }}
+                                            <h5 class="chocolate-products-name mb-2">
+                                                {{ $product['name'] ?? 'Product' }}
                                             </h5>
                                         </a>
                                         <div class="chocolate-products-price mb-2">
@@ -1956,7 +1959,8 @@
             </div>
 
             <div class="text-center mt-4">
-                <a href="{{ route('shop.search.index') }}" class="btn btn-chocolate-view btn-lg px-5">View All Chocolates</a>
+                <a href="{{ url('products/chocolate') }}" class="btn btn-chocolate-view btn-lg px-5">View All
+                    Chocolates</a>
             </div>
         </div>
     </section>
@@ -1968,7 +1972,7 @@
                 <div class="bread-products-header mb-3">
                     <span class="bread-products-icon">🍞</span>
                     <h2 class="bread-products-title">Bread Products</h2>
-                    <span class="bread-products-icon">🥐</span>
+                    <span class="bread-products-icon">🍞</span>
                 </div>
                 <p class="text-muted mb-0">Freshly baked breads and buns daily!</p>
             </div>
@@ -2034,7 +2038,8 @@
             </div>
 
             <div class="text-center mt-4">
-                <a href="{{ route('shop.search.index') }}" class="btn btn-bread-view btn-lg px-5">View All Breads</a>
+                <a href="{{ url('products/breads-buns') }}" class="btn btn-bread-view btn-lg px-5">View All
+                    Breads</a>
             </div>
         </div>
     </section>
@@ -2353,7 +2358,7 @@
     <!-------------------------------- Sweet Products Styles ----------------->
     <style>
         .sweet-products-section {
-            background: linear-gradient(135deg, #fdf2f8 0%, #fbcfe8 30%, #ffffff 70%, #fdf2f8 100%);
+            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 50%, #ffffff 100%);
             position: relative;
             overflow: hidden;
         }
@@ -2389,7 +2394,7 @@
             font-weight: 700;
             color: #1a1a1a;
             margin: 0;
-            background: linear-gradient(135deg, #ec4899, #a855f7);
+            background: linear-gradient(135deg, #f59e0b, #d97706);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -2403,7 +2408,7 @@
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(20px) saturate(180%);
             height: 100%;
-            box-shadow: 0 8px 32px rgba(236, 72, 153, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+            box-shadow: 0 8px 32px rgba(245, 158, 11, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.5);
             position: relative;
         }
 
@@ -2416,7 +2421,7 @@
             bottom: 0;
             border-radius: 14px;
             padding: 3px;
-            background: linear-gradient(135deg, #ec4899, #a855f7, #f472b6);
+            background: linear-gradient(135deg, #f59e0b, #d97706, #f59e0b);
             -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             -webkit-mask-composite: xor;
@@ -2432,15 +2437,15 @@
 
         .sweet-products-card:hover {
             transform: translateY(-10px) scale(1.03);
-            box-shadow: 0 20px 50px rgba(236, 72, 153, 0.25);
-            border-color: #ec4899;
+            box-shadow: 0 20px 50px rgba(245, 158, 11, 0.25);
+            border-color: #f59e0b;
         }
 
         .sweet-products-image-container {
             position: relative;
             overflow: hidden;
             height: 200px;
-            background: linear-gradient(135deg, #fdf2f8 0%, #fbcfe8 100%);
+            background: linear-gradient(135deg, #fffbeb 0%, #fde68a 100%);
             z-index: 1;
         }
 
@@ -2466,18 +2471,18 @@
         }
 
         .sweet-products-card:hover .sweet-products-name {
-            color: #ec4899 !important;
+            color: #f59e0b !important;
         }
 
         .sweet-products-price {
             font-size: 1.1rem;
             font-weight: 700;
-            color: #a855f7;
+            color: #d97706;
         }
 
         .btn-sweet-products {
             width: 100%;
-            background: linear-gradient(135deg, #ec4899 0%, #a855f7 100%) !important;
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
             color: white !important;
             border: none;
             border-radius: 8px;
@@ -2490,12 +2495,12 @@
         }
 
         .btn-sweet-products:hover {
-            background: linear-gradient(135deg, #db2777 0%, #9333ea 100%) !important;
+            background: linear-gradient(135deg, #d97706 0%, #b45309 100%) !important;
             transform: translateY(-2px);
         }
 
         .btn-sweet-view {
-            background: linear-gradient(135deg, #ec4899 0%, #a855f7 100%) !important;
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
             color: white !important;
             border: none;
             border-radius: 50px;
@@ -2509,9 +2514,9 @@
         }
 
         .btn-sweet-view:hover {
-            background: linear-gradient(135deg, #db2777 0%, #9333ea 100%) !important;
+            background: linear-gradient(135deg, #d97706 0%, #b45309 100%) !important;
             transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(236, 72, 153, 0.3);
+            box-shadow: 0 10px 30px rgba(245, 158, 11, 0.3);
         }
 
         @media (max-width: 768px) {
@@ -2534,7 +2539,7 @@
     <!-------------------------------- Cake Products Styles ----------------->
     <style>
         .cake-products-section {
-            background: linear-gradient(135deg, #fff7ed 0%, #fed7aa 30%, #ffffff 70%, #fff7ed 100%);
+            background: linear-gradient(135deg, #fdf2f8 0%, #fbcfe8 50%, #ffffff 100%);
             position: relative;
             overflow: hidden;
         }
@@ -2570,7 +2575,7 @@
             font-weight: 700;
             color: #1a1a1a;
             margin: 0;
-            background: linear-gradient(135deg, #ea580c, #d97706);
+            background: linear-gradient(135deg, #f59e0b, #d97706);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -2584,7 +2589,7 @@
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(20px) saturate(180%);
             height: 100%;
-            box-shadow: 0 8px 32px rgba(234, 88, 12, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+            box-shadow: 0 8px 32px rgba(245, 158, 11, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.5);
             position: relative;
         }
 
@@ -2597,7 +2602,7 @@
             bottom: 0;
             border-radius: 14px;
             padding: 3px;
-            background: linear-gradient(135deg, #ea580c, #d97706, #f59e0b);
+            background: linear-gradient(135deg, #f59e0b, #d97706, #f59e0b);
             -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             -webkit-mask-composite: xor;
@@ -2613,15 +2618,15 @@
 
         .cake-products-card:hover {
             transform: translateY(-10px) scale(1.03);
-            box-shadow: 0 20px 50px rgba(234, 88, 12, 0.25);
-            border-color: #ea580c;
+            box-shadow: 0 20px 50px rgba(245, 158, 11, 0.25);
+            border-color: #f59e0b;
         }
 
         .cake-products-image-container {
             position: relative;
             overflow: hidden;
             height: 200px;
-            background: linear-gradient(135deg, #fff7ed 0%, #fed7aa 100%);
+            background: linear-gradient(135deg, #fdf2f8 0%, #fbcfe8 100%);
             z-index: 1;
         }
 
@@ -2647,7 +2652,7 @@
         }
 
         .cake-products-card:hover .cake-products-name {
-            color: #ea580c !important;
+            color: #f59e0b !important;
         }
 
         .cake-products-price {
@@ -2658,7 +2663,7 @@
 
         .btn-cake-products {
             width: 100%;
-            background: linear-gradient(135deg, #ea580c 0%, #d97706 100%) !important;
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
             color: white !important;
             border: none;
             border-radius: 8px;
@@ -2671,12 +2676,12 @@
         }
 
         .btn-cake-products:hover {
-            background: linear-gradient(135deg, #c2410c 0%, #b45309 100%) !important;
+            background: linear-gradient(135deg, #d97706 0%, #b45309 100%) !important;
             transform: translateY(-2px);
         }
 
         .btn-cake-view {
-            background: linear-gradient(135deg, #ea580c 0%, #d97706 100%) !important;
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
             color: white !important;
             border: none;
             border-radius: 50px;
@@ -2690,9 +2695,9 @@
         }
 
         .btn-cake-view:hover {
-            background: linear-gradient(135deg, #c2410c 0%, #b45309 100%) !important;
+            background: linear-gradient(135deg, #d97706 0%, #b45309 100%) !important;
             transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(234, 88, 12, 0.3);
+            box-shadow: 0 10px 30px rgba(245, 158, 11, 0.3);
         }
 
         @media (max-width: 768px) {
@@ -2715,7 +2720,7 @@
     <!-------------------------------- Chocolate Products Styles ----------------->
     <style>
         .chocolate-products-section {
-            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 30%, #ffffff 70%, #fef3c7 100%);
+            background: linear-gradient(135deg, #f5e6d3 0%, #e8d5c4 50%, #f5d0b0 100%);
             position: relative;
             overflow: hidden;
         }
@@ -2751,7 +2756,7 @@
             font-weight: 700;
             color: #1a1a1a;
             margin: 0;
-            background: linear-gradient(135deg, #92400e, #b45309);
+            background: linear-gradient(135deg, #f59e0b, #d97706);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -2765,7 +2770,7 @@
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(20px) saturate(180%);
             height: 100%;
-            box-shadow: 0 8px 32px rgba(146, 64, 14, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+            box-shadow: 0 8px 32px rgba(245, 158, 11, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.5);
             position: relative;
         }
 
@@ -2778,7 +2783,7 @@
             bottom: 0;
             border-radius: 14px;
             padding: 3px;
-            background: linear-gradient(135deg, #92400e, #b45309, #d97706);
+            background: linear-gradient(135deg, #f59e0b, #d97706, #f59e0b);
             -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             -webkit-mask-composite: xor;
@@ -2794,15 +2799,15 @@
 
         .chocolate-products-card:hover {
             transform: translateY(-10px) scale(1.03);
-            box-shadow: 0 20px 50px rgba(146, 64, 14, 0.25);
-            border-color: #92400e;
+            box-shadow: 0 20px 50px rgba(245, 158, 11, 0.25);
+            border-color: #f59e0b;
         }
 
         .chocolate-products-image-container {
             position: relative;
             overflow: hidden;
             height: 200px;
-            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            background: linear-gradient(135deg, #f5e6d3 0%, #e8d5c4 100%);
             z-index: 1;
         }
 
@@ -2828,18 +2833,18 @@
         }
 
         .chocolate-products-card:hover .chocolate-products-name {
-            color: #92400e !important;
+            color: #f59e0b !important;
         }
 
         .chocolate-products-price {
             font-size: 1.1rem;
             font-weight: 700;
-            color: #b45309;
+            color: #d97706;
         }
 
         .btn-chocolate-products {
             width: 100%;
-            background: linear-gradient(135deg, #92400e 0%, #b45309 100%) !important;
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
             color: white !important;
             border: none;
             border-radius: 8px;
@@ -2852,12 +2857,12 @@
         }
 
         .btn-chocolate-products:hover {
-            background: linear-gradient(135deg, #78350f 0%, #92400e 100%) !important;
+            background: linear-gradient(135deg, #d97706 0%, #b45309 100%) !important;
             transform: translateY(-2px);
         }
 
         .btn-chocolate-view {
-            background: linear-gradient(135deg, #92400e 0%, #b45309 100%) !important;
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
             color: white !important;
             border: none;
             border-radius: 50px;
@@ -2871,9 +2876,9 @@
         }
 
         .btn-chocolate-view:hover {
-            background: linear-gradient(135deg, #78350f 0%, #92400e 100%) !important;
+            background: linear-gradient(135deg, #d97706 0%, #b45309 100%) !important;
             transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(146, 64, 14, 0.3);
+            box-shadow: 0 10px 30px rgba(245, 158, 11, 0.3);
         }
 
         @media (max-width: 768px) {
@@ -2896,7 +2901,7 @@
     <!-------------------------------- Bread Products Styles ----------------->
     <style>
         .bread-products-section {
-            background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 30%, #ffffff 70%, #fff7ed 100%);
+            background: linear-gradient(135deg, #ffedd5 0%, #fed7aa 50%, #fff7ed 100%);
             position: relative;
             overflow: hidden;
         }
@@ -2983,7 +2988,7 @@
             position: relative;
             overflow: hidden;
             height: 200px;
-            background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+            background: linear-gradient(135deg, #ffedd5 0%, #fed7aa 100%);
             z-index: 1;
         }
 
@@ -3073,10 +3078,10 @@
     </style>
 
     <!-------------------------------- End Bread Products Styles ----------------->
-     <!-------------------------------- Best Selling Products Styles ----------------->
+    <!-------------------------------- Best Selling Products Styles ----------------->
     <style>
         .best-selling-section {
-            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 30%, #ffffff 70%, #fff3e0 100%);
+            background: linear-gradient(135deg, #fef2f2 0%, #fecaca 50%, #ffffff 100%);
             position: relative;
             overflow: hidden;
         }
@@ -3112,7 +3117,7 @@
             font-weight: 700;
             color: #1a1a1a;
             margin: 0;
-            background: linear-gradient(135deg, #ff6f00, #ff8f00);
+            background: linear-gradient(135deg, #f59e0b, #d97706);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -3126,7 +3131,7 @@
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(20px) saturate(180%);
             height: 100%;
-            box-shadow: 0 8px 32px rgba(255, 111, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+            box-shadow: 0 8px 32px rgba(245, 158, 11, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.5);
             position: relative;
         }
 
@@ -3139,7 +3144,7 @@
             bottom: 0;
             border-radius: 14px;
             padding: 3px;
-            background: linear-gradient(135deg, #ff6f00, #ff8f00, #ff9800);
+            background: linear-gradient(135deg, #f59e0b, #d97706, #f59e0b);
             -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             -webkit-mask-composite: xor;
@@ -3155,15 +3160,15 @@
 
         .best-selling-card:hover {
             transform: translateY(-10px) scale(1.03);
-            box-shadow: 0 20px 50px rgba(255, 111, 0, 0.25);
-            border-color: #ff6f00;
+            box-shadow: 0 20px 50px rgba(245, 158, 11, 0.25);
+            border-color: #f59e0b;
         }
 
         .best-selling-image-container {
             position: relative;
             overflow: hidden;
             height: 200px;
-            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+            background: linear-gradient(135deg, #fef2f2 0%, #fecaca 100%);
             z-index: 1;
         }
 
@@ -3189,18 +3194,18 @@
         }
 
         .best-selling-card:hover .best-selling-name {
-            color: #ff6f00 !important;
+            color: #f59e0b !important;
         }
 
         .best-selling-price {
             font-size: 1.1rem;
             font-weight: 700;
-            color: #ff6f00;
+            color: #d97706;
         }
 
         .btn-best-selling {
             width: 100%;
-            background: linear-gradient(135deg, #ff6f00 0%, #ff8f00 100%) !important;
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
             color: white !important;
             border: none;
             border-radius: 8px;
@@ -3213,7 +3218,7 @@
         }
 
         .btn-best-selling:hover {
-            background: linear-gradient(135deg, #e65100 0%, #ff6f00 100%) !important;
+            background: linear-gradient(135deg, #d97706 0%, #b45309 100%) !important;
             transform: translateY(-2px);
         }
 
@@ -3230,7 +3235,7 @@
     <!-------------------------------- Popular Products Styles ----------------->
     <style>
         .popular-products-section {
-            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 30%, #ffffff 70%, #e8f5e9 100%);
+            background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 50%, #ffffff 100%);
             position: relative;
             overflow: hidden;
         }
@@ -3317,7 +3322,7 @@
             position: relative;
             overflow: hidden;
             height: 200px;
-            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%);
             z-index: 1;
         }
 
