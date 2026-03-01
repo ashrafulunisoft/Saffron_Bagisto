@@ -56,8 +56,10 @@
                             <div class="hero-text-wrapper">
                                 <div class="hero-badge animate-fade-in-up">
                                     <span class="badge-inner" style="background:rgba(0, 0, 0, 0.1)">
-                                        <span class="badge-icon">✨</span>
-                                        Welcome To Saffron Sweets & Bakery
+                                        <img src="/themes/admin/default/build/assets/Saffron__Logo_Removebg.png"
+                                            alt="Saffron Logo" class="saffron-logo-icon"
+                                            style="width: 50px; height: 50px; object-fit: contain; margin-right: 10px;">
+                                        <span class="badge-text">Welcome To Saffron Sweets & Bakery</span>
                                     </span>
                                 </div>
 
@@ -326,6 +328,39 @@
                 backdrop-filter: blur(20px) saturate(180%);
                 box-shadow: 0 8px 32px rgba(255, 193, 7, 0.2);
                 transition: all 0.3s ease;
+            }
+
+            /* Saffron Logo Icon */
+            .saffron-logo-icon {
+                width: 50px;
+                height: 50px;
+                object-fit: contain;
+                margin-right: 10px;
+                filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+                animation: logo-pulse 2s ease-in-out infinite;
+            }
+
+            .badge-text {
+                display: inline-block;
+            }
+
+            @keyframes logo-pulse {
+
+                0%,
+                100% {
+                    transform: scale(1);
+                }
+
+                50% {
+                    transform: scale(1.05);
+                }
+            }
+
+            @media (max-width: 768px) {
+                .saffron-logo-icon {
+                    width: 40px;
+                    height: 40px;
+                }
             }
 
             .badge-inner:hover {
@@ -1072,9 +1107,9 @@
                             </svg>
                         </button>
                         <button class="category-nav-btn next-btn" id="category-next">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
                                 <polyline points="9 18 15 12 9 6"></polyline>
                             </svg>
                         </button>

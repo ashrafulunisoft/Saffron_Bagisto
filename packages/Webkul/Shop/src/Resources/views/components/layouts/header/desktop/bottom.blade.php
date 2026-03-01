@@ -6,18 +6,22 @@
         This section will provide categories for the first, second, and third levels. If
         additional levels are required, users can customize them according to their needs.
     -->
+
     <!-- Left Nagivation Section -->
     <div class="d-flex align-items-center gap-3">
+
         {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.logo.before') !!}
 
-        <a href="{{ route('shop.home.index') }}" aria-label="@lang('shop::app.components.layouts.header.desktop.bottom.bagisto')" class="d-sm-none">
-            <img src="/themes/admin/default/build/assets/Saffron__Logo_Removebg.png" width="150" height="50"
-                alt="{{ config('app.name') }}" style="object-fit: contain;">
-        </a>
 
         {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.logo.after') !!}
 
         {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.category.before') !!}
+
+          <!-- Saffron Logo -->
+            <a href="{{ route('shop.home.index') }}" aria-label="@lang('shop::app.components.layouts.header.desktop.bottom.bagisto')" class="d-none d-sm-block">
+                <img src="/themes/admin/default/build/assets/Saffron__Logo_Removebg.png" width="150" height="50"
+                    alt="{{ config('app.name') }}" style="object-fit: contain;">
+            </a>
 
         <v-desktop-category>
             <div class="d-flex align-items-center gap-2">
@@ -30,8 +34,8 @@
         </v-desktop-category>
 
         <!-- Additional Menu Links -->
-        <div class="d-flex align-items-center gap-4 border-bottom-4 border-transparent hover:border-navyBlue"
-            style="height: 70px;">
+        <div class="d-flex align-items-center gap-4 border-bottom-4 border-transparent hover:border-navyBlue"style="height: 70px;">
+
             <a href="/blog"
                 class="d-inline-block px-4 text-uppercase text-decoration-none transition-colors duration-200 font-bold"
                 style="font-size: 0.875rem;">
@@ -88,6 +92,8 @@
 
         <!-- Right Navigation Links -->
         <div class="d-flex gap-3 align-items-center">
+
+
 
             {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.compare.before') !!}
 
