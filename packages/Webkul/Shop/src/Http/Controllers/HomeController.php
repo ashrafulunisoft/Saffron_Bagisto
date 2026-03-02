@@ -11,6 +11,7 @@ use Webkul\Shop\Http\Requests\ContactRequest;
 use Webkul\Shop\Http\Resources\CategoryTreeResource;
 use Webkul\Shop\Http\Resources\ProductResource;
 use Webkul\Shop\Mail\ContactUs;
+use Webkul\Theme\Models\ThemeCustomization;
 use Webkul\Theme\Repositories\ThemeCustomizationRepository;
 use Illuminate\Support\Facades\DB;
 
@@ -49,6 +50,9 @@ class HomeController extends Controller
             'theme_code' => core()->getCurrentChannel()->theme,
         ]);
 
+        // Get hero section content from theme customization
+        $heroContent = $this->getHeroContent($customizations);
+
         $categories = $this->categoryRepository->getVisibleCategoryTree(core()->getCurrentChannel()->root_category_id);
         $categories = CategoryTreeResource::collection($categories);
 
@@ -72,8 +76,62 @@ class HomeController extends Controller
             'chocolateProducts',
             'breadProducts',
             'bestSellingProducts',
-            'popularProducts'
+            'popularProducts',
+            'heroContent'
         ));
+    }
+
+    /**
+     * Get hero section content from theme customization
+     */
+    protected function getHeroContent($customizations)
+    {
+        // Default content (English)
+        $defaults = [
+            'en' => [
+                'title_line_1' => 'Tradition Meets',
+                'title_line_2' => 'Excellence in',
+                'title_line_3' => 'Every Bite',
+                'subtitle' => "Discover Bangladesh's finest collection of authentic Bengali sweets, premium chocolates, and freshly baked treats made with pure saffron and love. Crafted using time-honored recipes passed down through generations.",
+                'welcome_text' => 'Welcome To Saffron Sweets & Bakery',
+                'button_text_1' => 'Shop Now',
+                'button_text_2' => 'Our Story',
+                'button_link_1' => '/search',
+                'button_link_2' => '#about-section',
+                'label_1_text' => 'Premium Quality',
+                'label_2_text' => 'Fast Delivery',
+                'label_3_text' => 'Fresh Daily',
+            ],
+            'bn' => [
+                'title_line_1' => 'প্রথা মিলিত হয়',
+                'title_line_2' => 'প্রতিটি টুকরায়',
+                'title_line_3' => 'শ্রেষ্ঠত্ব',
+                'subtitle' => 'বাংলাদেশের সেরা সংগ্রহ আবিষ্কার করুন - প্রামাণিক বাংলা মিষ্টি, প্রিমিয়াম চকলেট এবং সতেজ বেকারি পণ্য যা বিশুদ্ধ জাফরান এবং ভালোবাসা দিয়ে তৈরি। প্রজন্মের পর প্রজন্ম ধরে চলে আসা সময়-সম্মানিত রেসিপি ব্যবহার করে তৈরি।',
+                'welcome_text' => 'সাফরন সুইটস অ্যান্ড বেকারিতে স্বাগতম',
+                'button_text_1' => 'এখন কেনুন',
+                'button_text_2' => 'আমাদের গল্প',
+                'button_link_1' => '/search',
+                'button_link_2' => '#about-section',
+                'label_1_text' => 'প্রিমিয়াম মান',
+                'label_2_text' => 'দ্রুত ডেলিভারি',
+                'label_3_text' => 'প্রতিদিন তাজা',
+            ],
+        ];
+
+        // Try to find hero section content from customizations
+        $heroCustomization = $customizations->firstWhere('type', ThemeCustomization::HERO_SECTION);
+
+        if ($heroCustomization) {
+            $locale = core()->getCurrentLocale()->code;
+            $options = $heroCustomization->translate($locale)?->options ?? $heroCustomization->translate('en')?->options;
+
+            if ($options) {
+                return array_merge($defaults[$locale] ?? $defaults['en'], $options);
+            }
+        }
+
+        // Return default content based on current locale
+        return $defaults[core()->getCurrentLocale()->code] ?? $defaults['en'];
     }
 
     /**

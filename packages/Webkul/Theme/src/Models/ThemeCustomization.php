@@ -71,6 +71,13 @@ class ThemeCustomization extends TranslatableModel implements ThemeCustomization
     public const SERVICES_CONTENT = 'services_content';
 
     /**
+     * Hero Section.
+     *
+     * @var string
+     */
+    public const HERO_SECTION = 'hero_section';
+
+    /**
      * Cast options field to array.
      *
      * @var array

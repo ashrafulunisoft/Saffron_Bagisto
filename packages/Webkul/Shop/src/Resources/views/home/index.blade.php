@@ -59,29 +59,27 @@
                                         <img src="/themes/admin/default/build/assets/Saffron__Logo_Removebg.png"
                                             alt="Saffron Logo" class="saffron-logo-icon"
                                             style="width: 50px; height: 50px; object-fit: contain; margin-right: 10px;">
-                                        <span class="badge-text">Welcome To Saffron Sweets & Bakery</span>
+                                        <span class="badge-text">{{ $heroContent['welcome_text'] ?? 'Welcome To Saffron Sweets & Bakery' }}</span>
                                     </span>
                                 </div>
 
                                 <h1 class="hero-title animate-slide-in-left">
-                                    <span class="title-word word-1">Tradition Meets</span>
-                                    <span class="title-word word-2">Excellence in</span>
-                                    <span class="title-word word-3">Every Bite</span>
+                                    <span class="title-word word-1">{{ $heroContent['title_line_1'] ?? 'Tradition Meets' }}</span>
+                                    <span class="title-word word-2">{{ $heroContent['title_line_2'] ?? 'Excellence in' }}</span>
+                                    <span class="title-word word-3">{{ $heroContent['title_line_3'] ?? 'Every Bite' }}</span>
                                 </h1>
 
                                 <p class="hero-subtitle animate-slide-in-left delay-2">
-                                    Discover Bangladesh's finest collection of authentic Bengali sweets, premium
-                                    chocolates, and freshly baked treats made with pure saffron and love. Crafted using
-                                    time-honored recipes passed down through generations.
+                                    {{ $heroContent['subtitle'] ?? "Discover Bangladesh's finest collection of authentic Bengali sweets, premium chocolates, and freshly baked treats made with pure saffron and love. Crafted using time-honored recipes passed down through generations." }}
                                 </p>
 
                                 <div class="hero-buttons animate-fade-in-up delay-3">
-                                    <a href="{{ route('shop.search.index') }}" class="btn btn-hero btn-primary-hero">
-                                        <span class="btn-text">Shop Now</span>
+                                    <a href="{{ $heroContent['button_link_1'] ?? route('shop.search.index') }}" class="btn btn-hero btn-primary-hero">
+                                        <span class="btn-text">{{ $heroContent['button_text_1'] ?? 'Shop Now' }}</span>
                                         <span class="btn-icon">→</span>
                                     </a>
-                                    <a href="#about-section" class="btn btn-hero btn-secondary-hero">
-                                        <span class="btn-text">Our Story</span>
+                                    <a href="{{ $heroContent['button_link_2'] ?? '#about-section' }}" class="btn btn-hero btn-secondary-hero">
+                                        <span class="btn-text">{{ $heroContent['button_text_2'] ?? 'Our Story' }}</span>
                                         <span class="btn-icon">↓</span>
                                     </a>
                                 </div>
@@ -100,15 +98,15 @@
                                 <!-- Floating Labels -->
                                 <div class="floating-label label-1 animate-bounce">
                                     <div class="label-icon">⭐</div>
-                                    <div class="label-text">Premium Quality</div>
+                                    <div class="label-text">{{ $heroContent['label_1_text'] ?? 'Premium Quality' }}</div>
                                 </div>
                                 <div class="floating-label label-2 animate-bounce delay-1">
                                     <div class="label-icon">🚚</div>
-                                    <div class="label-text">Fast Delivery</div>
+                                    <div class="label-text">{{ $heroContent['label_2_text'] ?? 'Fast Delivery' }}</div>
                                 </div>
                                 <div class="floating-label label-3 animate-bounce delay-2">
                                     <div class="label-icon">💯</div>
-                                    <div class="label-text">Fresh Daily</div>
+                                    <div class="label-text">{{ $heroContent['label_3_text'] ?? 'Fresh Daily' }}</div>
                                 </div>
                             </div>
                         </div>
